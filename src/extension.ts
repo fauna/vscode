@@ -1,26 +1,62 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
+import FaunaDBSchemaProvider from './FaunaDBSchemaProvider';
+import FQLContentProvider from './FQLContentProvider';
+import createRunQueryCommand from './runQueryCommand';
+import createCreateQueryCommand from './createQueryCommand';
 
-// this method is called when your extension is activated
-// your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
+  // Set output channel to display FQL results
+  const outputChannel = vscode.window.createOutputChannel('FQL');
 
-	// Use the console to output diagnostic information (console.log) and errors (console.error)
-	// This line of code will only be executed once when your extension is activated
-	console.log('Congratulations, your extension "fauna" is now active!');
+  // Set FQL Document Content Provider
+  context.subscriptions.push(
+    vscode.workspace.registerTextDocumentContentProvider(
+      'fqlcode',
+      new FQLContentProvider()
+    )
+  );
 
-	// The command has been defined in the package.json file
-	// Now provide the implementation of the command with registerCommand
-	// The commandId parameter must match the command field in package.json
-	let disposable = vscode.commands.registerCommand('extension.helloWorld', () => {
-		// The code you place here will be executed every time your command is executed
+  // Check if there is a secret key
+  const config = vscode.workspace.getConfiguration('faunadb');
+  const secretKey = config.get<string>('secretKey');
 
-		// Display a message box to the user
-		vscode.window.showInformationMessage('Hello World!');
-	});
+  if (!secretKey) {
+    vscode.window.showErrorMessage(
+      'No FaunaDB secret key was found on Code > Preferences > Settings > Extensions > FaunaDB.'
+    );
+    return;
+  }
 
-	context.subscriptions.push(disposable);
+  // Set Schema Provider to display items on sidebar
+  const faunaDBSchemaProvider = new FaunaDBSchemaProvider(secretKey);
+  vscode.window.registerTreeDataProvider(
+    'faunadb-databases',
+    faunaDBSchemaProvider
+  );
+
+  // Reguster Commands
+  const runQueryCommandSubscription = vscode.commands.registerCommand(
+    'faunadb.runQuery',
+    createRunQueryCommand(secretKey, outputChannel)
+  );
+
+  const createQueryCommandSubscription = vscode.commands.registerCommand(
+    'faunadb.createQuery',
+    createCreateQueryCommand()
+  );
+
+  const getCommandSubscription = vscode.commands.registerCommand(
+    'faunadb.get',
+    item => {
+      item.displayInfo();
+    }
+  );
+
+  context.subscriptions.push(
+    getCommandSubscription,
+    createQueryCommandSubscription,
+    runQueryCommandSubscription
+  );
 }
 
 // this method is called when your extension is deactivated

@@ -1,40 +1,125 @@
 {
-	"name": "fauna",
-	"displayName": "fauna",
-	"description": "FaunaDB extension",
-	"version": "0.0.1",
-	"engines": {
-		"vscode": "^1.40.0"
-	},
-	"categories": [
-		"Other"
-	],
-	"activationEvents": [
-		"onCommand:extension.helloWorld"
-	],
-	"main": "./out/extension.js",
-	"contributes": {
-		"commands": [{
-			"command": "extension.helloWorld",
-			"title": "Hello World"
-		}]
-	},
-	"scripts": {
-		"vscode:prepublish": "yarn run compile",
-		"compile": "tsc -p ./",
-		"watch": "tsc -watch -p ./",
-		"pretest": "yarn run compile",
-		"test": "node ./out/test/runTest.js"
-	},
-	"devDependencies": {
-		"@types/glob": "^7.1.1",
-		"@types/mocha": "^5.2.7",
-		"@types/node": "^12.11.7",
-		"@types/vscode": "^1.40.0",
-		"glob": "^7.1.5",
-		"mocha": "^6.2.2",
-		"typescript": "^3.6.4",
-		"tslint": "^5.20.0",
-		"vscode-test": "^1.2.2"
-	}
+  "name": "FaunaDB",
+  "displayName": "FaunaDB",
+  "description": "FaunaDB extension",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.40.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onCommand:extension.helloWorld",
+    "onCommand:faunadb.runQuery",
+    "onCommand:faunadb.createQuery",
+    "onView:faunadb-databases"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "configuration": {
+      "title": "FaunaDB",
+      "properties": {
+        "faunadb.secretKey": {
+          "type": "string",
+          "description": "Reload VSCode after set the secret."
+        }
+      }
+    },
+    "languages": [
+      {
+        "id": "Log",
+        "aliases": [
+          "log"
+        ],
+        "extensions": [
+          ".log"
+        ],
+        "configuration": "./log.configuration.json",
+        "mimetypes": [
+          "log",
+          "text/log",
+          "text/x-log",
+          "text/x-code-output",
+          "x-code-output"
+        ]
+      },
+      {
+        "id": "fql",
+        "aliases": [
+          "Fauna Query Language"
+        ],
+        "filenamePatterns": [
+          "*.fql"
+        ]
+      }
+    ],
+    "grammars": [
+      {
+        "language": "Log",
+        "scopeName": "code.log",
+        "path": "./src/syntaxes/log.tmLanguage"
+      }
+    ],
+    "commands": [
+      {
+        "command": "faunadb.createQuery",
+        "title": "FaunaDB: Create Query"
+      },
+      {
+        "command": "faunadb.runQuery",
+        "title": "FaunaDB: Run Query"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "faunadb.runQuery",
+        "key": "ctrl+enter",
+        "mac": "cmd+enter",
+        "when": "editorTextFocus && editorLangId == fql"
+      }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "faunadb-explorer",
+          "title": "FaunaDB",
+          "icon": "media/fauna-logo.svg"
+        }
+      ]
+    },
+    "views": {
+      "faunadb-explorer": [
+        {
+          "id": "faunadb-databases",
+          "name": "Databases"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "yarn run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "yarn run compile",
+    "test": "node ./out/test/runTest.js"
+  },
+  "devDependencies": {
+    "@types/glob": "^7.1.1",
+    "@types/mocha": "^5.2.7",
+    "@types/node": "^12.11.7",
+    "@types/vscode": "^1.40.0",
+    "glob": "^7.1.5",
+    "mocha": "^6.2.2",
+    "tslint": "^5.20.0",
+    "typescript": "^3.6.4",
+    "vscode-test": "^1.2.2"
+  },
+  "dependencies": {
+    "@types/highlight.js": "^9.12.3",
+    "@types/prettier": "^1.19.0",
+    "faunadb": "^2.10.0",
+    "highlight.js": "^9.16.2",
+    "prettier": "^1.19.1"
+  }
 }
