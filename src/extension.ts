@@ -34,28 +34,22 @@ export function activate(context: vscode.ExtensionContext) {
     faunaDBSchemaProvider
   );
 
-  // Reguster Commands
-  const runQueryCommandSubscription = vscode.commands.registerCommand(
+  vscode.commands.registerCommand(
     'faunadb.runQuery',
     createRunQueryCommand(secretKey, outputChannel)
   );
 
-  const createQueryCommandSubscription = vscode.commands.registerCommand(
+  vscode.commands.registerCommand(
     'faunadb.createQuery',
     createCreateQueryCommand()
   );
 
-  const getCommandSubscription = vscode.commands.registerCommand(
-    'faunadb.get',
-    item => {
-      item.displayInfo();
-    }
-  );
+  vscode.commands.registerCommand('faunadb.get', item => {
+    item.displayInfo();
+  });
 
-  context.subscriptions.push(
-    getCommandSubscription,
-    createQueryCommandSubscription,
-    runQueryCommandSubscription
+  vscode.commands.registerCommand('faunadb.refreshEntry', () =>
+    faunaDBSchemaProvider.refresh()
   );
 }
 

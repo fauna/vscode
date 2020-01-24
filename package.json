@@ -69,7 +69,15 @@
       {
         "command": "faunadb.runQuery",
         "title": "FaunaDB: Run Query"
-      }
+      },
+      {
+				"command": "faunadb.refreshEntry",
+				"title": "Refresh",
+				"icon": {
+					"light": "media/refresh.svg",
+					"dark": "media/refresh.svg"
+				}
+			}
     ],
     "keybindings": [
       {
@@ -95,6 +103,15 @@
           "name": "Databases"
         }
       ]
+    },
+    "menus": {
+      "view/title": [
+        {
+					"command": "faunadb.refreshEntry",
+					"when": "view == faunadb-databases",
+					"group": "navigation"
+				}
+      ]
     }
   },
   "scripts": {
@@ -118,7 +135,7 @@
   "dependencies": {
     "@types/highlight.js": "^9.12.3",
     "@types/prettier": "^1.19.0",
-    "faunadb": "^2.10.0",
+    "faunadb": "^2.11.2-beta",
     "highlight.js": "^9.16.2",
     "prettier": "^1.19.1"
   }

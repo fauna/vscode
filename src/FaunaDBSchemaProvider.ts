@@ -70,7 +70,7 @@ export default class FaunaDBSchemaProvider
       q.Map(q.Paginate(q.Indexes()), collection => q.Select(['id'], collection))
     );
 
-    return result.data.map(id => new IndexSchemaItem(id, itemPath));
+    return result.data.map(id => new IndexSchemaItem(id, itemPath, client));
   }
 
   mountSecret(itemPath?: string) {
