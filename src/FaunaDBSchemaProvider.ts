@@ -3,6 +3,7 @@ import { Client, values, query as q } from 'faunadb';
 import DBSchemaItem from './DBSchemaItem';
 import CollectionSchemaItem from './CollectionSchemaItem';
 import IndexSchemaItem from './IndexSchemaItem';
+import FunctionSchemaItem from './FunctionSchemaItem';
 
 export default class FaunaDBSchemaProvider
   implements vscode.TreeDataProvider<vscode.TreeItem> {
@@ -31,11 +32,13 @@ export default class FaunaDBSchemaProvider
     return Promise.all([
       this.loadDatabases(element ? `${element.name}` : undefined),
       this.loadCollections(element ? `${element.name}` : undefined),
-      this.loadIndexes(element ? `${element.name}` : undefined)
-    ]).then(([databases, collections, indexes]) => [
+      this.loadIndexes(element ? `${element.name}` : undefined),
+      this.loadFunctions(element ? `${element.name}` : undefined)
+    ]).then(([databases, collections, indexes, functions]) => [
       ...databases,
       ...collections,
-      ...indexes
+      ...indexes,
+      ...functions
     ]);
   }
 
@@ -67,10 +70,20 @@ export default class FaunaDBSchemaProvider
     const client = new Client({ secret: this.mountSecret(itemPath) });
 
     const result = await client.query<values.Page<string>>(
-      q.Map(q.Paginate(q.Indexes()), collection => q.Select(['id'], collection))
+      q.Map(q.Paginate(q.Indexes()), indexes => q.Select(['id'], indexes))
     );
 
     return result.data.map(id => new IndexSchemaItem(id, itemPath, client));
+  }
+
+  async loadFunctions(itemPath?: string) {
+    const client = new Client({ secret: this.mountSecret(itemPath) });
+
+    const result = await client.query<values.Page<string>>(
+      q.Map(q.Paginate(q.Functions()), function_ => q.Select(['id'], function_))
+    );
+
+    return result.data.map(id => new FunctionSchemaItem(id, itemPath, client));
   }
 
   mountSecret(itemPath?: string) {

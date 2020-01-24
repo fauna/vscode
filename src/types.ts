@@ -1,5 +1,6 @@
 export enum SchemaType {
   Database = 'database',
   Collection = 'collection',
-  Index = 'index'
+  Index = 'index',
+  Function = 'function'
 }
