@@ -2,5 +2,6 @@ export enum SchemaType {
   Database = 'database',
   Collection = 'collection',
   Index = 'index',
-  Function = 'function'
+  Function = 'function',
+  Document = 'document'
 }

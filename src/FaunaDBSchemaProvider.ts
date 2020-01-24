@@ -4,6 +4,7 @@ import DBSchemaItem from './DBSchemaItem';
 import CollectionSchemaItem from './CollectionSchemaItem';
 import IndexSchemaItem from './IndexSchemaItem';
 import FunctionSchemaItem from './FunctionSchemaItem';
+import DocumentSchemaItem from './DocumentSchemaItem';
 
 export default class FaunaDBSchemaProvider
   implements vscode.TreeDataProvider<vscode.TreeItem> {
@@ -27,19 +28,34 @@ export default class FaunaDBSchemaProvider
   }
 
   getChildren(
-    element?: DBSchemaItem | CollectionSchemaItem | IndexSchemaItem
+    element?:
+      | DBSchemaItem
+      | CollectionSchemaItem
+      | IndexSchemaItem
+      | DocumentSchemaItem
+      | FunctionSchemaItem
   ): Thenable<vscode.TreeItem[]> {
-    return Promise.all([
-      this.loadDatabases(element ? `${element.name}` : undefined),
-      this.loadCollections(element ? `${element.name}` : undefined),
-      this.loadIndexes(element ? `${element.name}` : undefined),
-      this.loadFunctions(element ? `${element.name}` : undefined)
-    ]).then(([databases, collections, indexes, functions]) => [
-      ...databases,
-      ...collections,
-      ...indexes,
-      ...functions
-    ]);
+    if (element instanceof DBSchemaItem || !element) {
+      const dbPath = element ? `${element.name}` : undefined;
+
+      return Promise.all([
+        this.loadDatabases(dbPath),
+        this.loadCollections(dbPath),
+        this.loadIndexes(dbPath),
+        this.loadFunctions(dbPath)
+      ]).then(([databases, collections, indexes, functions]) => [
+        ...databases,
+        ...collections,
+        ...indexes,
+        ...functions
+      ]);
+    }
+
+    if (element instanceof CollectionSchemaItem) {
+      return this.loadDocuments(element);
+    }
+
+    throw new Error('No valid vscode.TreeItem');
   }
 
   async loadDatabases(itemPath?: string) {
@@ -61,9 +77,7 @@ export default class FaunaDBSchemaProvider
       )
     );
 
-    return result.data.map(
-      id => new CollectionSchemaItem(id, itemPath, client)
-    );
+    return result.data.map(id => new CollectionSchemaItem(id, itemPath));
   }
 
   async loadIndexes(itemPath?: string) {
@@ -84,6 +98,23 @@ export default class FaunaDBSchemaProvider
     );
 
     return result.data.map(id => new FunctionSchemaItem(id, itemPath, client));
+  }
+
+  async loadDocuments(collection: CollectionSchemaItem) {
+    const client = new Client({
+      secret: this.mountSecret(collection.itemPath)
+    });
+
+    const result = await client.query<values.Page<string>>(
+      q.Map(q.Paginate(q.Documents(q.Collection(collection.name))), function_ =>
+        q.Select(['id'], function_)
+      )
+    );
+
+    return result.data.map(
+      id =>
+        new DocumentSchemaItem(id, collection.name, collection.itemPath, client)
+    );
   }
 
   mountSecret(itemPath?: string) {
