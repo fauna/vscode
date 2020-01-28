@@ -8,11 +8,11 @@ VSCode extension for FaunaDB.
 
 You can browse databases, indexes, collections, documents and functions.
 
-\!\[Browser your database data\]\(media/browse-feature.png\)
+![Browser your database data](media/browse-feature.png)
 
 ### Run queries
 
-\!\[Run queries\]\(media/query-feature.gif\)
+![Run queries](media/query-feature.gif)
 
 **Commands**
 
@@ -23,7 +23,7 @@ You can browse databases, indexes, collections, documents and functions.
 
 Before you start you need to set your secret on Code > Preferences > Settings > Extensions > FaunaDB.
 
-\!\[Extension settings\]\(media/extension-settings.png\)
+![Extension settings](media/extension-settings.png)
 
 * `faunadb.secretKey`: Your database secret. 
 
