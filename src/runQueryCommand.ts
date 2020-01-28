@@ -17,7 +17,13 @@ export default (
     return;
   }
 
-  const client = new Client({ secret: secretKey });
+  const client = new Client({
+    secret: secretKey,
+    // @ts-ignore comment
+    headers: {
+      'X-Fauna-Source': 'VSCode'
+    }
+  });
   const code = activeTextEditor.document.getText();
 
   outputChannel.appendLine('');

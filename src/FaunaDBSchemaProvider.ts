@@ -16,7 +16,13 @@ export default class FaunaDBSchemaProvider
     ._onDidChangeTreeData.event;
 
   constructor(private secret: string) {
-    this.client = new Client({ secret: this.secret });
+    this.client = new Client({
+      secret: this.secret,
+      // @ts-ignore comment
+      headers: {
+        'X-Fauna-Source': 'VSCode'
+      }
+    });
   }
 
   refresh(): void {
@@ -59,17 +65,29 @@ export default class FaunaDBSchemaProvider
   }
 
   async loadDatabases(itemPath?: string) {
-    const client = new Client({ secret: this.mountSecret(itemPath) });
+    const client = new Client({
+      secret: this.mountSecret(itemPath),
+      // @ts-ignore comment
+      headers: {
+        'X-Fauna-Source': 'VSCode'
+      }
+    });
 
     const result = await client.query<values.Page<string>>(
       q.Map(q.Paginate(q.Databases()), database => q.Select(['id'], database))
     );
 
-    return result.data.map(id => new DBSchemaItem(id, itemPath));
+    return result.data.map((id: string) => new DBSchemaItem(id, itemPath));
   }
 
   async loadCollections(itemPath?: string) {
-    const client = new Client({ secret: this.mountSecret(itemPath) });
+    const client = new Client({
+      secret: this.mountSecret(itemPath),
+      // @ts-ignore comment
+      headers: {
+        'X-Fauna-Source': 'VSCode'
+      }
+    });
 
     const result = await client.query<values.Page<string>>(
       q.Map(q.Paginate(q.Collections()), collection =>
@@ -77,32 +95,54 @@ export default class FaunaDBSchemaProvider
       )
     );
 
-    return result.data.map(id => new CollectionSchemaItem(id, itemPath));
+    return result.data.map(
+      (id: string) => new CollectionSchemaItem(id, itemPath)
+    );
   }
 
   async loadIndexes(itemPath?: string) {
-    const client = new Client({ secret: this.mountSecret(itemPath) });
+    const client = new Client({
+      secret: this.mountSecret(itemPath),
+      // @ts-ignore comment
+      headers: {
+        'X-Fauna-Source': 'VSCode'
+      }
+    });
 
     const result = await client.query<values.Page<string>>(
       q.Map(q.Paginate(q.Indexes()), indexes => q.Select(['id'], indexes))
     );
 
-    return result.data.map(id => new IndexSchemaItem(id, itemPath, client));
+    return result.data.map(
+      (id: string) => new IndexSchemaItem(id, itemPath, client)
+    );
   }
 
   async loadFunctions(itemPath?: string) {
-    const client = new Client({ secret: this.mountSecret(itemPath) });
+    const client = new Client({
+      secret: this.mountSecret(itemPath),
+      // @ts-ignore comment
+      headers: {
+        'X-Fauna-Source': 'VSCode'
+      }
+    });
 
     const result = await client.query<values.Page<string>>(
       q.Map(q.Paginate(q.Functions()), function_ => q.Select(['id'], function_))
     );
 
-    return result.data.map(id => new FunctionSchemaItem(id, itemPath, client));
+    return result.data.map(
+      (id: string) => new FunctionSchemaItem(id, itemPath, client)
+    );
   }
 
   async loadDocuments(collection: CollectionSchemaItem) {
     const client = new Client({
-      secret: this.mountSecret(collection.itemPath)
+      secret: this.mountSecret(collection.itemPath),
+      // @ts-ignore comment
+      headers: {
+        'X-Fauna-Source': 'VSCode'
+      }
     });
 
     const result = await client.query<values.Page<string>>(
@@ -112,7 +152,7 @@ export default class FaunaDBSchemaProvider
     );
 
     return result.data.map(
-      id =>
+      (id: string) =>
         new DocumentSchemaItem(id, collection.name, collection.itemPath, client)
     );
   }
