@@ -1,6 +1,6 @@
-# fauna README
+# FaunaDB
 
-This is the README for your extension "fauna". After writing up a brief description, we recommend including the following sections.
+Connect to your FaunaDB using VSCode.
 
 ## Features
 

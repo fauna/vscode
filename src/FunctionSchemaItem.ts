@@ -25,6 +25,7 @@ export default class FunctionSchemaItem extends vscode.TreeItem {
       .query(q.Get(q.Function(this.name)))
       .then(async (content: any) => {
         let uri = vscode.Uri.parse(
+          // @ts-ignore comment
           `fqlcode:${this.name}#${Expr.toString(q.Object(content))}`
         );
         let doc = await vscode.workspace.openTextDocument(uri); // calls back into the provider

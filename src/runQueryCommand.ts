@@ -28,6 +28,7 @@ export default (
 
   outputChannel.appendLine(
     prettier
+      // @ts-ignore comment
       .format(`(${Expr.toString(q.Object(result))})`, {
         parser: 'babel',
         plugins

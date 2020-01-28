@@ -1,8 +1,9 @@
 {
-  "name": "FaunaDB",
+  "name": "faunadb",
   "displayName": "FaunaDB",
   "description": "FaunaDB extension",
   "version": "0.0.1",
+  "publisher": "faunadb",
   "engines": {
     "vscode": "^1.40.0"
   },
@@ -71,13 +72,13 @@
         "title": "FaunaDB: Run Query"
       },
       {
-				"command": "faunadb.refreshEntry",
-				"title": "Refresh",
-				"icon": {
-					"light": "media/refresh.svg",
-					"dark": "media/refresh.svg"
-				}
-			}
+        "command": "faunadb.refreshEntry",
+        "title": "Refresh",
+        "icon": {
+          "light": "media/refresh.svg",
+          "dark": "media/refresh.svg"
+        }
+      }
     ],
     "keybindings": [
       {
@@ -107,10 +108,10 @@
     "menus": {
       "view/title": [
         {
-					"command": "faunadb.refreshEntry",
-					"when": "view == faunadb-databases",
-					"group": "navigation"
-				}
+          "command": "faunadb.refreshEntry",
+          "when": "view == faunadb-databases",
+          "group": "navigation"
+        }
       ]
     }
   },
@@ -137,6 +138,7 @@
     "@types/prettier": "^1.19.0",
     "faunadb": "^2.11.2-beta",
     "highlight.js": "^9.16.2",
-    "prettier": "^1.19.1"
+    "prettier": "^1.19.1",
+    "vsce": "^1.71.0"
   }
 }
