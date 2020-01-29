@@ -1,23 +1,27 @@
 # Instructions
 
-Most of the content on this guide is following the (VSCode extension documentation)[https://code.visualstudio.com/api/get-started/your-first-extension]. You should at least, read the `GET STARTED` session before move on.
+Most of the content in this guide follows the official (VSCode extension documentation)[https://code.visualstudio.com/api/get-started/your-first-extension]. You should read the `Get Started` section before moving on.
 
 ## Development
 
-To start the development you have to clone this repo and install the dependencies using `yarn`. 
+To begin development, you'll need to clone this repo to your local system and install the dependencies using `yarn`.
 ```bash
+git clone https://github.com/fauna/vscode.git
+cd ./vscode
 yarn install
 ```
 
-To use the extension during development you should go to `Debug and Run > Play`. It will open a new VSCode window with the extension installed.
+To use the extension during development, go to `Debug and Run > Play`. This will open a new VS Code window with the extension installed.
 
 ## Tests
 
-There is no tests at this moment but we want to add those in a next time. Here is the (official docs about extension testing)[https://code.visualstudio.com/api/working-with-extensions/testing-extension].
+Currently, there are no tests, but we will want to add those in the future. 
+
+For references, here are the (official docs about extension testing)[https://code.visualstudio.com/api/working-with-extensions/testing-extension].
 
 ## Packaging
 
-The following command will generate a `.vsix` file to be published. You can share this file on PRs and teamates to QA it before the official publish.
+The following command will generate a `.vsix` to publish. You can also share this file with teammates in order to QA test it before release.
 
 ```bash
 yarn vsce package
