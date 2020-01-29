@@ -1,37 +1,43 @@
 # FaunaDB
 
-VSCode extension for FaunaDB.
+VS Code extension for FaunaDB.
+
+## Getting Started
+
+To get started using the Fauna VS Code extension, you'll need to set your secret key in order to access database information. Keys can be created in the [Fauna Console webapp](https://dashboard.fauna.com/) or via the [Shell CLI](https://github.com/fauna/fauna-shell).
+
+To set the key, go to `Code > Preferences > Settings > Extensions > FaunaDB`.
+
+![Extension settings](media/extension-settings.png)
+
+* `faunadb.secretKey`: Your database secret.
+
+> WARNING: Be careful! To avoid exposing this secret, do not commit it to your local `.vscode` configuration.
 
 ## Features
-
-### Browse your database data
-
-You can browse databases, indexes, collections, documents and functions.
-
-![Browser your database data](media/browse-feature.png)
-
-### Run queries
-
-![Run queries](media/query-feature.gif)
 
 **Commands**
 
 * FaunaDB: Create query
 * FaunaDB: Run query
 
-## Extension Settings
+![Fauna commands](media/fauna-commands.png)
 
-Before you start you need to set your secret on Code > Preferences > Settings > Extensions > FaunaDB.
+### Browse database
 
-![Extension settings](media/extension-settings.png)
+With this extension, you can browse the databases, indexes, collections, documents, and functions associated with your Fauna database right inside of the VS Code sidebar.
 
-* `faunadb.secretKey`: Your database secret. 
+![Browser your database data](media/browse-feature.png)
 
-> Be careful. This setting should not be commited on .vscode local configuration to avoid leak secrets.
+### Run queries
+
+In addition to browsing your data, this extension also allows you to run [FQL](https://docs.fauna.com/fauna/current/api/fql/) queries against your Fauna database.
+
+![Run queries](media/query-feature.gif)
 
 ## Release Notes
 
 ### 1.0.0
 
-* Browse databases, indexes, collections, documents and functions.
+* Browse databases, indexes, collections, documents, and functions.
 * Run queries
