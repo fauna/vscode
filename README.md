@@ -10,7 +10,7 @@ Be sure to install [VS Code](https://code.visualstudio.com/Download) and to crea
 
 ## Getting Started
 
-To get started using the FaunaDB VS Code extension, you'll need to set your secret key in order to access database information. Keys can be created in the [FaunaDB Console webapp](https://dashboard.fauna.com/) or via the [Shell CLI](https://github.com/fauna/fauna-shell).
+To get started using the FaunaDB VS Code extension, you'll need to set your secret key in order to access database information. Keys can be created in the [FaunaDB Console webapp](https://dashboard.fauna.com/) or via the [Shell CLI](https://github.com/fauna/fauna-shell). Please generate an "admin" key, not a "server" key.
 
 To set the key, go to `Code > Preferences > Settings > Extensions > FaunaDB`.
 
