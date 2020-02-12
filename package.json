@@ -28,7 +28,7 @@
       "properties": {
         "faunadb.adminSecretKey": {
           "type": "string",
-          "description": "Restart VSCode after you set or change this secret."
+          "description": "Restart VS Code after you set or change this secret."
         }
       }
     },
