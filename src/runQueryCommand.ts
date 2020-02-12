@@ -5,7 +5,7 @@ const prettier = require('prettier/standalone');
 const plugins = [require('prettier/parser-babylon')];
 
 export default (
-  secretKey: string,
+  adminSecretKey: string,
   outputChannel: vscode.OutputChannel
 ) => async () => {
   const { activeTextEditor } = vscode.window;
@@ -18,7 +18,7 @@ export default (
   }
 
   const client = new Client({
-    secret: secretKey,
+    secret: adminSecretKey,
     // @ts-ignore comment
     headers: {
       'X-Fauna-Source': 'VSCode'

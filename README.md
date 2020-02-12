@@ -29,7 +29,7 @@ Be sure to install [VS Code](https://code.visualstudio.com/Download) and create 
 
 ![Extension settings](media/extension-settings.png)
 
-* `faunadb.secretKey`: Your database secret.
+* `faunadb.adminSecretKey`: Your database admin secret.
 
 > WARNING: Be careful! To avoid exposing this secret, do not commit it to your local `.vscode` configuration.
 

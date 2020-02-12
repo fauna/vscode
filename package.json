@@ -21,7 +21,7 @@
     "configuration": {
       "title": "FaunaDB",
       "properties": {
-        "faunadb.secretKey": {
+        "faunadb.adminSecretKey": {
           "type": "string",
           "description": "Quit and restart VSCode after you set or change this secret."
         }
