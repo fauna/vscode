@@ -2,10 +2,15 @@
   "name": "faunadb",
   "displayName": "FaunaDB",
   "description": "FaunaDB extension",
+  "icon": "media/faunadb-extension-logo.png",
   "version": "0.0.1",
   "publisher": "faunadb",
   "engines": {
     "vscode": "^1.40.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fauna/vscode.git"
   },
   "categories": [
     "Other"
