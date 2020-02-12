@@ -1,6 +1,6 @@
 # FaunaDB extension for VS Code
 
-Source code for the FaunaDB extension for VS Code.
+Source code for the FaunaDB VS Code extension.
 
 This extension allows users to browse their FaunaDB databases and run [FQL queries](https://docs.fauna.com/fauna/current/api/fql/) from directly inside VS Code.
 
