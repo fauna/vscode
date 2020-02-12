@@ -42,7 +42,7 @@ export default class FaunaDBSchemaProvider
       | FunctionSchemaItem
   ): Thenable<vscode.TreeItem[]> {
     if (element instanceof DBSchemaItem || !element) {
-      const dbPath = element ? `${element.name}` : undefined;
+      const dbPath = element?.itemPath;
 
       return Promise.all([
         this.loadDatabases(dbPath),
@@ -77,7 +77,10 @@ export default class FaunaDBSchemaProvider
       q.Map(q.Paginate(q.Databases()), database => q.Select(['id'], database))
     );
 
-    return result.data.map((id: string) => new DBSchemaItem(id, itemPath));
+    return result.data.map((id: string) => {
+      const childPath = itemPath ? `${itemPath}/${id}` : id;
+      return new DBSchemaItem(id, childPath);
+    });
   }
 
   async loadCollections(itemPath?: string) {
