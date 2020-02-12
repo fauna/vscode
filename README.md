@@ -37,7 +37,7 @@ Be sure to install [VS Code](https://code.visualstudio.com/Download) and create 
 
 ### 3. Run queries
 
-1. Open the command palette with the keyboard shortcut `command` + `shift` + `p` if you are on a Mac (or `ctrl` + `shift` + `p` on a PC).
+1. Open the command palette with the keyboard shortcut `Cmd` + `Shift` + `P` if you are on a Mac (or `Ctrl` + `Shift` + `P` on a PC).
 2. Create a new file from which to run your [FQL queries](https://docs.fauna.com/fauna/current/api/fql/) by either:
   * Typing `FaunaDB: Create query` to select that command from the command palette dropdown. This will open a new tab with the `Paginate(Collections())` query already included. 
   * Creating a new file with the `.fql` file extension.
