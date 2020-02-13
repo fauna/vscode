@@ -12,6 +12,11 @@ Be sure to install [VS Code](https://code.visualstudio.com/Download) and create 
 
 ## Getting started
 
+### Prerequisites
+1. Create a [FaunaDB account](https://dashboard.fauna.com/accounts/register)
+2. Install [VS Code](https://code.visualstudio.com/Download)
+3. Install this extension [in VS Code](https://code.visualstudio.com/docs/editor/extension-gallery)
+
 ### 1. Set your secret key
 
 1. To access to all of your databases from VS Code, you will need to create an account admin key from your [FaunaDB Dashboard](https://dashboard.fauna.com/keys). *Note: You can also provide VS Code access to an individual database by generating an admin key from that database's "Security" tab, but the extension does not support "server" keys at this time.*
