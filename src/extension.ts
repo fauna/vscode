@@ -18,17 +18,17 @@ export function activate(context: vscode.ExtensionContext) {
 
   // Check if there is a secret key
   const config = vscode.workspace.getConfiguration('faunadb');
-  const secretKey = config.get<string>('secretKey');
+  const adminSecretKey = config.get<string>('adminSecretKey');
 
-  if (!secretKey) {
+  if (!adminSecretKey) {
     vscode.window.showErrorMessage(
-      'No FaunaDB secret key was found on Code > Preferences > Settings > Extensions > FaunaDB.'
+      'No FaunaDB admin secret key was found on Code > Preferences > Settings > Extensions > FaunaDB.'
     );
     return;
   }
 
   // Set Schema Provider to display items on sidebar
-  const faunaDBSchemaProvider = new FaunaDBSchemaProvider(secretKey);
+  const faunaDBSchemaProvider = new FaunaDBSchemaProvider(adminSecretKey);
   vscode.window.registerTreeDataProvider(
     'faunadb-databases',
     faunaDBSchemaProvider
@@ -36,7 +36,7 @@ export function activate(context: vscode.ExtensionContext) {
 
   vscode.commands.registerCommand(
     'faunadb.runQuery',
-    createRunQueryCommand(secretKey, outputChannel)
+    createRunQueryCommand(adminSecretKey, outputChannel)
   );
 
   vscode.commands.registerCommand(

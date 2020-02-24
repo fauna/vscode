@@ -1,6 +1,6 @@
-# VS Code extension for FaunaDB
+# FaunaDB extension for VS Code
 
-Source code for the VS Code extension for FaunaDB.
+Source code for the FaunaDB VS Code extension.
 
 This extension allows users to browse their FaunaDB databases and run [FQL queries](https://docs.fauna.com/fauna/current/api/fql/) from directly inside VS Code.
 
@@ -12,14 +12,12 @@ Be sure to install [VS Code](https://code.visualstudio.com/Download) and create 
 
 ## Getting started
 
-### 1. Install the extension
+### Prerequisites
+1. Create a [FaunaDB account](https://dashboard.fauna.com/accounts/register)
+2. Install [VS Code](https://code.visualstudio.com/Download)
+3. Install this extension [in VS Code](https://code.visualstudio.com/docs/editor/extension-gallery)
 
-1. Open VS Code and select `View > Extensions` from the menu to display the Extensions pane.
-2. Click the `...` at the top-right corner of the Extensions pane and select `Install from VSIX...` on the context menu that appears.
-3. Locate the .vsix file in your file system and click "Open".
-4. Restart VS Code if prompted.
-
-### 2. Set your secret key
+### 1. Set your secret key
 
 1. To access to all of your databases from VS Code, you will need to create an account admin key from your [FaunaDB Dashboard](https://dashboard.fauna.com/keys). *Note: You can also provide VS Code access to an individual database by generating an admin key from that database's "Security" tab, but the extension does not support "server" keys at this time.*
 2. Copy the secret and paste it into the FaunaDB extension settings. You can find the FaunaDB extension settings by either:
@@ -29,11 +27,11 @@ Be sure to install [VS Code](https://code.visualstudio.com/Download) and create 
 
 ![Extension settings](media/extension-settings.png)
 
-* `faunadb.secretKey`: Your database secret.
+* `faunadb.adminSecretKey`: Your database admin secret.
 
 > WARNING: Be careful! To avoid exposing this secret, do not commit it to your local `.vscode` configuration.
 
-### 3. Browse database/s
+### 2. Browse database/s
 
 1. Click on the Fauna bird icon in the Activity bar on the far left. If you do not see the Activity Bar, select `View > Appearance > Show Activity Bar` from the VS Code menu.
 2. You should now see a pane listing all of your databases, indexes, collections, documents, and functions.
@@ -42,9 +40,9 @@ Be sure to install [VS Code](https://code.visualstudio.com/Download) and create 
 
 ![Browser your database data](media/browse-feature.png)
 
-### 4. Run queries
+### 3. Run queries
 
-1. Open the command palette with the keyboard shortcut `command` + `shift` + `p` if you are on a Mac (or `ctrl` + `shift` + `p` on a PC).
+1. Open the command palette with the keyboard shortcut `Cmd` + `Shift` + `P` if you are on a Mac (or `Ctrl` + `Shift` + `P` on a PC).
 2. Create a new file from which to run your [FQL queries](https://docs.fauna.com/fauna/current/api/fql/) by either:
   * Typing `FaunaDB: Create query` to select that command from the command palette dropdown. This will open a new tab with the `Paginate(Collections())` query already included. 
   * Creating a new file with the `.fql` file extension.

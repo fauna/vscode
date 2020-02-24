@@ -1,11 +1,11 @@
 import vscode from 'vscode';
-import { Client, Expr, query as q } from 'faunadb';
+import { Client, Expr, query as q, errors } from 'faunadb';
 import { runFQLQuery } from './fql';
 const prettier = require('prettier/standalone');
 const plugins = [require('prettier/parser-babylon')];
 
 export default (
-  secretKey: string,
+  adminSecretKey: string,
   outputChannel: vscode.OutputChannel
 ) => async () => {
   const { activeTextEditor } = vscode.window;
@@ -18,7 +18,7 @@ export default (
   }
 
   const client = new Client({
-    secret: secretKey,
+    secret: adminSecretKey,
     // @ts-ignore comment
     headers: {
       'X-Fauna-Source': 'VSCode'
@@ -27,23 +27,35 @@ export default (
   const code = activeTextEditor.document.getText();
 
   outputChannel.appendLine('');
-  outputChannel.appendLine(`RUNNING: '${truncate(code, 25)}'`);
+  outputChannel.appendLine(`RUNNING: ${code}`);
   outputChannel.show();
 
-  const result = await runFQLQuery(code, client);
+  try {
+    const result = await runFQLQuery(code, client);
 
-  outputChannel.appendLine(
-    prettier
-      // @ts-ignore comment
-      .format(`(${Expr.toString(q.Object(result))})`, {
-        parser: 'babel',
-        plugins
-      })
-      .trim()
-      .replace(/^(\({)/, '{')
-      .replace(/(}\);$)/g, '}')
-      .replace(';', '')
-  );
+    outputChannel.appendLine(
+      prettier
+        // @ts-ignore comment
+        .format(`(${Expr.toString(q.Object(result))})`, {
+          parser: 'babel',
+          plugins
+        })
+        .trim()
+        .replace(/^(\({)/, '{')
+        .replace(/(}\);$)/g, '}')
+        .replace(';', '')
+    );
+  } catch (error) {
+    let message = error.message;
+
+    //@ts-ignore
+    if (error instanceof errors.FaunaHTTPError) {
+      message = JSON.stringify(error.errors(), null, 2);
+    }
+
+    outputChannel.appendLine('ERROR:');
+    outputChannel.appendLine(message);
+  }
 };
 
 function truncate(text: string, n: number) {
