@@ -1,8 +1,8 @@
-import vscode from 'vscode';
-import { Client, Expr, query as q, errors } from 'faunadb';
-import { runFQLQuery } from './fql';
-const prettier = require('prettier/standalone');
-const plugins = [require('prettier/parser-babylon')];
+import vscode from "vscode";
+import { Client, Expr, query as q, errors } from "faunadb";
+import { runFQLQuery } from "./fql";
+const prettier = require("prettier/standalone");
+const plugins = [require("prettier/parser-babylon")];
 
 export default (
   adminSecretKey: string,
@@ -10,9 +10,9 @@ export default (
 ) => async () => {
   const { activeTextEditor } = vscode.window;
 
-  if (!activeTextEditor || activeTextEditor.document.languageId !== 'fql') {
+  if (!activeTextEditor || activeTextEditor.document.languageId !== "fql") {
     vscode.window.showWarningMessage(
-      'You have to select a FQL document to run a FQL query.'
+      "You have to select a FQL document to run a FQL query."
     );
     return;
   }
@@ -21,12 +21,26 @@ export default (
     secret: adminSecretKey,
     // @ts-ignore comment
     headers: {
-      'X-Fauna-Source': 'VSCode'
+      "X-Fauna-Source": "VSCode"
     }
   });
-  const code = activeTextEditor.document.getText();
 
-  outputChannel.appendLine('');
+  const selection = activeTextEditor.selection;
+  const selectedText = activeTextEditor.document.getText(selection);
+  let code = "";
+  if (selectedText.length > 0) {
+    code = selectedText;
+  } else {
+    code = activeTextEditor.document.getText();
+  }
+  if (code.length === 0) {
+    vscode.window.showWarningMessage(
+      "Selected file or selected text must have a FQL query to run"
+    );
+    return;
+  }
+
+  outputChannel.appendLine("");
   outputChannel.appendLine(`RUNNING: ${code}`);
   outputChannel.show();
 
@@ -37,13 +51,13 @@ export default (
       prettier
         // @ts-ignore comment
         .format(`(${Expr.toString(q.Object(result))})`, {
-          parser: 'babel',
+          parser: "babel",
           plugins
         })
         .trim()
-        .replace(/^(\({)/, '{')
-        .replace(/(}\);$)/g, '}')
-        .replace(';', '')
+        .replace(/^(\({)/, "{")
+        .replace(/(}\);$)/g, "}")
+        .replace(";", "")
     );
   } catch (error) {
     let message = error.message;
@@ -53,11 +67,11 @@ export default (
       message = JSON.stringify(error.errors(), null, 2);
     }
 
-    outputChannel.appendLine('ERROR:');
+    outputChannel.appendLine("ERROR:");
     outputChannel.appendLine(message);
   }
 };
 
 function truncate(text: string, n: number) {
-  return text.length > n ? text.substr(0, n - 1) + '...' : text;
+  return text.length > n ? text.substr(0, n - 1) + "..." : text;
 }
