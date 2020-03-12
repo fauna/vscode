@@ -37,7 +37,7 @@ export default (
   }
 
   outputChannel.appendLine('');
-  outputChannel.appendLine(`RUNNING: ${code}`);
+  outputChannel.appendLine(`RUNNING: ${fqlExpression}`);
   outputChannel.show();
 
   try {
