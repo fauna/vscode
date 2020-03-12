@@ -28,10 +28,11 @@ export default (
   const selection = activeTextEditor.selection;
   const selectedText = activeTextEditor.document.getText(selection);
   const fqlExpression = selectedText.length > 0 ? selectedText : activeTextEditor.document.getText();
-  if (code.length === 0) {
-    vscode.window.showWarningMessage(
+  if (fqlExpression.length < 1) {
+     vscode.window.showWarningMessage(
       'Selected file or selected text must have a FQL query to run'
     );
+    
     return;
   }
 
