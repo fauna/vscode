@@ -41,7 +41,7 @@ export default (
   outputChannel.show();
 
   try {
-    const result = await runFQLQuery(code, client);
+    const result = await runFQLQuery(fqlExpression, client);
 
     outputChannel.appendLine(
       prettier
