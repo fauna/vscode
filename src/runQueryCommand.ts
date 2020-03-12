@@ -24,14 +24,24 @@ export default (
       'X-Fauna-Source': 'VSCode'
     }
   });
-  const code = activeTextEditor.document.getText();
+
+  const selection = activeTextEditor.selection;
+  const selectedText = activeTextEditor.document.getText(selection);
+  const fqlExpression = selectedText.length > 0 ? selectedText : activeTextEditor.document.getText();
+  if (fqlExpression.length < 1) {
+     vscode.window.showWarningMessage(
+      'Selected file or selected text must have a FQL query to run'
+    );
+    
+    return;
+  }
 
   outputChannel.appendLine('');
-  outputChannel.appendLine(`RUNNING: ${code}`);
+  outputChannel.appendLine(`RUNNING: ${fqlExpression}`);
   outputChannel.show();
 
   try {
-    const result = await runFQLQuery(code, client);
+    const result = await runFQLQuery(fqlExpression, client);
 
     outputChannel.appendLine(
       prettier
