@@ -19,6 +19,9 @@
     "onCommand:extension.helloWorld",
     "onCommand:faunadb.runQuery",
     "onCommand:faunadb.createQuery",
+    "onCommand:faunadb.uploadGraphQLSchema",
+    "onCommand:faunadb.mergeGraphQLSchema",
+    "onCommand:faunadb.overrideGraphQLSchema",
     "onView:faunadb-databases"
   ],
   "main": "./out/extension.js",
@@ -71,6 +74,18 @@
       {
         "command": "faunadb.createQuery",
         "title": "FaunaDB: Create Query"
+      },
+      {
+        "command": "faunadb.uploadGraphQLSchema",
+        "title": "FaunaDB: Upload GraphQL Schema"
+      },
+      {
+        "command": "faunadb.mergeGraphQLSchema",
+        "title": "FaunaDB: Merge GraphQL Schema"
+      },
+      {
+        "command": "faunadb.overrideGraphQLSchema",
+        "title": "FaunaDB: Override GraphQL Schema"
       },
       {
         "command": "faunadb.runQuery",
