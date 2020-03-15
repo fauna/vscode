@@ -27,13 +27,12 @@ export default (
   }
 
   outputChannel.appendLine('');
-  outputChannel.appendLine(`UPLOADING SCHEMA: ${activeTextEditor.document.fileName}`);
+  outputChannel.appendLine(`UPLOADING SCHEMA (mode=${mode}): ${activeTextEditor.document.fileName}`);
   outputChannel.show();
 
   try {
     const buffer = Buffer.from(fqlExpression, "utf-8");
     const result = await fetch(`https://graphql.fauna.com/import?mode=${mode}`, {
-      
       method: "POST",
       headers: {
         'AUTHORIZATION': `Bearer ${adminSecretKey}`
@@ -47,8 +46,7 @@ export default (
 
   } catch (error) {
     let message = error.message;
-
     outputChannel.appendLine('ERROR:');
-    outputChannel.appendLine(error);
+    outputChannel.appendLine(message);
   }
 };
