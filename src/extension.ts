@@ -3,6 +3,7 @@ import FaunaDBSchemaProvider from './FaunaDBSchemaProvider';
 import FQLContentProvider from './FQLContentProvider';
 import createRunQueryCommand from './runQueryCommand';
 import createCreateQueryCommand from './createQueryCommand';
+import { getLocalKey } from "./auth";
 
 export function activate(context: vscode.ExtensionContext) {
   // Set output channel to display FQL results
@@ -18,7 +19,10 @@ export function activate(context: vscode.ExtensionContext) {
 
   // Check if there is a secret key
   const config = vscode.workspace.getConfiguration('faunadb');
-  const adminSecretKey = config.get<string>('adminSecretKey');
+  let adminSecretKey = config.get<string>('adminSecretKey');
+  
+  // Load a local key if there is (in a .fauna file set as KEY=<your-secret>)
+  adminSecretKey = getLocalKey();
 
   if (!adminSecretKey) {
     vscode.window.showErrorMessage(
