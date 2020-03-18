@@ -22,7 +22,10 @@ export function activate(context: vscode.ExtensionContext) {
   let adminSecretKey = config.get<string>('adminSecretKey');
   
   // Load a local key if there is (in a .fauna file set as KEY=<your-secret>)
-  adminSecretKey = getLocalKey();
+  let localSecretKey = getLocalKey();
+  if(localSecretKey) {
+    adminSecretKey = localSecretKey;
+  }
 
   if (!adminSecretKey) {
     vscode.window.showErrorMessage(
