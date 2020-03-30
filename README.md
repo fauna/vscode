@@ -67,12 +67,31 @@ Be sure to install [VS Code](https://code.visualstudio.com/Download) and create 
 
 ![Run selection query](media/selection-query.gif)
 
+### 4. Upload GraphQL Schema
+
+1. Open a `.graphql` file containing your GraphQL schema as per the [FaunaDB specification](https://docs.fauna.com/fauna/current/api/graphql).
+
+2. Open the command palette with the keyboard shortcut `Cmd` + `Shift` + `P` if you are on a Mac (or `Ctrl` + `Shift` + `P` on a PC).
+
+3. FaunaDB allows two [modes](https://docs.fauna.com/fauna/current/api/graphql/endpoints#modes) of uploading schemas, and there are commands for each of these.
+
+- Type `FaunaDB: Upload GraphQL Schema` to upload in the default `merge` mode.
+
+- Or, type `FaunaDB: Merge GraphQL Schema` for explicitly uploading in `merge` mode.
+
+- Or, type `FaunaDB: Override GraphQL Schema` for uploading in `override` mode.
+
+![Upload GraphQL schema](media/upload-schema.gif)
+
 ## Features
 
 **Commands**
 
 - FaunaDB: Create query
 - FaunaDB: Run query
+- FaunaDB: Upload GraphQL Schema
+- FaunaDB: Merge GraphQL Schema
+- FaunaDB: Override GraphQL Schema
 
 ![FaunaDB commands](media/fauna-commands.png)
 
