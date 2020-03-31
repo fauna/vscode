@@ -81,7 +81,7 @@ Be sure to install [VS Code](https://code.visualstudio.com/Download) and create 
 
 - Or, type `FaunaDB: Override GraphQL Schema` for uploading in `override` mode. (**WARNING**: `override` mode causes data loss for any previous GraphQL schema. Any collections, indexes, or documents that are not involved in GraphQL are not affected.)
 
-![Upload GraphQL schema](media/upload-schema.gif)
+![Upload GraphQL schema](media/upload-schema-cmd.gif)
 
 ## Features
 
