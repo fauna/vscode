@@ -3,11 +3,7 @@ import * as path from 'path';
 import * as vscode from 'vscode';
 
 function parseEnvironmentFile(src: string) {
-  // Try parse JSON
   try {
-    return JSON.parse(src.toString());
-  } catch (err) {
-    // Try parse envfile string
     const result: any = {};
     const lines = src.toString().split('\n');
     for (const line of lines) {
@@ -19,12 +15,14 @@ function parseEnvironmentFile(src: string) {
       }
     }
     return result;
+  } catch (error) {
+    console.error(`Error parsing FAUNA_KEY from .faunarc: ${error}`)
   }
 }
 
 export function getLocalKey(): string | undefined {
   const workspace = vscode.workspace.rootPath;
-  const localConfigPath = path.resolve(workspace as string, '.fauna');
+  const localConfigPath = path.resolve(workspace as string, '.faunarc');
   if (fs.existsSync(localConfigPath)) {
     const settings = parseEnvironmentFile(fs.readFileSync(localConfigPath).toString());
     return settings.FAUNA_KEY as string;
