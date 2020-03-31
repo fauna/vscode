@@ -143,7 +143,7 @@
     "@types/highlight.js": "^9.12.3",
     "@types/prettier": "^1.19.0",
     "faunadb": "^2.11.2-beta",
-    "highlight.js": "^9.16.2",
+    "highlight.js": "^9.18.1",
     "prettier": "^1.19.1",
     "vsce": "^1.73.0"
   }
