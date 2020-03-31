@@ -69,7 +69,7 @@ Be sure to install [VS Code](https://code.visualstudio.com/Download) and create 
 
 ### 4. Upload GraphQL Schema
 
-1. Open a `.graphql` file containing your GraphQL schema as per the [FaunaDB specification](https://docs.fauna.com/fauna/current/api/graphql).
+1. Open a `.graphql` or `.gql` file containing your GraphQL schema as per the [FaunaDB specification](https://docs.fauna.com/fauna/current/api/graphql).
 
 2. Open the command palette with the keyboard shortcut `Cmd` + `Shift` + `P` if you are on a Mac (or `Ctrl` + `Shift` + `P` on a PC).
 
