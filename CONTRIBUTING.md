@@ -34,3 +34,14 @@ $ git checkout -b my-descriptive-branch-name
 7. [Push](https://help.github.com/en/github/using-git/pushing-commits-to-a-remote-repository) your work to a remote branch on your fork
 
 8. [Issue a pull request](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request) against the `master` branch of the `fauna/vscode` repo
+
+
+### Pull Request Guidelines
+
+When issuing a PR, please do the following to help us expedite merging your work:
+
+- Add a description to your PR
+
+- Update the `README.md` file to describe your new functionality
+
+- Ensure [maintainers can make changes](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/allowing-changes-to-a-pull-request-branch-created-from-a-fork) to your PR
