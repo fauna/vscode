@@ -40,8 +40,8 @@ $ git checkout -b my-descriptive-branch-name
 
 When issuing a PR, please do the following to help us expedite merging your work:
 
+- **IMPORTANT:** Ensure [maintainers can make changes](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/allowing-changes-to-a-pull-request-branch-created-from-a-fork) to your PR
+
 - Add a description to your PR
 
 - Update the `README.md` file to describe your new functionality
-
-- Ensure [maintainers can make changes](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/allowing-changes-to-a-pull-request-branch-created-from-a-fork) to your PR
