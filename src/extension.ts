@@ -21,7 +21,7 @@ export function activate(context: vscode.ExtensionContext) {
   const config = vscode.workspace.getConfiguration('faunadb');
   let adminSecretKey = config.get<string>('adminSecretKey');
   
-  // Load a local key if there is (in a .fauna file set as KEY=<your-secret>)
+  // Load a local key if there is (in a .fauna file set as FAUNA_KEY=<your-secret>)
   let localSecretKey = getLocalKey();
   if(localSecretKey) {
     adminSecretKey = localSecretKey;

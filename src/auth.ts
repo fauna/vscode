@@ -27,7 +27,7 @@ export function getLocalKey(): string | undefined {
   const localConfigPath = path.resolve(workspace as string, '.fauna');
   if (fs.existsSync(localConfigPath)) {
     const settings = parseEnvironmentFile(fs.readFileSync(localConfigPath).toString());
-    return settings.KEY as string;
+    return settings.FAUNA_KEY as string;
   }
   return;
 }
