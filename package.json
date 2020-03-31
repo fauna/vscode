@@ -145,6 +145,6 @@
     "faunadb": "^2.11.2-beta",
     "highlight.js": "^9.16.2",
     "prettier": "^1.19.1",
-    "vsce": "^1.73.0"
+    "vsce": "^1.74.0"
   }
 }
