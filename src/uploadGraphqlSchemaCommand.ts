@@ -9,7 +9,7 @@ export default (
 
   if (!activeTextEditor || activeTextEditor.document.languageId !== 'graphql') {
     vscode.window.showWarningMessage(
-      'You have to select a Graphql document to upload a schema.'
+      'You must select a Graphql document (`.graphql` or `.gql`) to upload a schema.'
     );
     return;
   }
