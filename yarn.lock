@@ -398,10 +398,10 @@ esutils@^2.0.2:
   resolved "https://registry.yarnpkg.com/esutils/-/esutils-2.0.3.tgz#74d2eb4de0b8da1293711910d50775b9b710ef64"
   integrity sha512-kVscqXk4OCp68SZ0dkgEKVi6/8ij300KBWTJq32P/dYeWTSwK41WyTxalN1eRmA5Z9UU/LX9D7FWSmV9SAYx6g==
 
-faunadb@^2.11.2-beta:
-  version "2.11.2-beta"
-  resolved "https://registry.yarnpkg.com/faunadb/-/faunadb-2.11.2-beta.tgz#17a776c05677d706f9f5323134d3d0850dc32194"
-  integrity sha512-ys6sfAZkKKVcwxQqLO+ePvjZPonunyYyJWxcSUaFxc5K52xO5KkKDf7uz/9dFiIB/icpOkWbgSsalBvmZRYg6Q==
+faunadb@^2.13.1:
+  version "2.13.1"
+  resolved "https://registry.yarnpkg.com/faunadb/-/faunadb-2.13.1.tgz#7c199c4f9daf067f48a49b665ff0839d4b2b69b5"
+  integrity sha512-tIuQFEuBRx8UJSc1gGOQCIGAmlKYOERpcZKH5/FC1m/JrhOa/6VeIqAJUz46hb02RZP5vROuSPF/V5DMn6jFqQ==
   dependencies:
     base64-js "^1.2.0"
     btoa-lite "^1.0.0"

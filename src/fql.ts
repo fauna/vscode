@@ -88,6 +88,7 @@ function baseEvalFQL(fql: string, q: typeof query) {
     Classes,
     Collections,
     Databases,
+    Documents,
     Indexes,
     Functions,
     Roles,
