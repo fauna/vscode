@@ -3,6 +3,7 @@ import FaunaDBSchemaProvider from './FaunaDBSchemaProvider';
 import FQLContentProvider from './FQLContentProvider';
 import createRunQueryCommand from './runQueryCommand';
 import createCreateQueryCommand from './createQueryCommand';
+import uploadGraphqlSchemaCommand from './uploadGraphqlSchemaCommand';
 import { getLocalKey } from "./auth";
 
 export function activate(context: vscode.ExtensionContext) {
@@ -49,6 +50,21 @@ export function activate(context: vscode.ExtensionContext) {
   vscode.commands.registerCommand(
     'faunadb.createQuery',
     createCreateQueryCommand()
+  );
+
+  vscode.commands.registerCommand(
+    'faunadb.uploadGraphQLSchema',
+    uploadGraphqlSchemaCommand('merge', adminSecretKey, outputChannel)
+  );
+
+  vscode.commands.registerCommand(
+    'faunadb.mergeGraphQLSchema',
+    uploadGraphqlSchemaCommand('merge', adminSecretKey, outputChannel)
+  );
+
+  vscode.commands.registerCommand(
+    'faunadb.overrideGraphQLSchema',
+    uploadGraphqlSchemaCommand('override', adminSecretKey, outputChannel)
   );
 
   vscode.commands.registerCommand('faunadb.get', item => {
