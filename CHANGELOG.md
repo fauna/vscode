@@ -12,5 +12,5 @@
 
 ## 1.0.0
 
-* Browse databases, indexes, collections, documents and functions.
+* Browse databases, indexes, collections, documents, and functions.
 * Run queries.
