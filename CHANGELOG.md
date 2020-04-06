@@ -2,7 +2,7 @@
 
 ## 1.2.0
 
-* Add commands to upload, merge, override GraphQL schema. [nksaraf](https://github.com/nksaraf)
+* Add commands to upload, merge, and override GraphQL schema. [nksaraf](https://github.com/nksaraf)
 * Add flexible auth via a .faunarc config file. [gahabeen](https://github.com/gahabeen)
 * Add `Documents()` on query runner.
 
