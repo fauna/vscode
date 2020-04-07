@@ -3,7 +3,7 @@
   "displayName": "FaunaDB",
   "description": "FaunaDB extension",
   "icon": "media/faunadb-extension-logo.png",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "publisher": "fauna",
   "engines": {
     "vscode": "^1.40.0"
