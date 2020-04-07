@@ -22,6 +22,18 @@ Be sure to install [VS Code](https://code.visualstudio.com/Download) and create 
 
 ### 1. Set your secret key
 
+You can persist a FaunaDB secret using either a `.faunarc` file in your project or using the settings in the VS Code IDE. 
+
+Persisting a secret in VS Code settings will set the key at a global level for all projects.  A project can override the global key by including a `.faunarc` config file in the root of the project.
+
+#### Using a `.faunarc` file for a project
+
+1. **IMPORTANT:** Add `.faunarc` to your `.gitignore`.
+2. Create a file `.faunarc` in your project root folder.
+3. Add the following code `FAUNA_KEY=your-secret-key`.
+
+#### Using VS Code to store a global key
+
 1. To access to all of your databases from VS Code, you will need to create an account admin key from your [FaunaDB Dashboard](https://dashboard.fauna.com/keys). **Note: You can also provide VS Code access to an individual database by generating an admin key from that database's "Security" tab, but the extension does not support "server" keys at this time.**
 
 2. Copy the secret and paste it into the FaunaDB extension settings. You can find the FaunaDB extension settings by either:
