@@ -1,4 +1,5 @@
 import vscode from 'vscode';
+import fetch from 'node-fetch';
 
 export default (
   mode: string = 'merge',
