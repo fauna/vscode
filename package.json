@@ -58,6 +58,7 @@
         "aliases": [
           "Fauna Query Language"
         ],
+        "configuration": "./fql.configuration.json",
         "filenamePatterns": [
           "*.fql"
         ]
@@ -68,6 +69,11 @@
         "language": "Log",
         "scopeName": "code.log",
         "path": "./src/syntaxes/log.tmLanguage"
+      },
+      {
+        "language": "fql",
+        "scopeName": "source.fql",
+        "path": "./src/syntaxes/fql.tmLanguage"
       }
     ],
     "commands": [
