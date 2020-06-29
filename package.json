@@ -68,12 +68,12 @@
       {
         "language": "Log",
         "scopeName": "code.log",
-        "path": "./src/syntaxes/log.tmLanguage"
+        "path": "./syntaxes/log.tmLanguage"
       },
       {
         "language": "fql",
         "scopeName": "source.fql",
-        "path": "./src/syntaxes/fql.tmLanguage"
+        "path": "./syntaxes/fql.tmLanguage"
       }
     ],
     "commands": [
