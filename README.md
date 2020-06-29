@@ -107,17 +107,6 @@ Persisting a secret in VS Code settings will set the key at a global level for a
 
 ![FaunaDB commands](media/fauna-commands.png)
 
-## Release Notes
-
-### 1.0.0
-
-- Browse databases, indexes, collections, documents, and functions.
-- Run queries
-
 ## Built With
 
 - [FaunaDB](https://fauna.com/)
-
-## Contributors
-
-- **Bruno Quaresma** - [Github](https://github.com/BrunoQuaresma)

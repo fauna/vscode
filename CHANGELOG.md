@@ -1,5 +1,10 @@
 # Change Log
 
+## 1.3.0
+
+* Add minimal syntax highlight to FQL file extension. [maestroartistryconsulting](https://github.com/maestroartistryconsulting)
+* Fix graphQL schema upload. [maestroartistryconsulting](https://github.com/maestroartistryconsulting)
+
 ## 1.2.0
 
 * Add commands to upload, merge, and override GraphQL schema. [nksaraf](https://github.com/nksaraf)
