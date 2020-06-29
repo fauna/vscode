@@ -1,8 +1,12 @@
 # Change Log
 
+## 1.3.2
+
+* Fix syntax highlight setup.
+
 ## 1.3.1
 
-* Update README.md and CHANGELOG.md
+* Update README and CHANGELOG
 
 ## 1.3.0
 
