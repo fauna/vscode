@@ -164,7 +164,7 @@
     "@types/highlight.js": "^9.12.3",
     "@types/node-fetch": "^2.5.7",
     "@types/prettier": "^1.19.0",
-    "faunadb": "^2.13.1",
+    "faunadb": "3.0.1",
     "highlight.js": "^9.16.2",
     "node-fetch": "^2.6.0",
     "prettier": "^1.19.1",
