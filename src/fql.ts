@@ -200,7 +200,11 @@ function baseEvalFQL(fql: string, q: typeof query) {
     IsKey,
     IsToken,
     IsCredentials,
-    IsRole
+    IsRole,
+    Reverse,
+    ContainsPath,
+    ContainsField,
+    ContainsValue
   } = q;
 
   // eslint-disable-next-line
