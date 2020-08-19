@@ -1,5 +1,11 @@
 # Change Log
 
+## 1.4.0
+
+* Add an alias of the `Contains` function called `ContainsPath`, and deprecated the `Contains` function.
+* Add the new functions `ContainsField` and `ContainsValue` functions to make it easier to explore the structure of objects and documents.
+* Add the new `Reverse` function to reverse the order of items in an Array, Page, or Set.
+
 ## 1.3.2
 
 * Fix syntax highlight setup.
