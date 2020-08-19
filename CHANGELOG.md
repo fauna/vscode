@@ -1,6 +1,6 @@
 # Change Log
 
-## 1.4.0
+## 1.5.0
 
 * Add an alias of the `Contains` function called `ContainsPath`, and deprecated the `Contains` function.
 * Add the new functions `ContainsField` and `ContainsValue` functions to make it easier to explore the structure of objects and documents.
