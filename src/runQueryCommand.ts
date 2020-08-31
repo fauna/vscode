@@ -43,18 +43,29 @@ export default (
   try {
     const result = await runFQLQuery(fqlExpression, client);
 
-    outputChannel.appendLine(
-      prettier
-        // @ts-ignore comment
-        .format(`(${Expr.toString(q.Object(result))})`, {
-          parser: 'babel',
-          plugins
-        })
-        .trim()
-        .replace(/^(\({)/, '{')
-        .replace(/(}\);$)/g, '}')
-        .replace(';', '')
-    );
+    typeof result === "object"
+      ? outputChannel.appendLine(
+          prettier
+            // @ts-ignore comment
+            .format(`(${Expr.toString(q.Object(result))})`, {
+              parser: "babel",
+              plugins,
+            })
+            .trim()
+            .replace(/^(\({)/, "{")
+            .replace(/(}\);$)/g, "}")
+            .replace(";", "")
+        )
+      : outputChannel.appendLine(
+          prettier
+            // @ts-ignore comment
+            .format(`(${Expr.toString(result)})`, {
+              parser: "babel",
+              plugins,
+            })
+            .trim()
+            .replace(";", "")
+        );
   } catch (error) {
     let message = error.message;
 
