@@ -1,6 +1,6 @@
 import vscode from 'vscode';
-import { Client, Expr, query as q, errors } from 'faunadb';
-import { runFQLQuery } from './fql';
+import { Client, errors } from 'faunadb';
+import { runFQLQuery, formatFQLCode } from './fql';
 const prettier = require('prettier/standalone');
 const plugins = [require('prettier/parser-babylon')];
 
@@ -42,30 +42,8 @@ export default (
 
   try {
     const result = await runFQLQuery(fqlExpression, client);
-
-    typeof result === "object"
-      ? outputChannel.appendLine(
-          prettier
-            // @ts-ignore comment
-            .format(`(${Expr.toString(q.Object(result))})`, {
-              parser: "babel",
-              plugins,
-            })
-            .trim()
-            .replace(/^(\({)/, "{")
-            .replace(/(}\);$)/g, "}")
-            .replace(";", "")
-        )
-      : outputChannel.appendLine(
-          prettier
-            // @ts-ignore comment
-            .format(`(${Expr.toString(result)})`, {
-              parser: "babel",
-              plugins,
-            })
-            .trim()
-            .replace(";", "")
-        );
+    const formattedCode = formatFQLCode(result);
+    outputChannel.appendLine(formattedCode)
   } catch (error) {
     let message = error.message;
 
