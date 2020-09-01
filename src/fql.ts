@@ -1,4 +1,7 @@
 import { query, Client } from "faunadb";
+import {renderSpecialType} from './specialTypes'
+const prettier = require("prettier/standalone");
+const plugins = [require("prettier/parser-babylon")];
 
 export function evalFQLCode(code: string) {
   return baseEvalFQL(code, query);
@@ -235,5 +238,56 @@ export function runFQLQuery(code: string, client: Client) {
     });
   } catch (error) {
     return Promise.reject(error);
+  }
+}
+
+export function stringify(obj: object) {
+    const replacements: string[] = [];
+
+    let string = JSON.stringify(
+      obj,
+      (key, value) => {
+        const parsed = renderSpecialType(value);
+
+        if (parsed) {
+          const placeHolder =
+            "$$dash_replacement_$" + replacements.length + "$$";
+          replacements.push(parsed);
+          return placeHolder;
+        }
+
+        return value;
+      },
+      2
+    );
+
+    replacements.forEach((replace, index) => {
+      string = string.replace('"$$dash_replacement_$' + index + '$$"', replace);
+    });
+
+    if (string) {
+      string = string.replace(/\(null\)/g, "()");
+    }
+
+    return string;
+}
+
+export function formatFQLCode(code: object | string): string {
+  if (typeof code === "object") {
+    code = stringify(code);
+  }
+
+  try {
+    return prettier
+      .format(`(${code})`, {
+        parser: "babel",
+        plugins,
+      })
+      .trim()
+      .replace(/^(\({)/, "{")
+      .replace(/(}\);$)/g, "}")
+      .replace(";", "");
+  } catch (error) {
+    return code;
   }
 }
