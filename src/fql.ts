@@ -214,12 +214,28 @@ function baseEvalFQL(fql: string, q: typeof query) {
   return fql.match(/^\s*{(.*\n*)*}\s*$/) ? eval(`(${fql})`) : eval(fql);
 }
 
+function splitQueries(code: string): string[] {
+  return code
+    .split(new RegExp(/(?:;|\n)/g))
+    .filter((item) => item.trim().length > 0)
+    .map((item) => item.trim());
+}
+
 export function runFQLQuery(code: string, client: Client) {
   if (!code.trim()) {
     return Promise.reject("Can not eval empty query.");
   }
   try {
-    return client.query(evalFQLCode(code));
+    const queriesArray = splitQueries(code)
+
+    const wrappedQueries = queriesArray.map(query => {
+      return client.query(evalFQLCode(query))
+    })
+
+    return Promise.all(wrappedQueries).then(results => {
+      console.log("results", results);
+      return results
+    });
   } catch (error) {
     return Promise.reject(error);
   }
