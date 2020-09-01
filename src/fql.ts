@@ -227,7 +227,7 @@ export function runFQLQuery(code: string, client: Client) {
   }
   try {
     const queriesArray = splitQueries(code)
-    console.log("queriesArray", queriesArray);
+
     const wrappedQueries = queriesArray.map(query => {
       return client.query(evalFQLCode(query))
     })
