@@ -1,5 +1,9 @@
 # Change Log
 
+## 1.6.0
+
+* Add the new functions `CreateAccessProvider`, `AccessProvider`, `AccessProviders`, `CurrentIdentity`, `HasCurrentIdentity`, `CurrentToken` and `HasCurrentToken`.
+
 ## 1.5.0
 
 * Add an alias of the `Contains` function called `ContainsPath`, and deprecated the `Contains` function.

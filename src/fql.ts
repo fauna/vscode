@@ -88,7 +88,6 @@ function baseEvalFQL(fql: string, q: typeof query) {
     Classes,
     Collections,
     Databases,
-    Documents,
     Indexes,
     Functions,
     Roles,
@@ -201,10 +200,18 @@ function baseEvalFQL(fql: string, q: typeof query) {
     IsToken,
     IsCredentials,
     IsRole,
+    Documents,
     Reverse,
     ContainsPath,
     ContainsField,
-    ContainsValue
+    ContainsValue,
+    CreateAccessProvider,
+    AccessProvider,
+    AccessProviders,
+    CurrentIdentity,
+    HasCurrentIdentity,
+    CurrentToken,
+    HasCurrentToken,
   } = q;
 
   // eslint-disable-next-line
