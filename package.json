@@ -31,7 +31,11 @@
       "properties": {
         "faunadb.adminSecretKey": {
           "type": "string",
-          "description": "Restart VS Code after you set or change this secret."
+          "description": "The admin secret for the FaunaDB server."
+        },
+        "faunadb.baseURL": {
+          "type": "string",
+          "description": "The base URL for the FaunaDB server. Leave empty to use https://db.fauna.com"
         }
       }
     },

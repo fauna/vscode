@@ -4,7 +4,7 @@ import FQLContentProvider from './FQLContentProvider';
 import createRunQueryCommand from './runQueryCommand';
 import createCreateQueryCommand from './createQueryCommand';
 import uploadGraphqlSchemaCommand from './uploadGraphqlSchemaCommand';
-import { getLocalKey } from './auth';
+import { loadConfig } from './config';
 
 export function activate(context: vscode.ExtensionContext) {
   // Set output channel to display FQL results
@@ -18,62 +18,63 @@ export function activate(context: vscode.ExtensionContext) {
     )
   );
 
-  // Check if there is a secret key
-  const config = vscode.workspace.getConfiguration('faunadb');
-  let adminSecretKey = config.get<string>('adminSecretKey');
+  // Registered commands and providers that depend on configuration
+  let registered: vscode.Disposable[] = [];
 
-  // Load a local key if there is (in a .faunarc file set as FAUNA_KEY=<your-secret>)
-  let localSecretKey = getLocalKey();
-  if (localSecretKey) {
-    adminSecretKey = localSecretKey;
+  register();
+
+  // Reload the extension when reconfigured
+  const watcher = vscode.workspace.createFileSystemWatcher('./.faunarc');
+  context.subscriptions.push(
+    vscode.workspace.onDidChangeConfiguration(
+      event => event.affectsConfiguration('faunadb') && register()
+    ),
+    watcher,
+    watcher.onDidChange(register),
+    watcher.onDidCreate(register),
+    watcher.onDidDelete(register)
+  );
+
+  function register() {
+    const config = loadConfig();
+
+    // Set Schema Provider to display items on sidebar
+    const faunaDBSchemaProvider = new FaunaDBSchemaProvider(config);
+
+    registered.forEach(reg => reg.dispose());
+    registered = [
+      vscode.window.registerTreeDataProvider(
+        'faunadb-databases',
+        faunaDBSchemaProvider
+      ),
+      vscode.commands.registerCommand(
+        'faunadb.runQuery',
+        createRunQueryCommand(config, outputChannel)
+      ),
+      vscode.commands.registerCommand(
+        'faunadb.createQuery',
+        createCreateQueryCommand()
+      ),
+      vscode.commands.registerCommand(
+        'faunadb.uploadGraphQLSchema',
+        uploadGraphqlSchemaCommand('merge', config, outputChannel)
+      ),
+      vscode.commands.registerCommand(
+        'faunadb.mergeGraphQLSchema',
+        uploadGraphqlSchemaCommand('merge', config, outputChannel)
+      ),
+      vscode.commands.registerCommand(
+        'faunadb.overrideGraphQLSchema',
+        uploadGraphqlSchemaCommand('override', config, outputChannel)
+      ),
+      vscode.commands.registerCommand('faunadb.get', item => {
+        item.displayInfo();
+      }),
+      vscode.commands.registerCommand('faunadb.refreshEntry', () =>
+        faunaDBSchemaProvider.refresh()
+      )
+    ];
   }
-
-  if (!adminSecretKey) {
-    vscode.window.showErrorMessage(
-      'No FaunaDB admin secret key was found on Code > Preferences > Settings > Extensions > FaunaDB.'
-    );
-    return;
-  }
-
-  // Set Schema Provider to display items on sidebar
-  const faunaDBSchemaProvider = new FaunaDBSchemaProvider(adminSecretKey);
-  vscode.window.registerTreeDataProvider(
-    'faunadb-databases',
-    faunaDBSchemaProvider
-  );
-
-  vscode.commands.registerCommand(
-    'faunadb.runQuery',
-    createRunQueryCommand(adminSecretKey, outputChannel)
-  );
-
-  vscode.commands.registerCommand(
-    'faunadb.createQuery',
-    createCreateQueryCommand()
-  );
-
-  vscode.commands.registerCommand(
-    'faunadb.uploadGraphQLSchema',
-    uploadGraphqlSchemaCommand('merge', adminSecretKey, outputChannel)
-  );
-
-  vscode.commands.registerCommand(
-    'faunadb.mergeGraphQLSchema',
-    uploadGraphqlSchemaCommand('merge', adminSecretKey, outputChannel)
-  );
-
-  vscode.commands.registerCommand(
-    'faunadb.overrideGraphQLSchema',
-    uploadGraphqlSchemaCommand('override', adminSecretKey, outputChannel)
-  );
-
-  vscode.commands.registerCommand('faunadb.get', item => {
-    item.displayInfo();
-  });
-
-  vscode.commands.registerCommand('faunadb.refreshEntry', () =>
-    faunaDBSchemaProvider.refresh()
-  );
 }
 
 // this method is called when your extension is deactivated

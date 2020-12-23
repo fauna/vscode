@@ -1,9 +1,10 @@
 import vscode from 'vscode';
 import { Client, errors } from 'faunadb';
 import { runFQLQuery, formatFQLCode } from './fql';
+import { Config } from './config';
 
 export default (
-  adminSecretKey: string,
+  config: Config,
   outputChannel: vscode.OutputChannel
 ) => async () => {
   const { activeTextEditor } = vscode.window;
@@ -16,7 +17,7 @@ export default (
   }
 
   const client = new Client({
-    secret: adminSecretKey,
+    ...config,
     // @ts-ignore comment
     headers: {
       'X-Fauna-Source': 'VSCode'
