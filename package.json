@@ -155,7 +155,9 @@
     "@types/node": "^12.11.7",
     "@types/vscode": "^1.40.0",
     "glob": "^7.1.5",
+    "husky": "^4.3.6",
     "mocha": "^6.2.3",
+    "pretty-quick": "^3.1.0",
     "tslint": "^5.20.0",
     "typescript": "^3.6.4",
     "vscode-test": "^1.2.2"
@@ -169,5 +171,10 @@
     "node-fetch": "^2.6.0",
     "prettier": "^2.2.1",
     "vsce": "^1.73.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged"
+    }
   }
 }

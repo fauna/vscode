@@ -4,7 +4,7 @@ import FQLContentProvider from './FQLContentProvider';
 import createRunQueryCommand from './runQueryCommand';
 import createCreateQueryCommand from './createQueryCommand';
 import uploadGraphqlSchemaCommand from './uploadGraphqlSchemaCommand';
-import { getLocalKey } from "./auth";
+import { getLocalKey } from './auth';
 
 export function activate(context: vscode.ExtensionContext) {
   // Set output channel to display FQL results
@@ -21,10 +21,10 @@ export function activate(context: vscode.ExtensionContext) {
   // Check if there is a secret key
   const config = vscode.workspace.getConfiguration('faunadb');
   let adminSecretKey = config.get<string>('adminSecretKey');
-  
+
   // Load a local key if there is (in a .faunarc file set as FAUNA_KEY=<your-secret>)
   let localSecretKey = getLocalKey();
-  if(localSecretKey) {
+  if (localSecretKey) {
     adminSecretKey = localSecretKey;
   }
 

@@ -1,7 +1,7 @@
-import { query, Client } from "faunadb";
-import {renderSpecialType} from './specialTypes'
-const prettier = require("prettier/standalone");
-const plugins = [require("prettier/parser-meriyah")];
+import { query, Client } from 'faunadb';
+import { renderSpecialType } from './specialTypes';
+const prettier = require('prettier/standalone');
+const plugins = [require('prettier/parser-meriyah')];
 
 export function evalFQLCode(code: string) {
   return baseEvalFQL(code, query);
@@ -214,7 +214,7 @@ function baseEvalFQL(fql: string, q: typeof query) {
     CurrentIdentity,
     HasCurrentIdentity,
     CurrentToken,
-    HasCurrentToken,
+    HasCurrentToken
   } = q;
 
   // eslint-disable-next-line
@@ -224,24 +224,24 @@ function baseEvalFQL(fql: string, q: typeof query) {
 function splitQueries(code: string): string[] {
   return code
     .split(new RegExp(/(?:;|\n)/g))
-    .filter((item) => item.trim().length > 0)
-    .map((item) => item.trim());
+    .filter(item => item.trim().length > 0)
+    .map(item => item.trim());
 }
 
 export function runFQLQuery(code: string, client: Client) {
   if (!code.trim()) {
-    return Promise.reject("Can not eval empty query.");
+    return Promise.reject('Can not eval empty query.');
   }
   try {
-    const queriesArray = splitQueries(code)
+    const queriesArray = splitQueries(code);
 
     const wrappedQueries = queriesArray.map(query => {
-      return client.query(evalFQLCode(query))
-    })
+      return client.query(evalFQLCode(query));
+    });
 
     return Promise.all(wrappedQueries).then(results => {
-      console.log("results", results);
-      return results
+      console.log('results', results);
+      return results;
     });
   } catch (error) {
     return Promise.reject(error);
@@ -249,38 +249,37 @@ export function runFQLQuery(code: string, client: Client) {
 }
 
 export function stringify(obj: object) {
-    const replacements: string[] = [];
+  const replacements: string[] = [];
 
-    let string = JSON.stringify(
-      obj,
-      (key, value) => {
-        const parsed = renderSpecialType(value);
+  let string = JSON.stringify(
+    obj,
+    (key, value) => {
+      const parsed = renderSpecialType(value);
 
-        if (parsed) {
-          const placeHolder =
-            "$$dash_replacement_$" + replacements.length + "$$";
-          replacements.push(parsed);
-          return placeHolder;
-        }
+      if (parsed) {
+        const placeHolder = '$$dash_replacement_$' + replacements.length + '$$';
+        replacements.push(parsed);
+        return placeHolder;
+      }
 
-        return value;
-      },
-      2
-    );
+      return value;
+    },
+    2
+  );
 
-    replacements.forEach((replace, index) => {
-      string = string.replace('"$$dash_replacement_$' + index + '$$"', replace);
-    });
+  replacements.forEach((replace, index) => {
+    string = string.replace('"$$dash_replacement_$' + index + '$$"', replace);
+  });
 
-    if (string) {
-      string = string.replace(/\(null\)/g, "()");
-    }
+  if (string) {
+    string = string.replace(/\(null\)/g, '()');
+  }
 
-    return string;
+  return string;
 }
 
 export function formatFQLCode(code: object | string): string {
-  if (typeof code === "object") {
+  if (typeof code === 'object') {
     code = stringify(code);
   }
 
@@ -288,9 +287,9 @@ export function formatFQLCode(code: object | string): string {
     return prettier
       .format(`(${code})`, { parser: 'meriyah', plugins })
       .trim()
-      .replace(/^(\({)/, "{")
-      .replace(/(}\);$)/g, "}")
-      .replace(";", "");
+      .replace(/^(\({)/, '{')
+      .replace(/(}\);$)/g, '}')
+      .replace(';', '');
   } catch (error) {
     return code;
   }

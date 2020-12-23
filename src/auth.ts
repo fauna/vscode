@@ -16,7 +16,7 @@ function parseEnvironmentFile(src: string) {
     }
     return result;
   } catch (error) {
-    console.error(`Error parsing FAUNA_KEY from .faunarc: ${error}`)
+    console.error(`Error parsing FAUNA_KEY from .faunarc: ${error}`);
   }
 }
 
@@ -24,7 +24,9 @@ export function getLocalKey(): string | undefined {
   const workspace = vscode.workspace.rootPath;
   const localConfigPath = path.resolve(workspace as string, '.faunarc');
   if (fs.existsSync(localConfigPath)) {
-    const settings = parseEnvironmentFile(fs.readFileSync(localConfigPath).toString());
+    const settings = parseEnvironmentFile(
+      fs.readFileSync(localConfigPath).toString()
+    );
     return settings.FAUNA_KEY as string;
   }
   return;
