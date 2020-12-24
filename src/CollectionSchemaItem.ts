@@ -1,10 +1,13 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
-import { Client, query as q, Expr } from 'faunadb';
 import { SchemaType } from './types';
+import DBSchemaItem from './DBSchemaItem';
 
 export default class CollectionSchemaItem extends vscode.TreeItem {
-  constructor(public readonly name: string, public readonly itemPath?: string) {
+  constructor(
+    public readonly name: string,
+    public readonly parent?: DBSchemaItem
+  ) {
     super(name, vscode.TreeItemCollapsibleState.Collapsed);
   }
 

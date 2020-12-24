@@ -1,10 +1,13 @@
 import * as vscode from 'vscode';
-import FaunaDBSchemaProvider from './FaunaDBSchemaProvider';
+import FaunaDBSchemaProvider, { SchemaItem } from './FaunaDBSchemaProvider';
 import FQLContentProvider from './FQLContentProvider';
 import createRunQueryCommand from './runQueryCommand';
 import createCreateQueryCommand from './createQueryCommand';
 import uploadGraphqlSchemaCommand from './uploadGraphqlSchemaCommand';
 import { loadConfig } from './config';
+import { Client, Expr, query as q } from 'faunadb';
+import DBSchemaItem from './DBSchemaItem';
+import CollectionSchemaItem from './CollectionSchemaItem';
 
 export function activate(context: vscode.ExtensionContext) {
   // Set output channel to display FQL results
@@ -37,9 +40,21 @@ export function activate(context: vscode.ExtensionContext) {
 
   function register() {
     const config = loadConfig();
+    const client = new Client({
+      ...config,
+      headers: {
+        'X-Fauna-Source': 'VSCode'
+      }
+    });
+
+    const mountSecret = (scope?: DBSchemaItem | CollectionSchemaItem) => {
+      const database =
+        scope instanceof CollectionSchemaItem ? scope.parent : scope;
+      return config.secret + (database ? ':' + database.path : '') + ':admin';
+    };
 
     // Set Schema Provider to display items on sidebar
-    const faunaDBSchemaProvider = new FaunaDBSchemaProvider(config);
+    const faunaDBSchemaProvider = new FaunaDBSchemaProvider();
 
     registered.forEach(reg => reg.dispose());
     registered = [
@@ -49,7 +64,7 @@ export function activate(context: vscode.ExtensionContext) {
       ),
       vscode.commands.registerCommand(
         'faunadb.runQuery',
-        createRunQueryCommand(config, outputChannel)
+        createRunQueryCommand(client, outputChannel)
       ),
       vscode.commands.registerCommand(
         'faunadb.createQuery',
@@ -67,8 +82,28 @@ export function activate(context: vscode.ExtensionContext) {
         'faunadb.overrideGraphQLSchema',
         uploadGraphqlSchemaCommand('override', config, outputChannel)
       ),
-      vscode.commands.registerCommand('faunadb.get', item => {
-        item.displayInfo();
+      vscode.commands.registerCommand(
+        'faunadb.query',
+        (expr: Expr, scope?: DBSchemaItem | CollectionSchemaItem) =>
+          client.query(expr, {
+            secret: mountSecret(scope)
+          })
+      ),
+      vscode.commands.registerCommand('faunadb.open', (item: SchemaItem) => {
+        client
+          .query<any>(item.content!, {
+            secret: mountSecret(item.parent)
+          })
+          .then(async content => {
+            const uri = vscode.Uri.parse(
+              // @ts-ignore comment
+              `fqlcode:${item.name}#${Expr.toString(q.Object(content))}`
+            );
+            const doc = await vscode.workspace.openTextDocument(uri); // calls back into the provider
+            await vscode.window.showTextDocument(doc, { preview: false });
+            vscode.languages.setTextDocumentLanguage(doc, 'javascript');
+          })
+          .catch(console.error);
       }),
       vscode.commands.registerCommand('faunadb.refreshEntry', () =>
         faunaDBSchemaProvider.refresh()
