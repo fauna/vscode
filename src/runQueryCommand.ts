@@ -1,8 +1,6 @@
 import vscode from 'vscode';
 import { Client, errors } from 'faunadb';
 import { runFQLQuery, formatFQLCode } from './fql';
-const prettier = require('prettier/standalone');
-const plugins = [require('prettier/parser-babylon')];
 
 export default (
   adminSecretKey: string,

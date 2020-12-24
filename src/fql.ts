@@ -1,7 +1,7 @@
 import { query, Client } from "faunadb";
 import {renderSpecialType} from './specialTypes'
 const prettier = require("prettier/standalone");
-const plugins = [require("prettier/parser-babylon")];
+const plugins = [require("prettier/parser-meriyah")];
 
 export function evalFQLCode(code: string) {
   return baseEvalFQL(code, query);
@@ -286,10 +286,7 @@ export function formatFQLCode(code: object | string): string {
 
   try {
     return prettier
-      .format(`(${code})`, {
-        parser: "babel",
-        plugins,
-      })
+      .format(`(${code})`, { parser: 'meriyah', plugins })
       .trim()
       .replace(/^(\({)/, "{")
       .replace(/(}\);$)/g, "}")
