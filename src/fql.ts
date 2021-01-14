@@ -221,19 +221,49 @@ function baseEvalFQL(fql: string, q: typeof query) {
   return fql.match(/^\s*{(.*\n*)*}\s*$/) ? eval(`(${fql})`) : eval(fql);
 }
 
-function splitQueries(code: string): string[] {
-  return code
-    .split(new RegExp(/(?:;|\n)/g))
-    .filter((item) => item.trim().length > 0)
-    .map((item) => item.trim());
+function splitQueries(code: string) {
+  const queries: string[] = [];
+
+  code = code.trim();
+
+  let start = 0; // Start of next query
+  let opens = 0; // Number of unclosed expressions
+  let quote = null; // The unclosed quote symbol
+
+  for (let i = 0; i < code.length; i++) {
+    const ch = code[i];
+    if (quote) {
+      if (ch == quote && code[i - 1] != '\\') {
+        quote = null;
+      } else {
+        continue;
+      }
+    } else if (ch == "'" || ch == '"') {
+      quote = ch;
+      continue;
+    }
+    if (ch == '(' || ch == '{' || ch == '[') {
+      opens += 1;
+    } else if (ch == ')' || ch == '}' || ch == ']') {
+      opens -= 1;
+
+      if (opens == 0) {
+        queries.push(code.slice(start, i + 1));
+        while (/\s/.test(code[++i])) {}
+        start = i;
+      }
+    }
+  }
+
+  return queries;
 }
 
 export function runFQLQuery(code: string, client: Client) {
-  if (!code.trim()) {
-    return Promise.reject("Can not eval empty query.");
-  }
   try {
-    const queriesArray = splitQueries(code)
+    const queriesArray = splitQueries(code);
+    if (!queriesArray.length) {
+      return Promise.reject('Invalid query.');
+    }
 
     const wrappedQueries = queriesArray.map(query => {
       return client.query(evalFQLCode(query))
