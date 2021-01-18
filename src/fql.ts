@@ -1,5 +1,5 @@
-import { query, Client } from "faunadb";
-import {renderSpecialType} from './specialTypes'
+import { Client, query } from "faunadb";
+import { renderSpecialType } from './specialTypes';
 const prettier = require("prettier/standalone");
 const plugins = [require("prettier/parser-babylon")];
 
@@ -223,7 +223,7 @@ function baseEvalFQL(fql: string, q: typeof query) {
 
 function splitQueries(code: string): string[] {
   return code
-    .split(new RegExp(/(?:;|\n)/g))
+    .split(new RegExp(/(?:;)/g))
     .filter((item) => item.trim().length > 0)
     .map((item) => item.trim());
 }
@@ -234,6 +234,7 @@ export function runFQLQuery(code: string, client: Client) {
   }
   try {
     const queriesArray = splitQueries(code)
+    
 
     const wrappedQueries = queriesArray.map(query => {
       return client.query(evalFQLCode(query))
