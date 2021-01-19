@@ -260,7 +260,7 @@ function parseQueries(code: string): string[] {
 export function runFQLQuery(code: string, client: Client) {
   try {
     const queriesArray = parseQueries(code)
-    if(queriesArray.length ===0){
+    if(queriesArray.length === 0) {
       return Promise.reject('Invalid query')
     }
 
