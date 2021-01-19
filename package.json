@@ -1,5 +1,5 @@
 {
-  "name": "fauna",
+  "name": "faunadb",
   "displayName": "Fauna",
   "description": "Fauna extension",
   "icon": "media/fauna-extension-logo.png",
