@@ -230,8 +230,8 @@ function parseQueries(code: string): string[] {
       '"': '"',
       '\'': '\'',
   }
-  const openBrackets = Object.keys(brackets)
-  const closeBrackets = Object.values(brackets)
+  const openBrackets = new Set(Object.keys(brackets))
+  const closeBrackets = new Set(Object.values(brackets))
   const queries = [];
   const stack = [];
   let start = 0;
@@ -239,12 +239,12 @@ function parseQueries(code: string): string[] {
   code = code.trim();
 
   for (let i = 0; i < code.length; i++) {
-      if(openBrackets.includes(code[i])){
+      if(openBrackets.has(code[i])){
           stack.push(code[i]);
           isOpening = true;
       }
 
-      if(closeBrackets.includes(code[i]) && brackets[stack.pop()!] !== code[i]){
+      if(closeBrackets.has(code[i]) && brackets[stack.pop()!] !== code[i]){
           throw new Error(`Unexpected closing bracket ${code[i]} at position: ${i + 1}`)
       }
 
