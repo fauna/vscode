@@ -3,6 +3,8 @@ import { renderSpecialType } from './specialTypes';
 const prettier = require("prettier/standalone");
 const plugins = [require("prettier/parser-babylon")];
 
+export class InvalidFQL extends Error {}
+
 export function evalFQLCode(code: string) {
   return baseEvalFQL(code, query);
 }
@@ -245,7 +247,7 @@ function parseQueries(code: string): string[] {
       }
 
       if(closeBrackets.has(code[i]) && brackets[stack.pop()!] !== code[i]){
-          throw new Error(`Unexpected closing bracket ${code[i]} at position: ${i + 1}`)
+          throw new InvalidFQL(`Unexpected closing bracket ${code[i]} at position: ${i + 1}`)
       }
 
       if(stack.length === 0 && isOpening) {
@@ -254,27 +256,25 @@ function parseQueries(code: string): string[] {
           isOpening = false;
       }
   }
+
+  if(isOpening) {
+    throw new InvalidFQL('Expect all opened brackets to be closed')
+  }
+
   return queries;
 }
 
 export function runFQLQuery(code: string, client: Client) {
-  try {
-    const queriesArray = parseQueries(code)
-    if(queriesArray.length === 0) {
-      return Promise.reject('Invalid query')
-    }
-
-    const wrappedQueries = queriesArray.map(query => {
-      return client.query(evalFQLCode(query))
-    })
-
-    return Promise.all(wrappedQueries).then(results => {
-      console.log("results", results);
-      return results
-    });
-  } catch (error) {
-    return Promise.reject(error);
+  const queriesArray = parseQueries(code)
+  if(queriesArray.length === 0) {
+    throw new InvalidFQL('No queries found')
   }
+
+  const wrappedQueries = queriesArray.map(query => {
+    return client.query(evalFQLCode(query))
+  })
+
+  return Promise.all(wrappedQueries);
 }
 
 export function stringify(obj: object) {
