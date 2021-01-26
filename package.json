@@ -147,7 +147,7 @@
     "watch": "tsc -watch -p ./",
     "pretest": "yarn run compile",
     "test": "node ./out/test/runTest.js",
-    "build": "yarn vsce package"
+    "build": "yarn vsce package --yarn"
   },
   "devDependencies": {
     "@types/chai": "^4.2.14",
