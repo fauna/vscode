@@ -37,7 +37,7 @@ export default class DocumentSchemaItem extends vscode.TreeItem {
   }
 
   command = {
-    command: 'faunadb.get',
+    command: 'fauna.get',
     title: '',
     arguments: [this]
   };

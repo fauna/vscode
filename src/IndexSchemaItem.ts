@@ -1,7 +1,7 @@
-import * as vscode from 'vscode';
+import { Client, Expr, query as q } from 'faunadb';
 import * as path from 'path';
+import * as vscode from 'vscode';
 import { SchemaType } from './types';
-import { query as q, Expr, Client } from 'faunadb';
 
 export default class IndexSchemaItem extends vscode.TreeItem {
   constructor(
@@ -36,7 +36,7 @@ export default class IndexSchemaItem extends vscode.TreeItem {
   }
 
   command = {
-    command: 'faunadb.get',
+    command: 'fauna.get',
     title: '',
     arguments: [this]
   };

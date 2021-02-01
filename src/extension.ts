@@ -1,10 +1,10 @@
 import * as vscode from 'vscode';
-import FaunaDBSchemaProvider from './FaunaDBSchemaProvider';
+import { getLocalKey } from "./auth";
+import createCreateQueryCommand from './createQueryCommand';
+import FaunaSchemaProvider from './FaunaSchemaProvider';
 import FQLContentProvider from './FQLContentProvider';
 import createRunQueryCommand from './runQueryCommand';
-import createCreateQueryCommand from './createQueryCommand';
 import uploadGraphqlSchemaCommand from './uploadGraphqlSchemaCommand';
-import { getLocalKey } from "./auth";
 
 export function activate(context: vscode.ExtensionContext) {
   // Set output channel to display FQL results
@@ -19,7 +19,7 @@ export function activate(context: vscode.ExtensionContext) {
   );
 
   // Check if there is a secret key
-  const config = vscode.workspace.getConfiguration('faunadb');
+  const config = vscode.workspace.getConfiguration('fauna');
   let adminSecretKey = config.get<string>('adminSecretKey');
   
   // Load a local key if there is (in a .faunarc file set as FAUNA_KEY=<your-secret>)
@@ -30,49 +30,49 @@ export function activate(context: vscode.ExtensionContext) {
 
   if (!adminSecretKey) {
     vscode.window.showErrorMessage(
-      'No FaunaDB admin secret key was found on Code > Preferences > Settings > Extensions > FaunaDB.'
+      'No Fauna admin secret key was found on Code > Preferences > Settings > Extensions > Fauna.'
     );
     return;
   }
 
   // Set Schema Provider to display items on sidebar
-  const faunaDBSchemaProvider = new FaunaDBSchemaProvider(adminSecretKey);
+  const faunaSchemaProvider = new FaunaSchemaProvider(adminSecretKey);
   vscode.window.registerTreeDataProvider(
-    'faunadb-databases',
-    faunaDBSchemaProvider
+    'fauna-databases',
+    faunaSchemaProvider
   );
 
   vscode.commands.registerCommand(
-    'faunadb.runQuery',
+    'fauna.runQuery',
     createRunQueryCommand(adminSecretKey, outputChannel)
   );
 
   vscode.commands.registerCommand(
-    'faunadb.createQuery',
+    'fauna.createQuery',
     createCreateQueryCommand()
   );
 
   vscode.commands.registerCommand(
-    'faunadb.uploadGraphQLSchema',
+    'fauna.uploadGraphQLSchema',
     uploadGraphqlSchemaCommand('merge', adminSecretKey, outputChannel)
   );
 
   vscode.commands.registerCommand(
-    'faunadb.mergeGraphQLSchema',
+    'fauna.mergeGraphQLSchema',
     uploadGraphqlSchemaCommand('merge', adminSecretKey, outputChannel)
   );
 
   vscode.commands.registerCommand(
-    'faunadb.overrideGraphQLSchema',
+    'fauna.overrideGraphQLSchema',
     uploadGraphqlSchemaCommand('override', adminSecretKey, outputChannel)
   );
 
-  vscode.commands.registerCommand('faunadb.get', item => {
+  vscode.commands.registerCommand('fauna.get', item => {
     item.displayInfo();
   });
 
-  vscode.commands.registerCommand('faunadb.refreshEntry', () =>
-    faunaDBSchemaProvider.refresh()
+  vscode.commands.registerCommand('fauna.refreshEntry', () =>
+    faunaSchemaProvider.refresh()
   );
 }
 
