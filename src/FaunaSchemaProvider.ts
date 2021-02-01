@@ -1,10 +1,10 @@
+import { Client, query as q, values } from 'faunadb';
 import vscode from 'vscode';
-import { Client, values, query as q } from 'faunadb';
-import DBSchemaItem from './DBSchemaItem';
 import CollectionSchemaItem from './CollectionSchemaItem';
-import IndexSchemaItem from './IndexSchemaItem';
-import FunctionSchemaItem from './FunctionSchemaItem';
+import DBSchemaItem from './DBSchemaItem';
 import DocumentSchemaItem from './DocumentSchemaItem';
+import FunctionSchemaItem from './FunctionSchemaItem';
+import IndexSchemaItem from './IndexSchemaItem';
 
 export default class FaunaDBSchemaProvider
   implements vscode.TreeDataProvider<vscode.TreeItem> {
@@ -26,7 +26,7 @@ export default class FaunaDBSchemaProvider
   }
 
   refresh(): void {
-    this._onDidChangeTreeData.fire();
+    this._onDidChangeTreeData.fire({});
   }
 
   getTreeItem(element: vscode.TreeItem): vscode.TreeItem {
