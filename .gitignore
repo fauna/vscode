@@ -5,3 +5,4 @@ node_modules
 *.zip
 .DS_Store
 .faunarc
+package-lock.json
