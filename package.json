@@ -169,7 +169,7 @@
     "watch": "tsc -watch -p ./",
     "pretest": "yarn run compile",
     "test": "node ./out/test/runTest.js",
-    "build": "yarn vsce package --yarn"
+    "build": "yarn vsce package"
   },
   "devDependencies": {
     "@types/chai": "^4.2.14",
