@@ -39,7 +39,7 @@
         "fauna.domain": {
           "type": "string",
           "default": "db.fauna.com",
-          "description": "Optional - The hostname of this endpoint’s Fauna instance. Defaults to db.fauna.com"
+          "description": "Optional - The hostname of endpoint’s Fauna instance. Defaults to db.fauna.com"
         },
         "fauna.scheme": {
           "type": "string",
@@ -53,7 +53,7 @@
         "fauna.port": {
           "type": "number",
           "default": 443,
-          "description": "Optional - The UNIX port number of this endpoint’s Fauna instance. Defaults to 443"
+          "description": "Optional - The UNIX port number of endpoint’s Fauna instance. Defaults to 443"
         }
       }
     },
