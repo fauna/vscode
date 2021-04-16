@@ -1,8 +1,8 @@
 import * as vscode from 'vscode';
-import FaunaDBSchemaProvider from './FaunaDBSchemaProvider';
+import createCreateQueryCommand from './createQueryCommand';
+import FaunaSchemaProvider from './FaunaSchemaProvider';
 import FQLContentProvider from './FQLContentProvider';
 import createRunQueryCommand from './runQueryCommand';
-import createCreateQueryCommand from './createQueryCommand';
 import uploadGraphqlSchemaCommand from './uploadGraphqlSchemaCommand';
 import { loadConfig } from './config';
 
@@ -27,7 +27,7 @@ export function activate(context: vscode.ExtensionContext) {
   const watcher = vscode.workspace.createFileSystemWatcher('./.faunarc');
   context.subscriptions.push(
     vscode.workspace.onDidChangeConfiguration(
-      event => event.affectsConfiguration('faunadb') && register()
+      event => event.affectsConfiguration('fauna') && register()
     ),
     watcher,
     watcher.onDidChange(register),
@@ -39,39 +39,39 @@ export function activate(context: vscode.ExtensionContext) {
     const config = loadConfig();
 
     // Set Schema Provider to display items on sidebar
-    const faunaDBSchemaProvider = new FaunaDBSchemaProvider(config);
+    const faunaSchemaProvider = new FaunaSchemaProvider(config);
 
     registered.forEach(reg => reg.dispose());
     registered = [
       vscode.window.registerTreeDataProvider(
-        'faunadb-databases',
-        faunaDBSchemaProvider
+        'fauna-databases',
+        faunaSchemaProvider
       ),
       vscode.commands.registerCommand(
-        'faunadb.runQuery',
+        'fauna.runQuery',
         createRunQueryCommand(config, outputChannel)
       ),
       vscode.commands.registerCommand(
-        'faunadb.createQuery',
+        'fauna.createQuery',
         createCreateQueryCommand()
       ),
       vscode.commands.registerCommand(
-        'faunadb.uploadGraphQLSchema',
+        'fauna.uploadGraphQLSchema',
         uploadGraphqlSchemaCommand('merge', config, outputChannel)
       ),
       vscode.commands.registerCommand(
-        'faunadb.mergeGraphQLSchema',
+        'fauna.mergeGraphQLSchema',
         uploadGraphqlSchemaCommand('merge', config, outputChannel)
       ),
       vscode.commands.registerCommand(
-        'faunadb.overrideGraphQLSchema',
+        'fauna.overrideGraphQLSchema',
         uploadGraphqlSchemaCommand('override', config, outputChannel)
       ),
-      vscode.commands.registerCommand('faunadb.get', item => {
+      vscode.commands.registerCommand('fauna.get', item => {
         item.displayInfo();
       }),
-      vscode.commands.registerCommand('faunadb.refreshEntry', () =>
-        faunaDBSchemaProvider.refresh()
+      vscode.commands.registerCommand('fauna.refreshEntry', () =>
+        faunaSchemaProvider.refresh()
       )
     ];
   }
