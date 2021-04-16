@@ -1,8 +1,8 @@
 {
   "name": "faunadb",
-  "displayName": "FaunaDB",
-  "description": "FaunaDB extension",
-  "icon": "media/faunadb-extension-logo.png",
+  "displayName": "Fauna",
+  "description": "Fauna extension",
+  "icon": "media/fauna-extension-logo.png",
   "version": "1.6.0",
   "publisher": "fauna",
   "engines": {
@@ -17,19 +17,19 @@
   ],
   "activationEvents": [
     "onCommand:extension.helloWorld",
-    "onCommand:faunadb.runQuery",
-    "onCommand:faunadb.createQuery",
-    "onCommand:faunadb.uploadGraphQLSchema",
-    "onCommand:faunadb.mergeGraphQLSchema",
-    "onCommand:faunadb.overrideGraphQLSchema",
-    "onView:faunadb-databases"
+    "onCommand:fauna.runQuery",
+    "onCommand:fauna.createQuery",
+    "onCommand:fauna.uploadGraphQLSchema",
+    "onCommand:fauna.mergeGraphQLSchema",
+    "onCommand:fauna.overrideGraphQLSchema",
+    "onView:fauna-databases"
   ],
   "main": "./out/extension.js",
   "contributes": {
     "configuration": {
-      "title": "FaunaDB",
+      "title": "Fauna",
       "properties": {
-        "faunadb.adminSecretKey": {
+        "fauna.adminSecretKey": {
           "type": "string",
           "description": "Restart VS Code after you set or change this secret."
         }
@@ -78,27 +78,27 @@
     ],
     "commands": [
       {
-        "command": "faunadb.createQuery",
-        "title": "FaunaDB: Create Query"
+        "command": "fauna.createQuery",
+        "title": "Fauna: Create Query"
       },
       {
-        "command": "faunadb.uploadGraphQLSchema",
-        "title": "FaunaDB: Upload GraphQL Schema"
+        "command": "fauna.uploadGraphQLSchema",
+        "title": "Fauna: Upload GraphQL Schema"
       },
       {
-        "command": "faunadb.mergeGraphQLSchema",
-        "title": "FaunaDB: Merge GraphQL Schema"
+        "command": "fauna.mergeGraphQLSchema",
+        "title": "Fauna: Merge GraphQL Schema"
       },
       {
-        "command": "faunadb.overrideGraphQLSchema",
-        "title": "FaunaDB: Override GraphQL Schema"
+        "command": "fauna.overrideGraphQLSchema",
+        "title": "Fauna: Override GraphQL Schema"
       },
       {
-        "command": "faunadb.runQuery",
-        "title": "FaunaDB: Run Query"
+        "command": "fauna.runQuery",
+        "title": "Fauna: Run Query"
       },
       {
-        "command": "faunadb.refreshEntry",
+        "command": "fauna.refreshEntry",
         "title": "Refresh",
         "icon": {
           "light": "media/refresh.svg",
@@ -108,7 +108,7 @@
     ],
     "keybindings": [
       {
-        "command": "faunadb.runQuery",
+        "command": "fauna.runQuery",
         "key": "ctrl+enter",
         "mac": "cmd+enter",
         "when": "editorTextFocus && editorLangId == fql"
@@ -117,16 +117,16 @@
     "viewsContainers": {
       "activitybar": [
         {
-          "id": "faunadb-explorer",
-          "title": "FaunaDB",
+          "id": "fauna-explorer",
+          "title": "Fauna",
           "icon": "media/fauna-logo.svg"
         }
       ]
     },
     "views": {
-      "faunadb-explorer": [
+      "fauna-explorer": [
         {
-          "id": "faunadb-databases",
+          "id": "fauna-databases",
           "name": "Databases"
         }
       ]
@@ -134,8 +134,8 @@
     "menus": {
       "view/title": [
         {
-          "command": "faunadb.refreshEntry",
-          "when": "view == faunadb-databases",
+          "command": "fauna.refreshEntry",
+          "when": "view == fauna-databases",
           "group": "navigation"
         }
       ]
@@ -147,17 +147,21 @@
     "watch": "tsc -watch -p ./",
     "pretest": "yarn run compile",
     "test": "node ./out/test/runTest.js",
-    "build": "yarn vsce package"
+    "build": "yarn vsce package --yarn"
   },
   "devDependencies": {
+    "@types/chai": "^4.2.14",
     "@types/glob": "^7.1.1",
     "@types/mocha": "^5.2.7",
     "@types/node": "^12.11.7",
+    "@types/sinon": "^9.0.10",
     "@types/vscode": "^1.40.0",
+    "chai": "^4.2.0",
     "glob": "^7.1.5",
     "husky": "^4.3.6",
     "mocha": "^6.2.3",
     "pretty-quick": "^3.1.0",
+    "sinon": "^9.2.4",
     "tslint": "^5.20.0",
     "typescript": "^3.6.4",
     "vscode-test": "^1.2.2"
