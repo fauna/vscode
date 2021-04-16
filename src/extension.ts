@@ -1,10 +1,10 @@
 import * as vscode from 'vscode';
+import { loadConfig } from './config';
 import createCreateQueryCommand from './createQueryCommand';
 import FaunaSchemaProvider from './FaunaSchemaProvider';
 import FQLContentProvider from './FQLContentProvider';
 import createRunQueryCommand from './runQueryCommand';
 import uploadGraphqlSchemaCommand from './uploadGraphqlSchemaCommand';
-import { loadConfig } from './config';
 
 export function activate(context: vscode.ExtensionContext) {
   // Set output channel to display FQL results
@@ -41,12 +41,14 @@ export function activate(context: vscode.ExtensionContext) {
     // Set Schema Provider to display items on sidebar
     const faunaSchemaProvider = new FaunaSchemaProvider(config);
 
+    vscode.window.registerTreeDataProvider(
+      'fauna-databases',
+      faunaSchemaProvider
+    );
+
     registered.forEach(reg => reg.dispose());
+
     registered = [
-      vscode.window.registerTreeDataProvider(
-        'fauna-databases',
-        faunaSchemaProvider
-      ),
       vscode.commands.registerCommand(
         'fauna.runQuery',
         createRunQueryCommand(config, outputChannel)

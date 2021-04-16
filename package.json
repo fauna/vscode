@@ -28,14 +28,32 @@
   "contributes": {
     "configuration": {
       "title": "Fauna",
+      "required": [
+        "fauna.adminSecretKey"
+      ],
       "properties": {
         "fauna.adminSecretKey": {
           "type": "string",
           "description": "The admin secret for the FaunaDB server."
         },
-        "fauna.baseURL": {
+        "fauna.domain": {
           "type": "string",
-          "description": "The base URL for the FaunaDB server. Leave empty to use https://db.fauna.com"
+          "default": "db.fauna.com",
+          "description": "Optional - The hostname of this endpoint’s Fauna instance. Defaults to db.fauna.com"
+        },
+        "fauna.scheme": {
+          "type": "string",
+          "default": "https",
+          "enum": [
+            "https",
+            "http"
+          ],
+          "description": "Optional - One of https or http. Defaults to https"
+        },
+        "fauna.port": {
+          "type": "number",
+          "default": 443,
+          "description": "Optional - The UNIX port number of this endpoint’s Fauna instance. Defaults to 443"
         }
       }
     },
