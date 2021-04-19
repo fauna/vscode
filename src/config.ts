@@ -11,33 +11,31 @@ export interface Config {
 
 export function loadConfig(): Config {
   const env = loadEnvironmentFile();
-  const config = vscode.workspace.getConfiguration('faunadb');
+  const config = vscode.workspace.getConfiguration('fauna');
 
-  let domain = env.FAUNA_URL || config.get('baseURL');
-  let scheme: any;
-  let port: any;
+  const secret = env.FAUNA_KEY || config.get('adminSecretKey', '');
 
-  if (domain) {
-    if (domain.includes('://')) {
-      [scheme, domain] = domain.split('://');
-    }
-    [domain, port] = domain.split(':');
-    if (port !== undefined) {
-      port = Number(port);
-    }
+  if (!secret) {
+    throw new Error('Please provide secret key');
   }
 
+  const domain = env.FAUNA_DOMAIN || config.get('domain');
+  const scheme = env.FAUNA_SCHEME || config.get('scheme');
+  const port = env.FAUNA_PORT || config.get('port');
+
   return {
-    secret: env.FAUNA_KEY || config.get('adminSecretKey') || 'secret',
-    scheme,
-    domain,
-    port
+    secret,
+    ...(!!scheme && { scheme }),
+    ...(domain && { domain }),
+    ...(port && { port })
   };
 }
 
 interface Env {
   FAUNA_KEY?: string;
-  FAUNA_URL?: string;
+  FAUNA_SCHEME?: 'http' | 'https';
+  FAUNA_DOMAIN?: string;
+  FAUNA_PORT?: number;
 }
 
 function loadEnvironmentFile() {

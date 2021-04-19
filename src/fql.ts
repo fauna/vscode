@@ -3,6 +3,8 @@ import { renderSpecialType } from './specialTypes';
 const prettier = require('prettier/standalone');
 const plugins = [require('prettier/parser-meriyah')];
 
+export class InvalidFQL extends Error {}
+
 export function evalFQLCode(code: string) {
   return baseEvalFQL(code, query);
 }
@@ -221,31 +223,59 @@ function baseEvalFQL(fql: string, q: typeof query) {
   return fql.match(/^\s*{(.*\n*)*}\s*$/) ? eval(`(${fql})`) : eval(fql);
 }
 
-function splitQueries(code: string): string[] {
-  return code
-    .split(new RegExp(/(?:;|\n)/g))
-    .filter(item => item.trim().length > 0)
-    .map(item => item.trim());
+function parseQueries(code: string): string[] {
+  const brackets: Record<string, string> = {
+    '{': '}',
+    '(': ')',
+    '[': ']',
+    '"': '"',
+    "'": "'"
+  };
+  const openBrackets = new Set(Object.keys(brackets));
+  const closeBrackets = new Set(Object.values(brackets));
+  const queries = [];
+  const stack = [];
+  let start = 0;
+  let isOpening;
+  code = code.trim();
+
+  for (let i = 0; i < code.length; i++) {
+    if (openBrackets.has(code[i])) {
+      stack.push(code[i]);
+      isOpening = true;
+    }
+
+    if (closeBrackets.has(code[i]) && brackets[stack.pop()!] !== code[i]) {
+      throw new InvalidFQL(
+        `Unexpected closing bracket ${code[i]} at position: ${i + 1}`
+      );
+    }
+
+    if (stack.length === 0 && isOpening) {
+      queries.push(code.slice(start, i + 1));
+      start = i + 1;
+      isOpening = false;
+    }
+  }
+
+  if (isOpening) {
+    throw new InvalidFQL('Expect all opened brackets to be closed');
+  }
+
+  return queries;
 }
 
 export function runFQLQuery(code: string, client: Client) {
-  if (!code.trim()) {
-    return Promise.reject('Can not eval empty query.');
+  const queriesArray = parseQueries(code);
+  if (queriesArray.length === 0) {
+    throw new InvalidFQL('No queries found');
   }
-  try {
-    const queriesArray = splitQueries(code);
 
-    const wrappedQueries = queriesArray.map(query => {
-      return client.query(evalFQLCode(query));
-    });
+  const wrappedQueries = queriesArray.map(query => {
+    return client.query(evalFQLCode(query));
+  });
 
-    return Promise.all(wrappedQueries).then(results => {
-      console.log('results', results);
-      return results;
-    });
-  } catch (error) {
-    return Promise.reject(error);
-  }
+  return Promise.all(wrappedQueries);
 }
 
 export function stringify(obj: object) {

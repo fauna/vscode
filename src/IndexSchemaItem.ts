@@ -1,8 +1,8 @@
-import * as vscode from 'vscode';
+import { Expr, query as q } from 'faunadb';
 import * as path from 'path';
-import { SchemaType } from './types';
-import { query as q, Expr } from 'faunadb';
+import * as vscode from 'vscode';
 import DBSchemaItem from './DBSchemaItem';
+import { SchemaType } from './types';
 
 export default class IndexSchemaItem extends vscode.TreeItem {
   constructor(
