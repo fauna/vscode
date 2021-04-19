@@ -193,7 +193,7 @@
     "@types/node-fetch": "^2.5.7",
     "@types/prettier": "^2.1.6",
     "faunadb": "git+https://github.com/fauna/faunadb-js.git#triage/bearer-to-basic",
-    "highlight.js": "^9.16.2",
+    "highlight.js": "^10.4.1",
     "node-fetch": "^2.6.0",
     "prettier": "^2.2.1",
     "vsce": "^1.73.0"
