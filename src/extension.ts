@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import { getLocalKey } from './auth';
+import { loadConfig } from './config';
 import createCreateQueryCommand from './createQueryCommand';
 import FaunaSchemaProvider from './FaunaSchemaProvider';
 import FQLContentProvider from './FQLContentProvider';
@@ -18,62 +18,65 @@ export function activate(context: vscode.ExtensionContext) {
     )
   );
 
-  // Check if there is a secret key
-  const config = vscode.workspace.getConfiguration('fauna');
-  let adminSecretKey = config.get<string>('adminSecretKey');
+  // Registered commands and providers that depend on configuration
+  let registered: vscode.Disposable[] = [];
 
-  // Load a local key if there is (in a .faunarc file set as FAUNA_KEY=<your-secret>)
-  let localSecretKey = getLocalKey();
-  if (localSecretKey) {
-    adminSecretKey = localSecretKey;
-  }
+  register();
 
-  if (!adminSecretKey) {
-    vscode.window.showErrorMessage(
-      'No Fauna admin secret key was found on Code > Preferences > Settings > Extensions > Fauna.'
+  // Reload the extension when reconfigured
+  const watcher = vscode.workspace.createFileSystemWatcher('./.faunarc');
+  context.subscriptions.push(
+    vscode.workspace.onDidChangeConfiguration(
+      event => event.affectsConfiguration('fauna') && register()
+    ),
+    watcher,
+    watcher.onDidChange(register),
+    watcher.onDidCreate(register),
+    watcher.onDidDelete(register)
+  );
+
+  function register() {
+    const config = loadConfig();
+
+    // Set Schema Provider to display items on sidebar
+    const faunaSchemaProvider = new FaunaSchemaProvider(config);
+
+    vscode.window.registerTreeDataProvider(
+      'fauna-databases',
+      faunaSchemaProvider
     );
-    return;
+
+    registered.forEach(reg => reg.dispose());
+
+    registered = [
+      vscode.commands.registerCommand(
+        'fauna.runQuery',
+        createRunQueryCommand(config, outputChannel)
+      ),
+      vscode.commands.registerCommand(
+        'fauna.createQuery',
+        createCreateQueryCommand()
+      ),
+      vscode.commands.registerCommand(
+        'fauna.uploadGraphQLSchema',
+        uploadGraphqlSchemaCommand('merge', config, outputChannel)
+      ),
+      vscode.commands.registerCommand(
+        'fauna.mergeGraphQLSchema',
+        uploadGraphqlSchemaCommand('merge', config, outputChannel)
+      ),
+      vscode.commands.registerCommand(
+        'fauna.overrideGraphQLSchema',
+        uploadGraphqlSchemaCommand('override', config, outputChannel)
+      ),
+      vscode.commands.registerCommand('fauna.get', item => {
+        item.displayInfo();
+      }),
+      vscode.commands.registerCommand('fauna.refreshEntry', () =>
+        faunaSchemaProvider.refresh()
+      )
+    ];
   }
-
-  // Set Schema Provider to display items on sidebar
-  const faunaSchemaProvider = new FaunaSchemaProvider(adminSecretKey);
-  vscode.window.registerTreeDataProvider(
-    'fauna-databases',
-    faunaSchemaProvider
-  );
-
-  vscode.commands.registerCommand(
-    'fauna.runQuery',
-    createRunQueryCommand(adminSecretKey, outputChannel)
-  );
-
-  vscode.commands.registerCommand(
-    'fauna.createQuery',
-    createCreateQueryCommand()
-  );
-
-  vscode.commands.registerCommand(
-    'fauna.uploadGraphQLSchema',
-    uploadGraphqlSchemaCommand('merge', adminSecretKey, outputChannel)
-  );
-
-  vscode.commands.registerCommand(
-    'fauna.mergeGraphQLSchema',
-    uploadGraphqlSchemaCommand('merge', adminSecretKey, outputChannel)
-  );
-
-  vscode.commands.registerCommand(
-    'fauna.overrideGraphQLSchema',
-    uploadGraphqlSchemaCommand('override', adminSecretKey, outputChannel)
-  );
-
-  vscode.commands.registerCommand('fauna.get', item => {
-    item.displayInfo();
-  });
-
-  vscode.commands.registerCommand('fauna.refreshEntry', () =>
-    faunaSchemaProvider.refresh()
-  );
 }
 
 // this method is called when your extension is deactivated

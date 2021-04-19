@@ -1,7 +1,7 @@
-import { Client, query } from 'faunadb';
+import { query, Client } from 'faunadb';
 import { renderSpecialType } from './specialTypes';
 const prettier = require('prettier/standalone');
-const plugins = [require('prettier/parser-babylon')];
+const plugins = [require('prettier/parser-meriyah')];
 
 export class InvalidFQL extends Error {}
 

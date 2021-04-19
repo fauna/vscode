@@ -1,9 +1,10 @@
 import vscode from 'vscode';
 import fetch from 'node-fetch';
+import { Config } from './config';
 
 export default (
   mode: string = 'merge',
-  adminSecretKey: string,
+  config: Config,
   outputChannel: vscode.OutputChannel
 ) => async () => {
   const { activeTextEditor } = vscode.window;
@@ -42,7 +43,7 @@ export default (
       {
         method: 'POST',
         headers: {
-          AUTHORIZATION: `Bearer ${adminSecretKey}`
+          AUTHORIZATION: `Bearer ${config.secret}`
         },
 
         body: buffer

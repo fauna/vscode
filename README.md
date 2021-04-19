@@ -32,6 +32,14 @@ Persisting a secret in VS Code settings will set the key at a global level for a
 2. Create a file `.faunarc` in your project root folder.
 3. Add the following code `FAUNA_KEY=your-secret-key`.
 
+Additionally config might have optional parameters
+
+```
+FAUNA_DOMAIN=db.fauna.com
+FAUNA_SCHEME=https
+FAUNA_PORT=443
+```
+
 #### Using VS Code to store a global key
 
 1. To access to all of your databases from VS Code, you will need to create an account admin key from your [Fauna Dashboard](https://dashboard.fauna.com/keys). **Note: You can also provide VS Code access to an individual database by generating an admin key from that database's "Security" tab, but the extension does not support "server" keys at this time.**
@@ -46,7 +54,10 @@ Persisting a secret in VS Code settings will set the key at a global level for a
 
 ![Extension settings](media/extension-settings.png)
 
-- `fauna.adminSecretKey`: Your database admin secret.
+- `fauna.adminSecretKey`: The secret for a specific database.
+- `fauna.domain`: The hostname of endpoint’s Fauna instance
+- `fauna.scheme`: One of https or http
+- `fauna.port`: The UNIX port number of endpoint’s Fauna instance
 
 > WARNING: Be careful! To avoid exposing this secret, do not commit it to your local `.vscode` configuration.
 

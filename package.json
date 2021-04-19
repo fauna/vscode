@@ -1,5 +1,5 @@
 {
-  "name": "faunadb",
+  "name": "fauna",
   "displayName": "Fauna",
   "description": "Fauna extension",
   "icon": "media/fauna-extension-logo.png",
@@ -28,10 +28,32 @@
   "contributes": {
     "configuration": {
       "title": "Fauna",
+      "required": [
+        "fauna.adminSecretKey"
+      ],
       "properties": {
         "fauna.adminSecretKey": {
           "type": "string",
-          "description": "Restart VS Code after you set or change this secret."
+          "description": "The admin secret for the FaunaDB server."
+        },
+        "fauna.domain": {
+          "type": "string",
+          "default": "db.fauna.com",
+          "description": "Optional - The hostname of endpoint’s Fauna instance. Defaults to db.fauna.com"
+        },
+        "fauna.scheme": {
+          "type": "string",
+          "default": "https",
+          "enum": [
+            "https",
+            "http"
+          ],
+          "description": "Optional - One of https or http. Defaults to https"
+        },
+        "fauna.port": {
+          "type": "number",
+          "default": 443,
+          "description": "Optional - The UNIX port number of endpoint’s Fauna instance. Defaults to 443"
         }
       }
     },

@@ -3,27 +3,19 @@ import vscode from 'vscode';
 import CollectionSchemaItem from './CollectionSchemaItem';
 import DBSchemaItem from './DBSchemaItem';
 import DocumentSchemaItem from './DocumentSchemaItem';
+import { Config } from './config';
 import FunctionSchemaItem from './FunctionSchemaItem';
 import IndexSchemaItem from './IndexSchemaItem';
 
-export default class FaunaDBSchemaProvider
+export default class FaunaSchemaProvider
   implements vscode.TreeDataProvider<vscode.TreeItem> {
-  private client: Client;
   private _onDidChangeTreeData: vscode.EventEmitter<
     vscode.TreeItem | undefined
   > = new vscode.EventEmitter<vscode.TreeItem | undefined>();
   readonly onDidChangeTreeData: vscode.Event<vscode.TreeItem | undefined> = this
     ._onDidChangeTreeData.event;
 
-  constructor(private secret: string) {
-    this.client = new Client({
-      secret: this.secret,
-      // @ts-ignore comment
-      headers: {
-        'X-Fauna-Source': 'VSCode'
-      }
-    });
-  }
+  constructor(private config: Config) {}
 
   refresh(): void {
     this._onDidChangeTreeData.fire({});
@@ -66,6 +58,7 @@ export default class FaunaDBSchemaProvider
 
   async loadDatabases(itemPath?: string) {
     const client = new Client({
+      ...this.config,
       secret: this.mountSecret(itemPath),
       // @ts-ignore comment
       headers: {
@@ -85,6 +78,7 @@ export default class FaunaDBSchemaProvider
 
   async loadCollections(itemPath?: string) {
     const client = new Client({
+      ...this.config,
       secret: this.mountSecret(itemPath),
       // @ts-ignore comment
       headers: {
@@ -105,6 +99,7 @@ export default class FaunaDBSchemaProvider
 
   async loadIndexes(itemPath?: string) {
     const client = new Client({
+      ...this.config,
       secret: this.mountSecret(itemPath),
       // @ts-ignore comment
       headers: {
@@ -123,6 +118,7 @@ export default class FaunaDBSchemaProvider
 
   async loadFunctions(itemPath?: string) {
     const client = new Client({
+      ...this.config,
       secret: this.mountSecret(itemPath),
       // @ts-ignore comment
       headers: {
@@ -141,6 +137,7 @@ export default class FaunaDBSchemaProvider
 
   async loadDocuments(collection: CollectionSchemaItem) {
     const client = new Client({
+      ...this.config,
       secret: this.mountSecret(collection.itemPath),
       // @ts-ignore comment
       headers: {
@@ -162,9 +159,9 @@ export default class FaunaDBSchemaProvider
 
   mountSecret(itemPath?: string) {
     if (!itemPath) {
-      return this.secret;
+      return this.config.secret;
     }
 
-    return `${this.secret}:${itemPath}:admin`;
+    return `${this.config.secret}:${itemPath}:admin`;
   }
 }
