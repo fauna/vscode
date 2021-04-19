@@ -1,7 +1,7 @@
-import { Client, query } from "faunadb";
+import { Client, query } from 'faunadb';
 import { renderSpecialType } from './specialTypes';
-const prettier = require("prettier/standalone");
-const plugins = [require("prettier/parser-babylon")];
+const prettier = require('prettier/standalone');
+const plugins = [require('prettier/parser-babylon')];
 
 export class InvalidFQL extends Error {}
 
@@ -216,24 +216,23 @@ function baseEvalFQL(fql: string, q: typeof query) {
     CurrentIdentity,
     HasCurrentIdentity,
     CurrentToken,
-    HasCurrentToken,
+    HasCurrentToken
   } = q;
 
   // eslint-disable-next-line
   return fql.match(/^\s*{(.*\n*)*}\s*$/) ? eval(`(${fql})`) : eval(fql);
 }
 
-
 function parseQueries(code: string): string[] {
   const brackets: Record<string, string> = {
-      '{': '}',
-      '(': ')',
-      '[': ']',
-      '"': '"',
-      '\'': '\'',
-  }
-  const openBrackets = new Set(Object.keys(brackets))
-  const closeBrackets = new Set(Object.values(brackets))
+    '{': '}',
+    '(': ')',
+    '[': ']',
+    '"': '"',
+    "'": "'"
+  };
+  const openBrackets = new Set(Object.keys(brackets));
+  const closeBrackets = new Set(Object.values(brackets));
   const queries = [];
   const stack = [];
   let start = 0;
@@ -241,88 +240,86 @@ function parseQueries(code: string): string[] {
   code = code.trim();
 
   for (let i = 0; i < code.length; i++) {
-      if(openBrackets.has(code[i])){
-          stack.push(code[i]);
-          isOpening = true;
-      }
+    if (openBrackets.has(code[i])) {
+      stack.push(code[i]);
+      isOpening = true;
+    }
 
-      if(closeBrackets.has(code[i]) && brackets[stack.pop()!] !== code[i]){
-          throw new InvalidFQL(`Unexpected closing bracket ${code[i]} at position: ${i + 1}`)
-      }
+    if (closeBrackets.has(code[i]) && brackets[stack.pop()!] !== code[i]) {
+      throw new InvalidFQL(
+        `Unexpected closing bracket ${code[i]} at position: ${i + 1}`
+      );
+    }
 
-      if(stack.length === 0 && isOpening) {
-        queries.push(code.slice(start, i + 1));
-          start = i + 1;
-          isOpening = false;
-      }
+    if (stack.length === 0 && isOpening) {
+      queries.push(code.slice(start, i + 1));
+      start = i + 1;
+      isOpening = false;
+    }
   }
 
-  if(isOpening) {
-    throw new InvalidFQL('Expect all opened brackets to be closed')
+  if (isOpening) {
+    throw new InvalidFQL('Expect all opened brackets to be closed');
   }
 
   return queries;
 }
 
 export function runFQLQuery(code: string, client: Client) {
-  const queriesArray = parseQueries(code)
-  if(queriesArray.length === 0) {
-    throw new InvalidFQL('No queries found')
+  const queriesArray = parseQueries(code);
+  if (queriesArray.length === 0) {
+    throw new InvalidFQL('No queries found');
   }
 
   const wrappedQueries = queriesArray.map(query => {
-    return client.query(evalFQLCode(query))
-  })
+    return client.query(evalFQLCode(query));
+  });
 
   return Promise.all(wrappedQueries);
 }
 
 export function stringify(obj: object) {
-    const replacements: string[] = [];
+  const replacements: string[] = [];
 
-    let string = JSON.stringify(
-      obj,
-      (key, value) => {
-        const parsed = renderSpecialType(value);
+  let string = JSON.stringify(
+    obj,
+    (key, value) => {
+      const parsed = renderSpecialType(value);
 
-        if (parsed) {
-          const placeHolder =
-            "$$dash_replacement_$" + replacements.length + "$$";
-          replacements.push(parsed);
-          return placeHolder;
-        }
+      if (parsed) {
+        const placeHolder = '$$dash_replacement_$' + replacements.length + '$$';
+        replacements.push(parsed);
+        return placeHolder;
+      }
 
-        return value;
-      },
-      2
-    );
+      return value;
+    },
+    2
+  );
 
-    replacements.forEach((replace, index) => {
-      string = string.replace('"$$dash_replacement_$' + index + '$$"', replace);
-    });
+  replacements.forEach((replace, index) => {
+    string = string.replace('"$$dash_replacement_$' + index + '$$"', replace);
+  });
 
-    if (string) {
-      string = string.replace(/\(null\)/g, "()");
-    }
+  if (string) {
+    string = string.replace(/\(null\)/g, '()');
+  }
 
-    return string;
+  return string;
 }
 
 export function formatFQLCode(code: object | string): string {
-  if (typeof code === "object") {
+  if (typeof code === 'object') {
     code = stringify(code);
   }
 
   try {
     return prettier
-      .format(`(${code})`, {
-        parser: "babel",
-        plugins,
-      })
+      .format(`(${code})`, { parser: 'meriyah', plugins })
       .trim()
-      .replace(/^(\({)/, "{")
-      .replace(/(}\);$)/g, "}")
-      .replace(";", "");
+      .replace(/^(\({)/, '{')
+      .replace(/(}\);$)/g, '}')
+      .replace(';', '');
   } catch (error) {
     return code;
   }

@@ -22,9 +22,9 @@ Be sure to install [VS Code](https://code.visualstudio.com/Download) and create 
 
 ### 1. Set your secret key
 
-You can persist a Fauna secret using either a `.faunarc` file in your project or using the settings in the VS Code IDE. 
+You can persist a Fauna secret using either a `.faunarc` file in your project or using the settings in the VS Code IDE.
 
-Persisting a secret in VS Code settings will set the key at a global level for all projects.  A project can override the global key by including a `.faunarc` config file in the root of the project.
+Persisting a secret in VS Code settings will set the key at a global level for all projects. A project can override the global key by including a `.faunarc` config file in the root of the project.
 
 #### Using a `.faunarc` file for a project
 

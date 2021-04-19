@@ -1,8 +1,6 @@
 import vscode from 'vscode';
 import { Client, errors } from 'faunadb';
 import { runFQLQuery, formatFQLCode } from './fql';
-const prettier = require('prettier/standalone');
-const plugins = [require('prettier/parser-babylon')];
 
 export default (
   adminSecretKey: string,
@@ -27,12 +25,15 @@ export default (
 
   const selection = activeTextEditor.selection;
   const selectedText = activeTextEditor.document.getText(selection);
-  const fqlExpression = selectedText.length > 0 ? selectedText : activeTextEditor.document.getText();
+  const fqlExpression =
+    selectedText.length > 0
+      ? selectedText
+      : activeTextEditor.document.getText();
   if (fqlExpression.length < 1) {
-     vscode.window.showWarningMessage(
+    vscode.window.showWarningMessage(
       'Selected file or selected text must have a FQL query to run'
     );
-    
+
     return;
   }
 
@@ -43,7 +44,7 @@ export default (
   try {
     const result = await runFQLQuery(fqlExpression, client);
     const formattedCode = formatFQLCode(result);
-    outputChannel.appendLine(formattedCode)
+    outputChannel.appendLine(formattedCode);
   } catch (error) {
     let message = error.message;
 

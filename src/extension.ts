@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import { getLocalKey } from "./auth";
+import { getLocalKey } from './auth';
 import createCreateQueryCommand from './createQueryCommand';
 import FaunaSchemaProvider from './FaunaSchemaProvider';
 import FQLContentProvider from './FQLContentProvider';
@@ -21,10 +21,10 @@ export function activate(context: vscode.ExtensionContext) {
   // Check if there is a secret key
   const config = vscode.workspace.getConfiguration('fauna');
   let adminSecretKey = config.get<string>('adminSecretKey');
-  
+
   // Load a local key if there is (in a .faunarc file set as FAUNA_KEY=<your-secret>)
   let localSecretKey = getLocalKey();
-  if(localSecretKey) {
+  if (localSecretKey) {
     adminSecretKey = localSecretKey;
   }
 
