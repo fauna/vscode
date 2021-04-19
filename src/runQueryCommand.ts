@@ -1,10 +1,9 @@
 import vscode from 'vscode';
 import { Client, errors } from 'faunadb';
 import { runFQLQuery, formatFQLCode } from './fql';
-import { Config } from './config';
 
 export default (
-  config: Config,
+  client: Client,
   outputChannel: vscode.OutputChannel
 ) => async () => {
   const { activeTextEditor } = vscode.window;
@@ -15,14 +14,6 @@ export default (
     );
     return;
   }
-
-  const client = new Client({
-    ...config,
-    // @ts-ignore comment
-    headers: {
-      'X-Fauna-Source': 'VSCode'
-    }
-  });
 
   const selection = activeTextEditor.selection;
   const selectedText = activeTextEditor.document.getText(selection);
