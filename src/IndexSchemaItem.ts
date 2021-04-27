@@ -12,6 +12,7 @@ export default class IndexSchemaItem extends vscode.TreeItem {
     super(name);
   }
 
+  // @ts-ignore
   get tooltip(): string {
     return `${this.name}`;
   }
@@ -21,7 +22,7 @@ export default class IndexSchemaItem extends vscode.TreeItem {
   }
 
   command = {
-    command: 'faunadb.open',
+    command: 'fauna.open',
     title: '',
     arguments: [this]
   };

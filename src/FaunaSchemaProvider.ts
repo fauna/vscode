@@ -59,7 +59,7 @@ export default class FaunaSchemaProvider
 
   async query<T>(expr: Expr, parent?: DBSchemaItem | CollectionSchemaItem) {
     return vscode.commands.executeCommand(
-      'faunadb.query',
+      'fauna.query',
       expr,
       parent
     ) as Promise<T>;

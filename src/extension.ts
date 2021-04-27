@@ -85,27 +85,29 @@ export function activate(context: vscode.ExtensionContext) {
         uploadGraphqlSchemaCommand('override', config, outputChannel)
       ),
       vscode.commands.registerCommand(
-        'faunadb.query',
+        'fauna.query',
         (expr: Expr, scope?: DBSchemaItem | CollectionSchemaItem) =>
           client.query(expr, {
             secret: mountSecret(scope)
           })
       ),
-      vscode.commands.registerCommand('faunadb.open', (item: SchemaItem) => {
+      vscode.commands.registerCommand('fauna.open', (item: SchemaItem) => {
         client
           .query<any>(item.content!, {
             secret: mountSecret(item.parent)
           })
           .then(async content => {
-            const uri = vscode.Uri.parse(
-              // @ts-ignore comment
-              `fqlcode:${item.name}#${Expr.toString(q.Object(content))}`
-            );
+            const str = `fqlcode:${item.name}#${Expr.toString(
+              q.Object(content)
+            )}`;
+            const uri = vscode.Uri.parse(str);
             const doc = await vscode.workspace.openTextDocument(uri); // calls back into the provider
             await vscode.window.showTextDocument(doc, { preview: false });
             vscode.languages.setTextDocumentLanguage(doc, 'javascript');
           })
-          .catch(console.error);
+          .catch(err => {
+            console.error(err);
+          });
       }),
       vscode.commands.registerCommand('fauna.refreshEntry', () =>
         faunaSchemaProvider.refresh()
