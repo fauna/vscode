@@ -1,5 +1,9 @@
 # Change Log
 
+## 1.7.1
+
+- New branding leftover fixes (nested databases data couldn't be opened)
+
 ## 1.7.0
 
 - Only one Client instance is ever created
