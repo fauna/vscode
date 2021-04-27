@@ -1,8 +1,8 @@
-import * as vscode from 'vscode';
+import { Expr, query as q } from 'faunadb';
 import * as path from 'path';
-import { query as q, Expr } from 'faunadb';
-import { SchemaType } from './types';
+import * as vscode from 'vscode';
 import DBSchemaItem from './DBSchemaItem';
+import { SchemaType } from './types';
 
 export default class FunctionSchemaItem extends vscode.TreeItem {
   constructor(
@@ -12,6 +12,7 @@ export default class FunctionSchemaItem extends vscode.TreeItem {
     super(name);
   }
 
+  // @ts-ignore
   get tooltip(): string {
     return `${this.name}`;
   }
@@ -21,7 +22,7 @@ export default class FunctionSchemaItem extends vscode.TreeItem {
   }
 
   command = {
-    command: 'faunadb.open',
+    command: 'fauna.open',
     title: '',
     arguments: [this]
   };
