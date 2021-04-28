@@ -27,7 +27,7 @@ export function loadConfig(): Config {
   const graphQLDomain =
     env.FAUNA_GRAPHQL_DOMAIN ||
     config.get('graphqlDomain') ||
-    'graphql.fauna.com/';
+    'graphql.fauna.com';
 
   return {
     secret,
