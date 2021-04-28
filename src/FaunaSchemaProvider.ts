@@ -21,7 +21,7 @@ export default class FaunaSchemaProvider
     ._onDidChangeTreeData.event;
 
   refresh(): void {
-    this._onDidChangeTreeData.fire({});
+    this._onDidChangeTreeData.fire(undefined);
   }
 
   getTreeItem(element: vscode.TreeItem): vscode.TreeItem {
