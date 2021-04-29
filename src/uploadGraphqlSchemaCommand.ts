@@ -1,5 +1,5 @@
-import vscode from 'vscode';
 import fetch from 'node-fetch';
+import vscode from 'vscode';
 import { Config } from './config';
 
 export default (
@@ -39,7 +39,7 @@ export default (
   try {
     const buffer = Buffer.from(fqlExpression, 'utf-8');
     const result = await fetch(
-      `https://graphql.fauna.com/import?mode=${mode}`,
+      `https://${config.graphQLDomain}/import?mode=${mode}`,
       {
         method: 'POST',
         headers: {

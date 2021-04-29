@@ -54,6 +54,11 @@
           "type": "number",
           "default": 443,
           "description": "Optional - The UNIX port number of endpoint’s Fauna instance. Defaults to 443"
+        },
+        "fauna.graphqlDomain": {
+          "type": "string",
+          "default": "graphql.fauna.com",
+          "description": "Optional - The hostname of endpoint’s Fauna GraphQL API. Defaults to graphql.fauna.com"
         }
       }
     },

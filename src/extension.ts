@@ -41,7 +41,10 @@ export function activate(context: vscode.ExtensionContext) {
   function register() {
     const config = loadConfig();
     const client = new Client({
-      ...config,
+      secret: config.secret,
+      domain: config.domain,
+      scheme: config.scheme,
+      port: config.port,
       headers: {
         'X-Fauna-Source': 'VSCode'
       }
