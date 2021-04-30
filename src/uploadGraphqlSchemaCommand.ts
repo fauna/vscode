@@ -39,7 +39,7 @@ export default (
   try {
     const buffer = Buffer.from(fqlExpression, 'utf-8');
     const result = await fetch(
-      `https://${config.graphQLDomain}/import?mode=${mode}`,
+      `${config.graphQLEndpoint}/import?mode=${mode}`,
       {
         method: 'POST',
         headers: {

@@ -7,7 +7,7 @@ export interface Config {
   scheme?: 'http' | 'https';
   domain?: string;
   port?: number;
-  graphQLDomain?: string;
+  graphQLEndpoint?: string;
 }
 
 export function loadConfig(): Config {
@@ -24,17 +24,17 @@ export function loadConfig(): Config {
   const scheme = env.FAUNA_SCHEME || config.get('scheme');
   const port = env.FAUNA_PORT || config.get('port');
   // should be explicitly set to a default value as this used to format endpoints and doesn't pass to faunadb-js driver
-  const graphQLDomain =
+  const graphQLEndpoint =
     env.FAUNA_GRAPHQL_DOMAIN ||
-    config.get('graphqlDomain') ||
-    'graphql.fauna.com';
+    config.get('graphQLEndpoint') ||
+    'https://graphql.fauna.com';
 
   return {
     secret,
     ...(!!scheme && { scheme }),
     ...(domain && { domain }),
     ...(port && { port }),
-    ...(graphQLDomain && { graphQLDomain })
+    ...(graphQLEndpoint && { graphQLEndpoint })
   };
 }
 

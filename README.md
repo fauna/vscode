@@ -59,7 +59,7 @@ FAUNA_GRAPHQL_DOMAIN=graphql.fauna.com
 - `fauna.domain`: The hostname of endpoint’s Fauna instance
 - `fauna.scheme`: One of https or http
 - `fauna.port`: The UNIX port number of endpoint’s Fauna instance
-- `fauna.graphqlDomain`: The hostname of Fauna GraphQL API
+- `fauna.graphqlEndpoint`: The hostname of Fauna GraphQL API
 
 > WARNING: Be careful! To avoid exposing this secret, do not commit it to your local `.vscode` configuration.
 
