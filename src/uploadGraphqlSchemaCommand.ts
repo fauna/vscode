@@ -38,17 +38,14 @@ export default (
 
   try {
     const buffer = Buffer.from(fqlExpression, 'utf-8');
-    const result = await fetch(
-      `${config.graphQLEndpoint}/import?mode=${mode}`,
-      {
-        method: 'POST',
-        headers: {
-          AUTHORIZATION: `Bearer ${config.secret}`
-        },
+    const result = await fetch(`${config.graphqlHost}/import?mode=${mode}`, {
+      method: 'POST',
+      headers: {
+        AUTHORIZATION: `Bearer ${config.secret}`
+      },
 
-        body: buffer
-      }
-    );
+      body: buffer
+    });
     outputChannel.appendLine('');
     outputChannel.appendLine('RESPONSE:');
     outputChannel.appendLine(await result.text());

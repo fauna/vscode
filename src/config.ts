@@ -7,7 +7,7 @@ export interface Config {
   scheme?: 'http' | 'https';
   domain?: string;
   port?: number;
-  graphQLEndpoint?: string;
+  graphqlHost?: string;
 }
 
 export function loadConfig(): Config {
@@ -24,9 +24,9 @@ export function loadConfig(): Config {
   const scheme = env.FAUNA_SCHEME || config.get('scheme');
   const port = env.FAUNA_PORT || config.get('port');
   // should be explicitly set to a default value as this used to format endpoints and doesn't pass to faunadb-js driver
-  const graphQLEndpoint =
-    env.FAUNA_GRAPHQL_DOMAIN ||
-    config.get('graphQLEndpoint') ||
+  const graphqlHost =
+    env.FAUNA_GRAPHQL_HOST ||
+    config.get('graphqlHost') ||
     'https://graphql.fauna.com';
 
   return {
@@ -34,7 +34,7 @@ export function loadConfig(): Config {
     ...(!!scheme && { scheme }),
     ...(domain && { domain }),
     ...(port && { port }),
-    ...(graphQLEndpoint && { graphQLEndpoint })
+    ...(graphqlHost && { graphqlHost })
   };
 }
 
@@ -43,7 +43,7 @@ interface Env {
   FAUNA_SCHEME?: 'http' | 'https';
   FAUNA_DOMAIN?: string;
   FAUNA_PORT?: number;
-  FAUNA_GRAPHQL_DOMAIN?: string;
+  FAUNA_GRAPHQL_HOST?: string;
 }
 
 function loadEnvironmentFile() {
