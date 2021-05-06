@@ -1,14 +1,10 @@
-# Fauna extension for VS Code
+# [Fauna extension for VS Code](https://marketplace.visualstudio.com/items?itemName=fauna.fauna)
 
-Source code for the Fauna VS Code extension.
+Source code for the [Fauna VS Code extension](https://marketplace.visualstudio.com/items?itemName=fauna.fauna).
 
-This extension allows users to browse their Fauna databases and run [FQL queries](https://docs.fauna.com/fauna/current/api/fql/) from directly inside VS Code.
+This [extension](https://marketplace.visualstudio.com/items?itemName=fauna.fauna) allows users to browse their Fauna databases and run [FQL queries](https://docs.fauna.com/fauna/current/api/fql/) from directly inside VS Code.
 
 **Note: This extension does not yet support FQL syntax highlighting or auto-complete, but this is planned for a future release. Alternatively, please feel free to submit a PR to help out!**
-
-## Prerequisites
-
-Be sure to install [VS Code](https://code.visualstudio.com/Download) and create a [Fauna account](https://dashboard.fauna.com/accounts/register).
 
 ## Getting started
 
@@ -18,7 +14,7 @@ Be sure to install [VS Code](https://code.visualstudio.com/Download) and create 
 
 2. Install [VS Code](https://code.visualstudio.com/Download)
 
-3. Install this extension [in VS Code](https://code.visualstudio.com/docs/editor/extension-gallery)
+3. Install the [Fauna extension](https://marketplace.visualstudio.com/items?itemName=fauna.fauna) in VS Code.
 
 ### 1. Set your secret key
 
