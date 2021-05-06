@@ -9,11 +9,19 @@ export default (
 ) => async () => {
   const { activeTextEditor } = vscode.window;
 
-  if (!activeTextEditor || activeTextEditor.document.languageId !== 'graphql') {
-    vscode.window.showWarningMessage(
+  const fileName = activeTextEditor?.document.fileName.split('.') || [];
+
+  if (!activeTextEditor || !['graphql', 'gql'].includes(fileName[1])) {
+    vscode.window.showErrorMessage(
       'You must select a Graphql document (`.graphql` or `.gql`) to upload a schema.'
     );
     return;
+  }
+
+  if (activeTextEditor.document.languageId !== 'graphql') {
+    vscode.window.showWarningMessage(
+      'We recommend to install vscode-graphql extension for syntax highlighting, validation, and language features like go to definition, hover information and autocompletion for graphql projects'
+    );
   }
 
   const selection = activeTextEditor.selection;
