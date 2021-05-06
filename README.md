@@ -38,7 +38,7 @@ Additionally config might have optional parameters
 FAUNA_DOMAIN=db.fauna.com
 FAUNA_SCHEME=https
 FAUNA_PORT=443
-FAUNA_GRAPHQL_DOMAIN=graphql.fauna.com
+FAUNA_GRAPHQL_HOST=graphql.fauna.com
 ```
 
 #### Using VS Code to store a global key
@@ -59,7 +59,7 @@ FAUNA_GRAPHQL_DOMAIN=graphql.fauna.com
 - `fauna.domain`: The hostname of endpoint’s Fauna instance
 - `fauna.scheme`: One of https or http
 - `fauna.port`: The UNIX port number of endpoint’s Fauna instance
-- `fauna.graphqlDomain`: The hostname of Fauna GraphQL API
+- `fauna.graphqlHost`: The hostname of Fauna GraphQL API
 
 > WARNING: Be careful! To avoid exposing this secret, do not commit it to your local `.vscode` configuration.
 
