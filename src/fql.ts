@@ -1,4 +1,4 @@
-import { query, Client } from 'faunadb';
+import { Client, query } from 'faunadb';
 import { renderSpecialType } from './specialTypes';
 const prettier = require('prettier/standalone');
 const plugins = [require('prettier/parser-meriyah')];
@@ -237,7 +237,7 @@ function parseQueries(code: string): string[] {
   const stack = [];
   let start = 0;
   let isOpening;
-  code = code.trim();
+  code = code.trim().split('\n').join('').split('\r').join('');
 
   for (let i = 0; i < code.length; i++) {
     if (openBrackets.has(code[i])) {
@@ -252,7 +252,10 @@ function parseQueries(code: string): string[] {
     }
 
     if (stack.length === 0 && isOpening) {
-      queries.push(code.slice(start, i + 1));
+      const line = code.slice(start, i + 1);
+      if (!line.startsWith('//')) {
+        queries.push(line);
+      }
       start = i + 1;
       isOpening = false;
     }

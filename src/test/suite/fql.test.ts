@@ -85,5 +85,17 @@ suite('FQL', () => {
         evalFQLCode('Paginate(Collections())')
       );
     });
+
+    test('run multiline queries with comments', () => {
+      const fql = `
+				Paginate(Indexes())
+				// Paginate(Collections())
+			`;
+      runFQLQuery(fql, client);
+      assert.deepEqual(
+        queryFake.getCall(0).firstArg,
+        evalFQLCode('Paginate(Indexes())')
+      );
+    });
   });
 });
