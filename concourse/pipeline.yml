@@ -1,0 +1,23 @@
+---
+resources:
+  - name: fauna-vscode-repository
+    type: git
+    icon: github
+    source:
+      uri: https://github.com/fauna/vscode.git
+      branch: master
+
+jobs:
+  - name: release
+    serial: true
+    public: false
+    plan:
+      - get: fauna-vscode-repository
+
+      - task: unit-tests
+        file: fauna-vscode-repository/concourse/tasks/unit-tests.yml
+
+      - task: publish
+        file: fauna-vscode-repository/concourse/tasks/publish.yml
+        params:
+          VSCE_PAT: ((vscode-marketplace-token))
