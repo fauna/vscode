@@ -1,0 +1,16 @@
+---
+platform: linux
+image_resource:
+  type: registry-image
+  source:
+    repository: node
+    tag: 15.14.0-alpine3.10
+
+params:
+  VSCE_PAT:
+
+inputs:
+  - name: fauna-vscode-repository
+
+run:
+  path: ./fauna-vscode-repository/concourse/scripts/publish.sh
