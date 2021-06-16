@@ -1,5 +1,11 @@
 # Change Log
 
+## 1.7.2
+
+- Revised comment syntax to use `//` instead of `#`.
+- Improved GraphQL file type check for the `uploadGraphqlSchema` command.
+- Added GraphQL domain configuration item.
+
 ## 1.7.1
 
 - New branding leftover fixes (nested databases data couldn't be opened)
