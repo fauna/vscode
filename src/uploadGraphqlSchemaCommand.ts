@@ -13,7 +13,7 @@ export default (
 
   if (!activeTextEditor || !['graphql', 'gql'].includes(fileName[1])) {
     vscode.window.showErrorMessage(
-      'You must select a Graphql document (`.graphql` or `.gql`) to upload a schema.'
+      'Your GraphQL schema file must include the `.graphql` or `.gql` extension.'
     );
     return;
   }
