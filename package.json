@@ -155,6 +155,11 @@
         {
           "id": "fauna-databases",
           "name": "Databases"
+        },
+        {
+          "type": "webview",
+          "id": "run-as",
+          "name": "Run as"
         }
       ]
     },

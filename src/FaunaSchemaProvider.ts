@@ -38,10 +38,26 @@ export default class FaunaSchemaProvider
   ): Thenable<vscode.TreeItem[]> {
     if (element instanceof DBSchemaItem || !element) {
       return Promise.all([
-        this.loadDatabases(element),
-        this.loadCollections(element),
-        this.loadIndexes(element),
-        this.loadFunctions(element)
+        this.load({
+          parent: element,
+          Resource: q.Databases,
+          Item: DBSchemaItem
+        }),
+        this.load({
+          parent: element,
+          Resource: q.Collections,
+          Item: CollectionSchemaItem
+        }),
+        this.load({
+          parent: element,
+          Resource: q.Indexes,
+          Item: IndexSchemaItem
+        }),
+        this.load({
+          parent: element,
+          Resource: q.Functions,
+          Item: IndexSchemaItem
+        })
       ]).then(([databases, collections, indexes, functions]) => [
         ...databases,
         ...collections,
@@ -65,40 +81,28 @@ export default class FaunaSchemaProvider
     ) as Promise<T>;
   }
 
-  async loadDatabases(parent?: DBSchemaItem) {
-    const result = await this.query<values.Page<string>>(
-      q.Map(q.Paginate(q.Databases()), db => q.Select(['id'], db)),
+  async load({
+    parent,
+    Resource,
+    Item
+  }: {
+    parent?: DBSchemaItem;
+    Resource: (...props: any[]) => Expr;
+    Item: any;
+  }): Promise<vscode.TreeItem[]> {
+    const result = await this.query<values.Page<string> & { error?: any }>(
+      q.Map(q.Paginate(Resource()), db => q.Select(['id'], db)),
       parent
     );
 
-    return result.data.map(id => new DBSchemaItem(id, parent));
-  }
+    if (result.error) {
+      vscode.window.showErrorMessage(
+        `Fetch ${Resource.name} failed: ${result.error.message}`
+      );
+      return [];
+    }
 
-  async loadCollections(parent?: DBSchemaItem) {
-    const result = await this.query<values.Page<string>>(
-      q.Map(q.Paginate(q.Collections()), coll => q.Select(['id'], coll)),
-      parent
-    );
-
-    return result.data.map(id => new CollectionSchemaItem(id, parent));
-  }
-
-  async loadIndexes(parent?: DBSchemaItem) {
-    const result = await this.query<values.Page<string>>(
-      q.Map(q.Paginate(q.Indexes()), index => q.Select(['id'], index)),
-      parent
-    );
-
-    return result.data.map(id => new IndexSchemaItem(id, parent));
-  }
-
-  async loadFunctions(parent?: DBSchemaItem) {
-    const result = await this.query<values.Page<string>>(
-      q.Map(q.Paginate(q.Functions()), fn => q.Select(['id'], fn)),
-      parent
-    );
-
-    return result.data.map(id => new FunctionSchemaItem(id, parent));
+    return result.data ? result.data.map(id => new Item(id, parent)) : [];
   }
 
   async loadDocuments(parent: CollectionSchemaItem) {

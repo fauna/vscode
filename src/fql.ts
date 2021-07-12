@@ -268,14 +268,16 @@ function parseQueries(code: string): string[] {
   return queries;
 }
 
-export function runFQLQuery(code: string, client: Client) {
+export function runFQLQuery(code: string, client: Client, secret?: string) {
   const queriesArray = parseQueries(code);
   if (queriesArray.length === 0) {
     throw new InvalidFQL('No queries found');
   }
 
   const wrappedQueries = queriesArray.map(query => {
-    return client.query(evalFQLCode(query));
+    return client.query(evalFQLCode(query), {
+      ...(secret && { secret })
+    });
   });
 
   return Promise.all(wrappedQueries);
