@@ -6,8 +6,20 @@ import createCreateQueryCommand from './createQueryCommand';
 import DBSchemaItem from './DBSchemaItem';
 import FaunaSchemaProvider, { SchemaItem } from './FaunaSchemaProvider';
 import FQLContentProvider from './FQLContentProvider';
+import RunAsWebviewProvider from './RunAsWebviewProvider';
 import createRunQueryCommand from './runQueryCommand';
 import uploadGraphqlSchemaCommand from './uploadGraphqlSchemaCommand';
+
+const config = loadConfig();
+const client = new Client({
+  secret: config.secret,
+  domain: config.domain,
+  scheme: config.scheme,
+  port: config.port,
+  headers: {
+    'X-Fauna-Source': 'VSCode'
+  }
+});
 
 export function activate(context: vscode.ExtensionContext) {
   // Set output channel to display FQL results
@@ -38,17 +50,20 @@ export function activate(context: vscode.ExtensionContext) {
     watcher.onDidDelete(register)
   );
 
-  function register() {
-    const config = loadConfig();
-    const client = new Client({
-      secret: config.secret,
-      domain: config.domain,
-      scheme: config.scheme,
-      port: config.port,
-      headers: {
-        'X-Fauna-Source': 'VSCode'
-      }
-    });
+  async function register() {
+    // Set Schema Provider to display items on sidebar
+    const faunaSchemaProvider = new FaunaSchemaProvider();
+    const runAsProvider = new RunAsWebviewProvider(
+      context.extensionUri,
+      client,
+      config.secret
+    );
+
+    vscode.window.registerWebviewViewProvider('run-as', runAsProvider);
+    vscode.window.registerTreeDataProvider(
+      'fauna-databases',
+      faunaSchemaProvider
+    );
 
     const mountSecret = (scope?: DBSchemaItem | CollectionSchemaItem) => {
       const database =
@@ -56,20 +71,12 @@ export function activate(context: vscode.ExtensionContext) {
       return config.secret + (database ? ':' + database.path : '') + ':admin';
     };
 
-    // Set Schema Provider to display items on sidebar
-    const faunaSchemaProvider = new FaunaSchemaProvider();
-
-    vscode.window.registerTreeDataProvider(
-      'fauna-databases',
-      faunaSchemaProvider
-    );
-
     registered.forEach(reg => reg.dispose());
 
     registered = [
       vscode.commands.registerCommand(
         'fauna.runQuery',
-        createRunQueryCommand(client, outputChannel)
+        createRunQueryCommand(client, outputChannel, runAsProvider)
       ),
       vscode.commands.registerCommand(
         'fauna.createQuery',
@@ -90,9 +97,11 @@ export function activate(context: vscode.ExtensionContext) {
       vscode.commands.registerCommand(
         'fauna.query',
         (expr: Expr, scope?: DBSchemaItem | CollectionSchemaItem) =>
-          client.query(expr, {
-            secret: mountSecret(scope)
-          })
+          client
+            .query(expr, {
+              secret: mountSecret(scope)
+            })
+            .catch(error => ({ error }))
       ),
       vscode.commands.registerCommand('fauna.open', (item: SchemaItem) => {
         client

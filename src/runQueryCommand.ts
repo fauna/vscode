@@ -1,10 +1,12 @@
-import vscode from 'vscode';
 import { Client, errors } from 'faunadb';
-import { runFQLQuery, formatFQLCode } from './fql';
+import vscode from 'vscode';
+import { formatFQLCode, runFQLQuery } from './fql';
+import RunAsWebviewProvider from './RunAsWebviewProvider';
 
 export default (
   client: Client,
-  outputChannel: vscode.OutputChannel
+  outputChannel: vscode.OutputChannel,
+  runAsProvider: RunAsWebviewProvider
 ) => async () => {
   const { activeTextEditor } = vscode.window;
 
@@ -29,12 +31,17 @@ export default (
     return;
   }
 
+  const runAs = runAsProvider.role ? `( as ${runAsProvider.role} )` : '';
   outputChannel.appendLine('');
-  outputChannel.appendLine(`RUNNING: ${fqlExpression}`);
+  outputChannel.appendLine(`RUNNING ${runAs}: ${fqlExpression}`);
   outputChannel.show();
 
   try {
-    const result = await runFQLQuery(fqlExpression, client);
+    const result = await runFQLQuery(
+      fqlExpression,
+      client,
+      runAsProvider.getSecretWithRole()
+    );
     const formattedCode = formatFQLCode(result);
     outputChannel.appendLine(formattedCode);
   } catch (error) {
