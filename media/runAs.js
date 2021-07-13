@@ -12,19 +12,21 @@
   runAsActivate.addEventListener('click', () => {
     runAsActivate.style.display = 'none';
     runAs.style.display = 'block';
+    roleSelector.value = 'admin';
     vscode.postMessage({ type: 'roleChanged', role: 'admin' });
   });
 
   closeRunAs.addEventListener('click', () => {
-    runAsActivate.style.display = 'block';
+    runAsActivate.style.display = 'flex';
     runAs.style.display = 'none';
+    specifyDocument.style.display = 'none';
     vscode.postMessage({ type: 'deactivateRunAs' });
   });
 
   roleSelector.addEventListener('change', event => {
-    if (event.target.value === '@doc') {
-      specifyDocument.style.display = 'block';
-    }
+    specifyDocument.style.display =
+      event.target.value === '@doc' ? 'flex' : 'none';
+
     vscode.postMessage({ type: 'roleChanged', role: event.target.value });
   });
 

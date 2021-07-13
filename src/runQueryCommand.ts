@@ -31,7 +31,7 @@ export default (
     return;
   }
 
-  const runAs = runAsProvider.role ? `( as ${runAsProvider.role} )` : '';
+  const runAs = runAsProvider.role ? `(as ${runAsProvider.role})` : '';
   outputChannel.appendLine('');
   outputChannel.appendLine(`RUNNING ${runAs}: ${fqlExpression}`);
   outputChannel.show();
