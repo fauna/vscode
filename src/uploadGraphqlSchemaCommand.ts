@@ -11,7 +11,10 @@ export default (
 
   const fileName = activeTextEditor?.document.fileName.split('.') || [];
 
-  if (!activeTextEditor || !['graphql', 'gql'].includes(fileName[1])) {
+  if (
+    !activeTextEditor ||
+    !['graphql', 'gql'].includes(fileName[fileName.length - 1])
+  ) {
     vscode.window.showErrorMessage(
       'Your GraphQL schema file must include the `.graphql` or `.gql` extension.'
     );
