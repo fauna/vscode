@@ -72,8 +72,6 @@ function saveTmpFile({
   ext: string;
   content: string;
 }): Promise<string> {
-  // const name = item.parent ? [item.parent.ref.id, item.ref.id].join('#') : item.ref.id
-
   const itemName = [[item.contextValue, item.ref.id].join('#'), ext].join('.');
   let name;
   if (item.parent) {

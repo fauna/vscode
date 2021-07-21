@@ -90,7 +90,7 @@ export default (client: Client) => async () => {
       );
       vscode.window.showTextDocument(doc, activeTextEditor.viewColumn);
     }
-  } catch (error: any) {
+  } catch (error) {
     vscode.window.showErrorMessage(
       error.requestResult ? error.requestResult.responseRaw : error.message
     );
