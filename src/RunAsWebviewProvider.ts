@@ -95,7 +95,7 @@ export default class RunAsWebviewProvider
               <option value="server">Server</option>
               <option value="@role/MyCustomRole">MyCustomRole</option>
             </select>
-            <button id="closeRunAs" style="margin-left: 10px; height: 35px; width: 50%; color: #492fb1; border:none; background: #eff0f6">CANCEL</button>
+            <button id="closeRunAs" style="margin-left: 10px; height: 35px; width: 50%; border:none;">CANCEL</button>
           </div>
           <div style="display: none; margin-top: 10px" id="specifyDocument">
             <input style="width: 50%; box-sizing:border-box; height: 36px" id="collectionInput" name="collection" placeholder="Collection" />

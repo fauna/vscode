@@ -1,4 +1,4 @@
-import { Expr, query as q } from 'faunadb';
+import { Expr, query as q, values } from 'faunadb';
 import * as path from 'path';
 import * as vscode from 'vscode';
 import CollectionSchemaItem from './CollectionSchemaItem';
@@ -6,19 +6,14 @@ import { SchemaType } from './types';
 
 export default class DocumentSchemaItem extends vscode.TreeItem {
   constructor(
-    public readonly name: string,
+    public readonly ref: values.Ref,
     public readonly parent: CollectionSchemaItem
   ) {
-    super(name);
-  }
-
-  // @ts-ignore
-  get tooltip(): string {
-    return `${this.name}`;
+    super(ref.id);
   }
 
   get content(): Expr {
-    return q.Get(q.Ref(q.Collection(this.parent.name), this.name));
+    return q.Get(this.ref);
   }
 
   command = {

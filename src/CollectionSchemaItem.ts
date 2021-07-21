@@ -1,18 +1,15 @@
-import * as vscode from 'vscode';
+import { values } from 'faunadb';
 import * as path from 'path';
-import { SchemaType } from './types';
+import * as vscode from 'vscode';
 import DBSchemaItem from './DBSchemaItem';
+import { SchemaType } from './types';
 
 export default class CollectionSchemaItem extends vscode.TreeItem {
   constructor(
-    public readonly name: string,
+    public readonly ref: values.Ref,
     public readonly parent?: DBSchemaItem
   ) {
-    super(name, vscode.TreeItemCollapsibleState.Collapsed);
-  }
-
-  get tooltip(): string {
-    return `${this.name}`;
+    super(ref.id, vscode.TreeItemCollapsibleState.Collapsed);
   }
 
   iconPath = {
@@ -20,7 +17,7 @@ export default class CollectionSchemaItem extends vscode.TreeItem {
     dark: path.join(__filename, '..', '..', 'media', 'window.svg')
   };
 
-  contextValue = SchemaType.Database;
+  contextValue = SchemaType.Collection;
 
   // constructor(
   //   public readonly name: string,

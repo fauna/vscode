@@ -7,7 +7,7 @@ import FunctionSchemaItem from './FunctionSchemaItem';
 import IndexSchemaItem from './IndexSchemaItem';
 
 export interface SchemaItem extends vscode.TreeItem {
-  readonly name: string;
+  readonly ref: values.Ref;
   readonly parent?: DBSchemaItem | CollectionSchemaItem;
   readonly content?: Expr;
 }
@@ -56,7 +56,7 @@ export default class FaunaSchemaProvider
         this.load({
           parent: element,
           Resource: q.Functions,
-          Item: IndexSchemaItem
+          Item: FunctionSchemaItem
         })
       ]).then(([databases, collections, indexes, functions]) => [
         ...databases,
@@ -90,8 +90,8 @@ export default class FaunaSchemaProvider
     Resource: (...props: any[]) => Expr;
     Item: any;
   }): Promise<vscode.TreeItem[]> {
-    const result = await this.query<values.Page<string> & { error?: any }>(
-      q.Map(q.Paginate(Resource()), db => q.Select(['id'], db)),
+    const result = await this.query<values.Page<values.Ref> & { error?: any }>(
+      q.Paginate(Resource()),
       parent
     );
 
@@ -102,16 +102,15 @@ export default class FaunaSchemaProvider
       return [];
     }
 
-    return result.data ? result.data.map(id => new Item(id, parent)) : [];
+    return result.data ? result.data.map(ref => new Item(ref, parent)) : [];
   }
 
   async loadDocuments(parent: CollectionSchemaItem) {
-    const result = await this.query<values.Page<string>>(
-      q.Map(q.Paginate(q.Documents(q.Collection(parent.name))), doc =>
-        q.Select(['id'], doc)
-      )
+    const result = await this.query<values.Page<values.Ref>>(
+      q.Paginate(q.Documents(parent.ref)),
+      parent.parent
     );
 
-    return result.data.map(id => new DocumentSchemaItem(id, parent));
+    return result.data.map(ref => new DocumentSchemaItem(ref, parent));
   }
 }
