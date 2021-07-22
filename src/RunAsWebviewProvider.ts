@@ -1,4 +1,4 @@
-import { Client, query } from 'faunadb';
+import { Client, errors, query, values } from 'faunadb';
 import * as vscode from 'vscode';
 
 export default class RunAsWebviewProvider
@@ -32,7 +32,7 @@ export default class RunAsWebviewProvider
 
     const isAdmin = await this.isAdmin();
     if (isAdmin) {
-      webviewView.webview.html = this.getHtmlForRunAs();
+      webviewView.webview.html = await this.getHtmlForRunAs();
     } else {
       webviewView.webview.html = this.getHtmlForNonAdmin();
     }
@@ -70,11 +70,26 @@ export default class RunAsWebviewProvider
     `;
   }
 
-  private getHtmlForRunAs() {
+  private async getRoles() {
+    const result = await vscode.commands.executeCommand<{
+      error?: errors.FaunaHTTPError;
+      data?: values.Ref[];
+    }>('fauna.query', query.Paginate(query.Roles()));
+
+    if (result?.error) {
+      vscode.window.showErrorMessage(result!.error.requestResult.responseRaw);
+      return;
+    }
+
+    return result?.data ?? [];
+  }
+
+  private async getHtmlForRunAs() {
     const scriptUri = this._view!.webview.asWebviewUri(
       vscode.Uri.joinPath(this._extensionUri, 'media', 'runAs.js')
     );
     const nonce = getNonce();
+    const roles = await this.getRoles();
 
     return `
     <html>
@@ -93,7 +108,12 @@ export default class RunAsWebviewProvider
               <option value="@doc">Specify a document</option>
               <option selected value="admin">Admin</option>
               <option value="server">Server</option>
-              <option value="@role/MyCustomRole">MyCustomRole</option>
+              ${roles!.map(
+                role =>
+                  `<option value="@role/${role.id}">
+                  ${role.id}
+                 </option>`
+              )}
             </select>
             <button id="closeRunAs" style="margin-left: 10px; height: 35px; width: 50%; border:none;">CANCEL</button>
           </div>
