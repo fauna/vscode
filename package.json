@@ -3,7 +3,7 @@
   "displayName": "Fauna",
   "description": "Fauna extension",
   "icon": "media/fauna-extension-logo.png",
-  "version": "1.8.0",
+  "version": "1.8.1",
   "publisher": "fauna",
   "engines": {
     "vscode": "^1.40.0"
