@@ -1,0 +1,107 @@
+.form {
+  width: 400px;
+  margin: 0 auto;
+  margin-top: 50px;
+}
+
+.form-group {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  margin: 20px 0;
+}
+
+.form-group > ul {
+  padding-left: 0;
+  list-style-position: inside;
+  margin: 0;
+}
+
+.form-group > label {
+  font-weight: bold;
+  font-size: 1rem;
+  margin-bottom: 5px;
+  display: flex;
+  align-items: center;
+}
+
+.form-group > .readonly {
+  font-size: 0.9rem;
+}
+
+.form-group > label > span {
+  color: red;
+}
+
+.form-group input,
+.form-group select {
+  box-sizing: border-box;
+  height: 36px;
+}
+
+.form-group > .hint {
+  font-size: 0.75rem;
+}
+
+.controls {
+  display: flex;
+  justify-content: space-between;
+}
+
+.delete {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.delete > svg {
+  width: 12px;
+  color: #492fb1;
+  margin-right: 5px;
+}
+
+.controls > button {
+  height: 35px;
+  width: 180px;
+  outline: none;
+  border: none;
+  cursor: pointer;
+}
+.controls > button.primary {
+  color: white;
+  background: #3f00a5;
+}
+
+.controls > button.primary:disabled {
+  background: #ccc;
+  color: #666;
+}
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black;
+}
+
+.tooltip > svg {
+  width: 16px;
+  height: 16px;
+  color: #492fb1;
+}
+
+.tooltip .tooltiptext {
+  width: 400px;
+  visibility: hidden;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 14px 30px;
+  position: absolute;
+  z-index: 1;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}

@@ -125,11 +125,39 @@
         "title": "Fauna: Run Query"
       },
       {
+        "command": "fauna.updateResource",
+        "title": "Update Fauna Resource"
+      },
+      {
+        "command": "fauna.settings",
+        "title": "Settings",
+        "icon": {
+          "light": "media/settings.svg",
+          "dark": "media/settings.svg"
+        }
+      },
+      {
+        "command": "fauna.delete",
+        "title": "Delete",
+        "icon": {
+          "light": "media/delete.svg",
+          "dark": "media/delete.svg"
+        }
+      },
+      {
         "command": "fauna.refreshEntry",
         "title": "Refresh",
         "icon": {
           "light": "media/refresh.svg",
           "dark": "media/refresh.svg"
+        }
+      },
+      {
+        "command": "fauna.create",
+        "title": "Create",
+        "icon": {
+          "light": "media/plus.svg",
+          "dark": "media/plus.svg"
         }
       }
     ],
@@ -139,6 +167,12 @@
         "key": "ctrl+enter",
         "mac": "cmd+enter",
         "when": "editorTextFocus && editorLangId == fql"
+      },
+      {
+        "command": "fauna.updateResource",
+        "key": "ctrl+s",
+        "mac": "cmd+s",
+        "when": "editorTextFocus && resourceDirname =~ /fauna-vscode-tmp/"
       }
     ],
     "viewsContainers": {
@@ -169,6 +203,23 @@
           "command": "fauna.refreshEntry",
           "when": "view == fauna-databases",
           "group": "navigation"
+        },
+        {
+          "command": "fauna.create",
+          "when": "view == fauna-databases",
+          "group": "navigation"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "fauna.settings",
+          "when": "view == fauna-databases && viewItem != document",
+          "group": "inline@1"
+        },
+        {
+          "command": "fauna.delete",
+          "when": "view == fauna-databases && viewItem == document",
+          "group": "inline@1"
         }
       ]
     }
@@ -184,6 +235,7 @@
   "devDependencies": {
     "@types/chai": "^4.2.14",
     "@types/glob": "^7.1.1",
+    "@types/js-beautify": "^1.13.2",
     "@types/mocha": "^5.2.7",
     "@types/node": "^12.11.7",
     "@types/sinon": "^9.0.10",
@@ -204,6 +256,7 @@
     "@types/prettier": "^2.1.6",
     "faunadb": "git+https://github.com/fauna/faunadb-js.git#triage/bearer-to-basic",
     "highlight.js": "^10.4.1",
+    "js-beautify": "^1.14.0",
     "node-fetch": "^2.6.0",
     "prettier": "^2.2.1",
     "vsce": "^1.73.0"

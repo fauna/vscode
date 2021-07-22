@@ -223,7 +223,7 @@ function baseEvalFQL(fql: string, q: typeof query) {
   return fql.match(/^\s*{(.*\n*)*}\s*$/) ? eval(`(${fql})`) : eval(fql);
 }
 
-function parseQueries(code: string): string[] {
+export function parseQueries(code: string): string[] {
   const brackets: Record<string, string> = {
     '{': '}',
     '(': ')',

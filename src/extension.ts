@@ -1,13 +1,18 @@
-import { Client, Expr, query as q } from 'faunadb';
+import { Client, errors, Expr, query as q, values } from 'faunadb';
 import * as vscode from 'vscode';
 import CollectionSchemaItem from './CollectionSchemaItem';
 import { loadConfig } from './config';
-import createCreateQueryCommand from './createQueryCommand';
 import DBSchemaItem from './DBSchemaItem';
+import deleteResource from './deleteResource';
+import DocumentSchemaItem from './DocumentSchemaItem';
 import FaunaSchemaProvider, { SchemaItem } from './FaunaSchemaProvider';
 import FQLContentProvider from './FQLContentProvider';
+import { openFQLFile, openJSONFile } from './openFQLFile';
 import RunAsWebviewProvider from './RunAsWebviewProvider';
 import createRunQueryCommand from './runQueryCommand';
+import { SettingsWebView } from './SettingsWebView';
+import { SchemaType } from './types';
+import updateResourceCommand from './updateResourceCommand';
 import uploadGraphqlSchemaCommand from './uploadGraphqlSchemaCommand';
 
 const config = loadConfig();
@@ -68,6 +73,7 @@ export function activate(context: vscode.ExtensionContext) {
     const mountSecret = (scope?: DBSchemaItem | CollectionSchemaItem) => {
       const database =
         scope instanceof CollectionSchemaItem ? scope.parent : scope;
+      const secret = config.secret + (database ? ':' + database.path : '');
       return config.secret + (database ? ':' + database.path : '') + ':admin';
     };
 
@@ -79,8 +85,11 @@ export function activate(context: vscode.ExtensionContext) {
         createRunQueryCommand(client, outputChannel, runAsProvider)
       ),
       vscode.commands.registerCommand(
-        'fauna.createQuery',
-        createCreateQueryCommand()
+        'fauna.updateResource',
+        updateResourceCommand(client)
+      ),
+      vscode.commands.registerCommand('fauna.createQuery', () =>
+        openFQLFile('Paginate(Collections())')
       ),
       vscode.commands.registerCommand(
         'fauna.uploadGraphQLSchema',
@@ -101,21 +110,28 @@ export function activate(context: vscode.ExtensionContext) {
             .query(expr, {
               secret: mountSecret(scope)
             })
-            .catch(error => ({ error }))
+            .catch((error: errors.FaunaHTTPError) => ({ error }))
       ),
       vscode.commands.registerCommand('fauna.open', (item: SchemaItem) => {
         client
           .query<any>(item.content!, {
             secret: mountSecret(item.parent)
           })
-          .then(async content => {
-            const str = `fqlcode:${item.name}#${Expr.toString(
-              q.Object(content)
-            )}`;
-            const uri = vscode.Uri.parse(str);
-            const doc = await vscode.workspace.openTextDocument(uri); // calls back into the provider
-            await vscode.window.showTextDocument(doc, { preview: false });
-            vscode.languages.setTextDocumentLanguage(doc, 'javascript');
+          .then(async resp => {
+            if (item.contextValue === SchemaType.Function) {
+              openFQLFile(Expr.toString(resp.body), item);
+              return;
+            }
+
+            if (item.contextValue === SchemaType.Document) {
+              openJSONFile(JSON.stringify(resp.data, null, '\t'), item);
+              return;
+            }
+
+            if (item.contextValue === SchemaType.Index) {
+              openJSONFile(Expr.toString(q.Object(resp)), item);
+              return;
+            }
           })
           .catch(err => {
             console.error(err);
@@ -123,7 +139,66 @@ export function activate(context: vscode.ExtensionContext) {
       }),
       vscode.commands.registerCommand('fauna.refreshEntry', () =>
         faunaSchemaProvider.refresh()
-      )
+      ),
+
+      vscode.commands.registerCommand('fauna.create', async () => {
+        const pick = await vscode.window.showQuickPick(
+          Object.values(SchemaType)
+        );
+        if (!pick) return;
+
+        if (pick === SchemaType.Document) {
+          const response = await vscode.commands.executeCommand<{
+            collections: values.Ref[];
+            newId: string;
+          }>(
+            'fauna.query',
+            q.Let(
+              {},
+              {
+                newId: q.NewId(),
+                collections: q.Select(['data'], q.Paginate(q.Collections()))
+              }
+            )
+          );
+
+          if (!response?.collections?.length) {
+            vscode.window.showErrorMessage(
+              'You need to create at least one collection'
+            );
+            return;
+          }
+
+          const collection = await vscode.window.showQuickPick(
+            response.collections.map(c => c.id)
+          );
+          if (!collection) return;
+
+          const docItem = new DocumentSchemaItem(
+            new values.Ref('newDoc'),
+            new CollectionSchemaItem(new values.Ref(collection))
+          );
+
+          openJSONFile('{}', docItem);
+          return;
+        }
+
+        const view = new SettingsWebView(
+          context.extensionUri,
+          pick as SchemaType
+        );
+        view.render();
+      }),
+
+      vscode.commands.registerCommand('fauna.settings', faunaRes => {
+        const view = new SettingsWebView(
+          context.extensionUri,
+          faunaRes.contextValue
+        );
+        view.forResource(faunaRes).then(() => view.render());
+      }),
+
+      vscode.commands.registerCommand('fauna.delete', deleteResource)
     ];
   }
 }
