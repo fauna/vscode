@@ -1,6 +1,6 @@
 # Change Log
 
-## 1.8.2
+## 1.8.0
 
 - Allows to modify/create/delete resources
 - Fixes Graphql schema files inability to upload or merge if it has more than one dot . in file name
