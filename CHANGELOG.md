@@ -1,5 +1,11 @@
 # Change Log
 
+## 1.8.2
+
+- Allows to modify/create/delete resources
+- Fixes Graphql schema files inability to upload or merge if it has more than one dot . in file name
+- Adds ability to run queries with different roles
+
 ## 1.7.2
 
 - Revised comment syntax to use `//` instead of `#`.
