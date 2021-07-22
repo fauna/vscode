@@ -88,6 +88,7 @@ export default (client: Client) => async () => {
       await vscode.commands.executeCommand(
         'workbench.action.closeActiveEditor'
       );
+      await vscode.commands.executeCommand('fauna.refreshEntry');
       vscode.window.showTextDocument(doc, activeTextEditor.viewColumn);
     }
   } catch (error) {
