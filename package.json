@@ -248,7 +248,7 @@
     "sinon": "^9.2.4",
     "tslint": "^5.20.0",
     "typescript": "^3.6.4",
-    "vscode-test": "^1.2.2"
+    "vscode-test": "^1.5.2"
   },
   "dependencies": {
     "@types/highlight.js": "^9.12.3",
