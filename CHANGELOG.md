@@ -1,5 +1,9 @@
 # Change Log
 
+## 1.8.1
+
+- Fixes `Run As` defect
+
 ## 1.8.0
 
 - Allows to modify/create/delete resources
