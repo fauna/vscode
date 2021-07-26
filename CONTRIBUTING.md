@@ -33,7 +33,7 @@ $ git checkout -b my-descriptive-branch-name
 
 7. [Push](https://help.github.com/en/github/using-git/pushing-commits-to-a-remote-repository) your work to a remote branch on your fork
 
-8. [Issue a pull request](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request) against the `master` branch of the `fauna/vscode` repo
+8. [Issue a pull request](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request) against the `main` branch of the `fauna/vscode` repo
 
 
 ### Pull Request Guidelines
