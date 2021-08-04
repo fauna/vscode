@@ -4,7 +4,7 @@ Source code for the [Fauna VS Code extension](https://marketplace.visualstudio.c
 
 This [extension](https://marketplace.visualstudio.com/items?itemName=fauna.fauna) allows users to browse their Fauna databases and run [FQL queries](https://docs.fauna.com/fauna/current/api/fql/) from directly inside VS Code.
 
-**Note: This extension does not yet support FQL syntax highlighting or auto-complete, but this is planned for a future release. Alternatively, please feel free to submit a PR to help out!**
+**Note: This extension does not yet support auto-complete, but this is planned for a future release. Alternatively, please feel free to submit a PR to help out!**
 
 ## Getting started
 
