@@ -1,0 +1,84 @@
+{
+  "scopeName": "code.log",
+  "fileTypes": ["log"],
+  "name": "Log file",
+  "patterns": [
+    {
+      "match": "\"(.*?)\"",
+      "name": "string.quoted"
+    },
+    {
+      "match": "'(.*?)'",
+      "name": "string.quoted"
+    },
+    {
+      "match": "\\b(?i:([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}))\\b",
+      "name": "support.class"
+    },
+    {
+      "match": "\\S+@\\S+\\.\\S+",
+      "name": "markup.bold"
+    },
+    {
+      "match": "\\b(?i:((\\.)*[a-z]|[0-9])*(Exception|Error|Failure|Fail))\\b",
+      "name": "invalid"
+    },
+    {
+      "match": "\\b(((0|1)?[0-9][1-2]?)|(Jan(uary)?|Feb(ruary)?|Mar(ch)?|Apr(il)?|May|Jun(e)?|Jul(y)?|Aug(ust)?|Sept(ember)?|Oct(ober)?|Nov(ember)?|Dec(ember)?))[/|\\-|\\.| ]([0-2]?[0-9]|[3][0-1])[/|\\-|\\.| ]((19|20)?[0-9]{2})\\b",
+      "name": "constant.numeric"
+    },
+    {
+      "match": "\\b((19|20)?[0-9]{2}[/|\\-|\\.| ](((0|1)?[0-9][1-2]?)|(Jan(uary)?|Feb(ruary)?|Mar(ch)?|Apr(il)?|May|Jun(e)?|Jul(y)?|Aug(ust)?|Sept(ember)?|Oct(ober)?|Nov(ember)?|Dec(ember)?))[/|\\-|\\.| ]([0-2]?[0-9]|[3][0-1]))\\b",
+      "name": "constant.numeric"
+    },
+    {
+      "match": "\\b([0-2]?[0-9]|[3][0-1])[/|\\-|\\.| ](((0|1)?[0-9][1-2]?)|(Jan(uary)?|Feb(ruary)?|Mar(ch)?|Apr(il)?|May|Jun(e)?|Jul(y)?|Aug(ust)?|Sept(ember)?|Oct(ober)?|Nov(ember)?|Dec(ember)?))[/|\\-|\\.| ]((19|20)?[0-9]{2})\\b",
+      "name": "constant.numeric"
+    },
+    {
+      "match": "\\b([0|1]?[0-9]|2[0-3])\\:[0-5][0-9](\\:[0-5][0-9])?( ?(?i:(a|p)m?))?( ?[+-]?[0-9]*)?\\b",
+      "name": "constant.numeric"
+    },
+    {
+      "match": "\\b\\d+\\.?\\d*?\\b",
+      "name": "constant.numeric"
+    },
+    {
+      "match": "\\b(?i:(0?x)?[0-9a-f][0-9a-f]+)\\b",
+      "name": "constant.numeric"
+    },
+    {
+      "match": "\\b(?i:(([a-z]|[0-9]|[_|-])*(\\.([a-z]|[0-9]|[_|-])*)+))\\b",
+      "name": "support.type"
+    },
+    {
+      "match": "\\b(?i:(Down|Error|Failure|Fail|Fatal|false))(\\:|\\b)",
+      "name": "invalid.illegal"
+    },
+    {
+      "match": "\\b(?i:(hint|info|information|true|log))(\\:|\\b)",
+      "name": "keyword"
+    },
+    {
+      "match": "\\b(?i:(warning|warn|test|debug|null|undefined|NaN))(\\:|\\b)",
+      "name": "invalid.deprecated"
+    },
+    {
+      "match": "\\b(?i:(local))(\\:|\\b)",
+      "name": "support.function"
+    },
+    {
+      "match": "\\b(?i:(server|running|remote))(\\:|\\b)",
+      "name": "comment.line"
+    },
+    {
+      "match": "\\b(?i:([a-z]|[0-9])+\\:((\\/\\/)|((\\/\\/)?(\\S)))+)",
+      "name": "storage"
+    },
+    {
+      "match": "(-)+>|├(─)+|└(─)+",
+      "name": "comment.line"
+    }
+  ],
+  "uuid": "ab259404-3072-4cd4-a943-7cbbd32e373f"
+}
