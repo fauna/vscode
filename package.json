@@ -257,7 +257,7 @@
     "faunadb": "git+https://github.com/fauna/faunadb-js.git#triage/bearer-to-basic",
     "highlight.js": "^10.4.1",
     "js-beautify": "^1.14.0",
-    "node-fetch": "^2.6.0",
+    "node-fetch": "^3.1.1",
     "prettier": "^2.2.1",
     "vsce": "^1.73.0"
   },
