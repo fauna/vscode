@@ -1,5 +1,9 @@
 # Change Log
 
+## 2.0.0
+
+- Latest version of the FaunaDB driver
+
 ## 1.8.1
 
 - Fixes `Run As` defect
