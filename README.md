@@ -2,7 +2,7 @@
 
 Source code for the [Fauna VS Code extension](https://marketplace.visualstudio.com/items?itemName=fauna.fauna).
 
-This [extension](https://marketplace.visualstudio.com/items?itemName=fauna.fauna) allows users to view individual Fauna databases and run [FQL queries](https://docs.fauna.com/fauna/current/api/fql/) from directly inside VS Code.
+This [extension](https://marketplace.visualstudio.com/items?itemName=fauna.fauna) allows users to view individual Fauna databases and run [FQL queries](https://docs.fauna.com/fauna/current/api/fql/) directly inside VS Code.
 
 **Note: This extension does not yet support auto-complete, but this is planned for a future release. Alternatively, please feel free to submit a PR to help out!**
 
@@ -56,7 +56,7 @@ FAUNA_GRAPHQL_HOST=graphql.fauna.com
 - `fauna.adminSecretKey`: The secret for a specific database.
 - `fauna.domain`: The Fauna domain for the database's [Region Group](https://docs.fauna.com/fauna/current/learn/understanding/region_groups#how-to-use-region-groups) or `localhost` when using a local Fauna Dev Docker instance.
 - `fauna.scheme`: One of `https` or `http`. Only set to `http` when using a local Fauna Dev Docker instance.
-- `fauna.port`: The port number for the Fauna endpoint. When using a Fauna Dev Docker instance, be sure to use the port passed to the `docker run` command - usually `8443`.
+- `fauna.port`: The port number for the Fauna endpoint. When using a Fauna Dev Docker instance, use the port passed to the `docker run` command - usually `8443`.
 - `fauna.graphqlHost`: The full URL for the Fauna GraphQL API. The default is `https://graphql.fauna.com`. See [GraphQL Endpoints](https://docs.fauna.com/fauna/current/api/graphql/endpoints) for Region Group-specific URLs.
 
 > WARNING: Be careful! To avoid exposing this secret, do not commit it to your local `.vscode` configuration.
@@ -64,7 +64,7 @@ FAUNA_GRAPHQL_HOST=graphql.fauna.com
 ### 2. Browse database
 
 1. Click on the Fauna bird icon in the Activity bar on the far left. If you do not see the Activity Bar, select `View > Appearance > Show Activity Bar` from the VS Code menu.
-2. You should now see a pane listing all of your database's contents, including child databases, indexes, collections, documents, and functions.
+2. You should now see a pane listing your database's contents, including child databases, indexes, collections, documents, and functions.
 
 **Note: Browsing is read-only at this time, but you can edit all of your data by running queries (see next section).**
 

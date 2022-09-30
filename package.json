@@ -53,7 +53,7 @@
         "fauna.port": {
           "type": "number",
           "default": 443,
-          "markdownDescription": "Optional - The port number for the Fauna endpoint. When using a Fauna Dev Docker instance, be sure to use the port passed to the `docker run` command - usually `8443`."
+          "markdownDescription": "Optional - The port number for the Fauna endpoint. When using a Fauna Dev Docker instance, use the port passed to the `docker run` command - usually `8443`."
         },
         "fauna.graphqlHost": {
           "type": "string",
