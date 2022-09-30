@@ -53,7 +53,7 @@ FAUNA_GRAPHQL_HOST=graphql.fauna.com
 
 ![Extension settings](media/extension-settings.png)
 
-- `fauna.adminSecretKey`: The secret for a specific database
+- `fauna.adminSecretKey`: The secret for a specific database.
 - `fauna.domain`: The Fauna domain for the database's [region group](https://docs.fauna.com/fauna/current/learn/understanding/region_groups#how-to-use-region-groups) or `localhost` when using a local Fauna Dev Docker instance
 - `fauna.scheme`: One of `https` or `http` (only set to `http` when using a local Fauna Dev Docker instance)
 - `fauna.port`: The port number for the Fauna endpoint (when using a Fauna Dev Docker instance, be sure to use the port passed to the `docker run` command - usually `8443`)
