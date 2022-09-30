@@ -257,7 +257,7 @@
     "faunadb": "^4.5.4",
     "highlight.js": "^10.4.1",
     "js-beautify": "^1.14.0",
-    "node-fetch": "^2.6.0",
+    "node-fetch": "^2.6.7",
     "prettier": "^2.2.1",
     "vsce": "^1.73.0"
   },
