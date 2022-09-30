@@ -2,7 +2,7 @@
 
 Source code for the [Fauna VS Code extension](https://marketplace.visualstudio.com/items?itemName=fauna.fauna).
 
-This [extension](https://marketplace.visualstudio.com/items?itemName=fauna.fauna) allows users to browse their Fauna databases and run [FQL queries](https://docs.fauna.com/fauna/current/api/fql/) from directly inside VS Code.
+This [extension](https://marketplace.visualstudio.com/items?itemName=fauna.fauna) allows users to view individual Fauna databases and run [FQL queries](https://docs.fauna.com/fauna/current/api/fql/) from directly inside VS Code.
 
 **Note: This extension does not yet support auto-complete, but this is planned for a future release. Alternatively, please feel free to submit a PR to help out!**
 
@@ -37,9 +37,11 @@ FAUNA_PORT=443
 FAUNA_GRAPHQL_HOST=graphql.fauna.com
 ```
 
-#### Using VS Code to store a global key
+#### Using VS Code to store a database key
 
-1. To access to all of your databases from VS Code, you will need to create an account admin key from your [Fauna Dashboard](https://dashboard.fauna.com/keys). **Note: You can also provide VS Code access to an individual database by generating an admin key from that database's "Security" tab, but the extension does not support "server" keys at this time.**
+1. The VS Code extension allows you to work in the context of a single database, for which you need to provide a key; you can do this by generating a key with the "admin" role from that database's "Security" tab.
+
+> Note that you'll need to update the Fauna domain in the extension settings (or `.faunarc` file) as needed to match the database's region group; see [the Region Group documentation](https://docs.fauna.com/fauna/current/learn/understanding/region_groups#how-to-use-region-groups) for more details.
 
 2. Copy the secret and paste it into the Fauna extension settings. You can find the Fauna extension settings by either:
 
@@ -52,21 +54,21 @@ FAUNA_GRAPHQL_HOST=graphql.fauna.com
 ![Extension settings](media/extension-settings.png)
 
 - `fauna.adminSecretKey`: The secret for a specific database.
-- `fauna.domain`: The hostname of endpoint’s Fauna instance
-- `fauna.scheme`: One of https or http
-- `fauna.port`: The UNIX port number of endpoint’s Fauna instance
-- `fauna.graphqlHost`: The hostname of Fauna GraphQL API
+- `fauna.domain`: The Fauna domain for the database's [region group](https://docs.fauna.com/fauna/current/learn/understanding/region_groups#how-to-use-region-groups)
+- `fauna.scheme`: One of `https` or `http` (only set to `http` if pointing at a local Fauna Dev Docker instance)
+- `fauna.port`: The port number for the Fauna endpoint
+- `fauna.graphqlHost`: The hostname for the Fauna GraphQL API
 
 > WARNING: Be careful! To avoid exposing this secret, do not commit it to your local `.vscode` configuration.
 
-### 2. Browse database/s
+### 2. Browse database
 
 1. Click on the Fauna bird icon in the Activity bar on the far left. If you do not see the Activity Bar, select `View > Appearance > Show Activity Bar` from the VS Code menu.
-2. You should now see a pane listing all of your databases, indexes, collections, documents, and functions.
+2. You should now see a pane listing all of your database's contents, including child databases, indexes, collections, documents, and functions.
 
 **Note: Browsing is read-only at this time, but you can edit all of your data by running queries (see next section).**
 
-![Browser your database data](media/browse-feature.png)
+![Browse your database data](media/browse-feature.png)
 
 ### 3. Run queries
 
