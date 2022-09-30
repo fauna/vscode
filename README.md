@@ -57,7 +57,7 @@ FAUNA_GRAPHQL_HOST=graphql.fauna.com
 - `fauna.domain`: The Fauna domain for the database's [region group](https://docs.fauna.com/fauna/current/learn/understanding/region_groups#how-to-use-region-groups) or `localhost` when using a local Fauna Dev Docker instance
 - `fauna.scheme`: One of `https` or `http` (only set to `http` when using a local Fauna Dev Docker instance)
 - `fauna.port`: The port number for the Fauna endpoint (when using a Fauna Dev Docker instance, be sure to use the port passed to the `docker run` command - usually `8443`)
-- `fauna.graphqlHost`: The full URL for the Fauna GraphQL API (e.g. `https://graphql.fauna.com`)
+- `fauna.graphqlHost`: The full URL for the Fauna GraphQL API. The default is `https://graphql.fauna.com`. See [GraphQL Endpoints](https://docs.fauna.com/fauna/current/api/graphql/endpoints) for Region Group-specific URLs.
 
 > WARNING: Be careful! To avoid exposing this secret, do not commit it to your local `.vscode` configuration.
 
