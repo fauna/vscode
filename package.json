@@ -3,7 +3,7 @@
   "displayName": "Fauna",
   "description": "Fauna extension",
   "icon": "media/fauna-extension-logo.png",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "publisher": "fauna",
   "engines": {
     "vscode": "^1.40.0"
@@ -34,12 +34,12 @@
       "properties": {
         "fauna.adminSecretKey": {
           "type": "string",
-          "description": "The admin secret for the FaunaDB server."
+          "markdownDescription": "The secret for a specific database."
         },
         "fauna.domain": {
           "type": "string",
           "default": "db.fauna.com",
-          "description": "Optional - The hostname of endpoint’s Fauna instance. Defaults to db.fauna.com"
+          "markdownDescription": "Optional - The Fauna domain for the database [Region Group](https://docs.fauna.com/fauna/current/learn/understanding/region_groups#how-to-use-region-groups) or `localhost` when using a local Fauna Dev Docker instance."
         },
         "fauna.scheme": {
           "type": "string",
@@ -48,17 +48,17 @@
             "https",
             "http"
           ],
-          "description": "Optional - One of https or http. Defaults to https"
+          "markdownDescription": "Optional - One of `https` or `http`. Only set to `http` when using a local Fauna Dev Docker instance."
         },
         "fauna.port": {
           "type": "number",
           "default": 443,
-          "description": "Optional - The UNIX port number of endpoint’s Fauna instance. Defaults to 443"
+          "markdownDescription": "Optional - The port number for the Fauna endpoint. When using a Fauna Dev Docker instance, use the port passed to the `docker run` command - usually `8443`."
         },
         "fauna.graphqlHost": {
           "type": "string",
           "default": "https://graphql.fauna.com",
-          "description": "Optional - The Fauna GraphQL API host. Defaults to https://graphql.fauna.com"
+          "markdownDescription": "Optional - The full URL for the Fauna GraphQL API. The default is `https://graphql.fauna.com`. See [GraphQL Endpoints](https://docs.fauna.com/fauna/current/api/graphql/endpoints) for Region Group-specific URLs."
         }
       }
     },
