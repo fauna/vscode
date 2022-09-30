@@ -39,7 +39,7 @@
         "fauna.domain": {
           "type": "string",
           "default": "db.fauna.com",
-          "markdownDescription": "Optional - The Fauna domain for the database's [Region Group](https://docs.fauna.com/fauna/current/learn/understanding/region_groups#how-to-use-region-groups) or `localhost` when using a local Fauna Dev Docker instance."
+          "markdownDescription": "Optional - The Fauna domain for the database [Region Group](https://docs.fauna.com/fauna/current/learn/understanding/region_groups#how-to-use-region-groups) or `localhost` when using a local Fauna Dev Docker instance."
         },
         "fauna.scheme": {
           "type": "string",
