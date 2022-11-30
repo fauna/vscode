@@ -1,0 +1,167 @@
+{
+  "fileTypes": ["fql"],
+  "name": "fql",
+  "patterns": [
+    {
+      "match": "(?<![\\w\\d.])0[xX][0-9A-Fa-f]+(?![pPeE.0-9])",
+      "name": "constant.numeric.integer.hexadecimal.fql"
+    },
+    {
+      "match": "(?<![\\w\\d.])0[xX][0-9A-Fa-f]+(\\.[0-9A-Fa-f]+)?([eE]-?\\d*)?([pP][-+]\\d+)?",
+      "name": "constant.numeric.float.hexadecimal.fql"
+    },
+    {
+      "match": "(?<![\\w\\d.])\\d+(?![pPeE.0-9])",
+      "name": "constant.numeric.integer.fql"
+    },
+    {
+      "match": "(?<![\\w\\d.])\\d+(\\.\\d+)?([eE]-?\\d*)?",
+      "name": "constant.numeric.float.fql"
+    },
+    {
+      "begin": "'",
+      "beginCaptures": {
+        "0": {
+          "name": "punctuation.definition.string.begin.fql"
+        }
+      },
+      "end": "'",
+      "endCaptures": {
+        "0": {
+          "name": "punctuation.definition.string.end.fql"
+        }
+      },
+      "name": "string.quoted.single.fql",
+      "patterns": [
+        {
+          "include": "#escaped_char"
+        }
+      ]
+    },
+    {
+      "begin": "\"",
+      "beginCaptures": {
+        "0": {
+          "name": "punctuation.definition.string.begin.fql"
+        }
+      },
+      "end": "\"",
+      "endCaptures": {
+        "0": {
+          "name": "punctuation.definition.string.end.fql"
+        }
+      },
+      "name": "string.quoted.double.fql",
+      "patterns": [
+        {
+          "include": "#escaped_char"
+        }
+      ]
+    },
+    {
+      "captures": {
+        "1": {
+          "name": "punctuation.definition.comment.fql"
+        }
+      },
+      "match": "\\A(#).*$\\n?",
+      "name": "comment.line.shebang.fql"
+    },
+    {
+      "begin": "(^[ \\t]+)?(?=//)",
+      "beginCaptures": {
+        "1": {
+          "name": "punctuation.whitespace.comment.leading.fql"
+        }
+      },
+      "end": "(?!\\G)((?!^)[ \\t]+\\n)?",
+      "endCaptures": {
+        "1": {
+          "name": "punctuation.whitespace.comment.trailing.fql"
+        }
+      },
+      "patterns": [
+        {
+          "begin": "//",
+          "beginCaptures": {
+            "0": {
+              "name": "punctuation.definition.comment.fql"
+            }
+          },
+          "end": "\\n",
+          "name": "comment.line.octothorpe.fql"
+        }
+      ]
+    },
+    {
+      "begin": "(^[ \\t]+)?(?=/\\*)",
+      "beginCaptures": {
+        "1": {
+          "name": "punctuation.whitespace.comment.leading.fql"
+        }
+      },
+      "end": "(?!\\G)((?!^)[ \\t]+\\*/)?",
+      "endCaptures": {
+        "1": {
+          "name": "punctuation.whitespace.comment.trailing.fql"
+        }
+      },
+      "patterns": [
+        {
+          "begin": "/\\*",
+          "beginCaptures": {
+            "0": {
+              "name": "punctuation.definition.comment.fql"
+            }
+          },
+          "end": "\\*/",
+          "name": "comment.line.octothorpe.fql"
+        }
+      ]
+    },
+    {
+      "match": "\\b(If|Else|And|Or|For)\\b",
+      "name": "keyword.control.fql"
+    },
+    {
+      "match": "(?<![^.]\\.|:)\\b(false|true)\\b|(?<![.])\\.{3}(?!\\.)",
+      "name": "constant.language.fql"
+    },
+    {
+      "match": "(?<![^.]\\.|:)\\b(All|Any|Append|Count|Difference|Distinct|Drop|Filter|Foreach|Intersection|IsEmpty|IsNonEmpty|Map|Max|Mean|Min|Prepend|Reduce|Select|SelectAll|Sum|Take|ToObject|Union|CreateKey|HasIdentity|Identify|Identity|KeyFromSecret|Keys|Login|Logout|Tokens|At|Call|Do|If|Lambda|Let|Var|ToArray|ToDate|ToDouble|ToInteger|ToMicros|ToMillis|ToNumber|ToObject|ToSeconds|ToString|ToTime|Contains|Equals|Exists|GT|GTE|LT|LTE|Not|Or|Math|Abs|Acos|Add|Asin|Atan|BitAnd|BitNot|BitOr|BitXor|Ceil|Cos|Cosh|Count|Degrees|Divide|Exp|Floor|Hypot|Ln|Log|Max|Mean|Min|Modulo|Multiply|Pow|Radians|Round|Sign|Sin|Sinh|Sqrt|Subtract|Sum|Tan|Tanh|Trunc|Abort|Class|Classes|Collection|Collections|Database|Databases|Documents|Function|Functions|Index|Indexes|MoveDatabase|NewId|Query|Ref|Role|Roles|Merge|Select|SelectAll|ToArray|Get|KeyFromSecret|Paginate|Select|SelectAll|All|Any|Count|Difference|Distinct|Events|Filter|Intersection|IsEmpty|IsNonEmpty|Join|Match|Max|Mean|Min|Range|Reduce|Singleton|Sum|Union|Casefold|Concat|ContainsStr|ContainsStrRegex|EndsWith|FindStr|FindStrRegex|Format|LTrim|Length|LowerCase|RTrim|RegexEscape|Repeat|ReplaceStr|ReplaceStrRegex|Space|StartsWith|SubString|TitleCase|Trim|UpperCase|Events|Insert|Remove|Date|DayOfMonth|DayOfWeek|DayOfYear|Epoch|Hour|Minute|Month|Now|Second|Time|TimeAdd|TimeDiff|TimeSubtract|Year|IsArray|IsBoolean|IsBytes|IsCollection|IsCredentials|IsDatabase|IsDate|IsDoc|IsDouble|IsFunction|IsIndex|IsInteger|IsKey|IsLambda|IsNull|IsNumber|IsObject|IsRef|IsRole|IsSet|IsString|IsTimestamp|IsToken|Create|CreateClass|CreateCollection|CreateDatabase|CreateFunction|CreateIndex|CreateKey|CreateRole|Delete|Insert|Remove|Replace|Update)\\b(?=\\s*(?:[({\"']|\\[\\[))",
+      "name": "support.function.fql"
+    },
+    {
+      "match": "(?<=[^.]\\.|:)\\b([a-zA-Z_][a-zA-Z0-9_]*)",
+      "name": "variable.other.fql"
+    }
+  ],
+  "repository": {
+    "escaped_char": {
+      "patterns": [
+        {
+          "match": "\\\\[abfnrtvz\\\\\"'\\n]",
+          "name": "constant.character.escape.fql"
+        },
+        {
+          "match": "\\\\\\d{1,3}",
+          "name": "constant.character.escape.byte.fql"
+        },
+        {
+          "match": "\\\\x[0-9A-Fa-f][0-9A-Fa-f]",
+          "name": "constant.character.escape.byte.fql"
+        },
+        {
+          "match": "\\\\u\\{[0-9A-Fa-f]+\\}",
+          "name": "constant.character.escape.unicode.fql"
+        },
+        {
+          "match": "\\\\.",
+          "name": "invalid.illegal.character.escape.fql"
+        }
+      ]
+    }
+  },
+  "scopeName": "source.fql",
+  "uuid": "93E017CC-6F27-11D9-90EB-000D93589AF7"
+}
