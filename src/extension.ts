@@ -30,6 +30,24 @@ export function activate(context: vscode.ExtensionContext) {
   // Set output channel to display FQL results
   const outputChannel = vscode.window.createOutputChannel('FQL');
 
+  const newExtension = vscode.extensions.getExtension('fauna.fql');
+  if (newExtension !== undefined) {
+    const OLD_ERROR =
+      "The v4 Fauna extension cannot be used alongside the latest one, if you'd like to use this older v4 version you must disable the latest one.";
+    vscode.window
+      .showErrorMessage(OLD_ERROR, 'Disable latest extension')
+      .then(selection => {
+        if (selection === 'Disable latest extension') {
+          vscode.commands.executeCommand(
+            'workbench.extensions.search',
+            '@id:fauna.fql'
+          );
+        }
+      });
+
+    return;
+  }
+
   // Set FQL Document Content Provider
   context.subscriptions.push(
     vscode.workspace.registerTextDocumentContentProvider(
