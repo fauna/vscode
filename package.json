@@ -27,7 +27,7 @@
   "main": "./out/extension.js",
   "contributes": {
     "configuration": {
-      "title": "Fauna",
+      "title": "Fauna v4",
       "required": [
         "fauna.adminSecretKey"
       ],
