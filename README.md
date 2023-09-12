@@ -102,7 +102,7 @@ FAUNA_GRAPHQL_HOST=https://graphql.fauna.com
 
 - Enter `Fauna: Merge GraphQL Schema` to explicitly upload in `merge` mode.
 
-- Enter `Fauna: Override GraphQL Schema` to upload in `override` mode. 
+- Enter `Fauna: Override GraphQL Schema` to upload in `override` mode.
 
 > **WARNING**: `override` mode causes data loss for any previous GraphQL schema. Collections, indexes, or documents that are not involved in GraphQL are not affected.
 
