@@ -1,5 +1,9 @@
 # Change Log
 
+## 2.1.0
+
+- Update `faunadb-js` minor version
+
 ## 2.0.0
 
 - Latest version of the FaunaDB driver
