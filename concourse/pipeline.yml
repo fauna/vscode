@@ -20,4 +20,4 @@ jobs:
       - task: publish
         file: fauna-vscode-repository/concourse/tasks/publish.yml
         params:
-          VSCE_PAT: ((vscode-marketplace-token_expires-2024_09_09))
+          VSCE_PAT: ((vscode-marketplace-token_expires-2024_11_21))

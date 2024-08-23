@@ -3,7 +3,7 @@
   "displayName": "Fauna v4",
   "description": "Fauna extension",
   "icon": "media/fauna-extension-logo.png",
-  "version": "2.0.2",
+  "version": "2.1.0",
   "publisher": "fauna",
   "engines": {
     "vscode": "^1.40.0"
@@ -254,7 +254,7 @@
     "@types/highlight.js": "^9.12.3",
     "@types/node-fetch": "^2.5.7",
     "@types/prettier": "^2.1.6",
-    "faunadb": "^4.5.4",
+    "faunadb": "4.8.0",
     "highlight.js": "^10.4.1",
     "js-beautify": "^1.14.0",
     "node-fetch": "^2.6.0",
